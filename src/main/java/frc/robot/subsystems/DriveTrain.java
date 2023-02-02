@@ -4,12 +4,22 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MotorID;
 
 public class DriveTrain extends SubsystemBase {
   
@@ -23,34 +33,61 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrive differentialDrive;
 
-  public DriveTrain() {
-    //Building motor controllers
-    left1Motor = new CANSparkMax(Constants.driveTrain.LEFT_1_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    left2Motor = new CANSparkMax(Constants.driveTrain.LEFT_2_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    right1Motor = new CANSparkMax(Constants.driveTrain.RIGHT_1_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    right2Motor = new CANSparkMax(Constants.driveTrain.RIGHT_2_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+  private Map<MotorID, CANSparkMax> motors = new HashMap<>();
+  private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
-    //Configuring motor controllers
-    initiateMotors(left1Motor);
-    initiateMotors(left2Motor);
-    initiateMotors(right1Motor);
-    initiateMotors(right2Motor);
+  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {
+    CANSparkMax motor = new CANSparkMax(id.getId(), MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
+    motor.setOpenLoopRampRate(Constants.driveTrain.DRIVE_RAMP_RATE);
+    motor.setIdleMode(IdleMode.kCoast);
 
+    RelativeEncoder maxEncoder = motor.getEncoder();
+    maxEncoder.setPositionConversionFactor(Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
+
+    return motor;
+  };
+
+
+  public DriveTrain(List<MotorID> motorIds) {
+    super();
+
+    motorIds.forEach(motorId -> {
+      CANSparkMax controller = initiateMotors.apply(motorId);
+      motors.put(motorId, controller);
+      motorEncoders.put(motorId, controller.getEncoder());
+
+      switch (motorId) {
+        case RIGHT_1_MOTOR_ID:
+        case RIGHT_2_MOTOR_ID:
+          controller.setInverted(true);
+          break;
+        default:
+          break;
+      }
+      
+    });
     
     //Building motor groups
-    leftGroup = new MotorControllerGroup(left1Motor, left2Motor);
-    rightGroup = new MotorControllerGroup(right1Motor, right2Motor);
+    leftGroup = new MotorControllerGroup(motors.get(MotorID.LEFT_1_MOTOR_ID),
+    motors.get(MotorID.LEFT_2_MOTOR_ID));
+    rightGroup = new MotorControllerGroup(motors.get(MotorID.RIGHT_1_MOTOR_ID),
+    motors.get(MotorID.RIGHT_2_MOTOR_ID));
 
     leftGroup.setInverted(true);
 
     //Building differential drive
     differentialDrive = new DifferentialDrive(leftGroup, rightGroup);
-    differentialDrive.setDeadband(0.05);
+    differentialDrive.setDeadband(0.05); //this is for worn out controllers. dial in if needed
+
+    resetEncoders();
   }
 
+  /*
+   * arcade drive. speed and rotation
+   */
   public void arcadeDrive(double speed, double rotation) {
-    differentialDrive.arcadeDrive(speed * Constants.driveTrain.SPEED_MULTIPLIER, 
-    rotation * Constants.driveTrain.ROTATION_MULTIPLIER);
+    differentialDrive.arcadeDrive(speed, rotation);
   }
 
   public void stop() {
@@ -62,8 +99,9 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void initiateMotors(CANSparkMax motor) {
-    motor.restoreFactoryDefaults();
-    motor.setOpenLoopRampRate(Constants.driveTrain.DRIVE_RAMP_RATE);
+  private void resetEncoders() {
+    motorEncoders.values().forEach(encoder -> encoder.setPosition(0));
   }
+
+  
 }

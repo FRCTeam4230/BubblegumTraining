@@ -21,9 +21,9 @@ public final class Constants {
 
     //Motor IDs
     public static final int LEFT_1_MOTOR_ID = 0;
-    public static final int RIGHT_2_MOTOR_ID = 0;
-    public static final int RIGHT_1_MOTOR_ID = 0;
-    public static final int LEFT_2_MOTOR_ID = 0;
+    public static final int RIGHT_2_MOTOR_ID = 1;
+    public static final int RIGHT_1_MOTOR_ID = 2;
+    public static final int LEFT_2_MOTOR_ID = 3;
 
     //Multipliers
     public static final double SPEED_MULTIPLIER = 0.6;
@@ -31,18 +31,19 @@ public final class Constants {
 
     //Ramp rate
     public static final double DRIVE_RAMP_RATE = 0;
+    public static final double MOTOR_ROTATION_TO_INCHES = 0;
 
   }
 
   public static class arm {
-    public static final int ARM_MOTOR_ID = 0;
+    public static final int ARM_MOTOR_ID = 4;
     public static final double ARM_RAMP_RATE = 0;
 
   }
 
   public static class intake {
 
-    public static final int INTAKE_MOTOR_ID = 0;
+    public static final int INTAKE_MOTOR_ID = 5;
     public static final double INTAKE_RAMP_RATE = 0;
     public static final double INTAKE_SPEED = 0;
 
@@ -50,5 +51,20 @@ public final class Constants {
 
   public static class OI {
     public static final int XBOX_PORT = 0;
+  }
+
+  public enum MotorID {
+    LEFT_1_MOTOR_ID(0), LEFT_2_MOTOR_ID(1), RIGHT_1_MOTOR_ID(3),
+    RIGHT_2_MOTOR_ID(4), ARM_MOTOR_ID(5), INTAKE_MOTOR_ID(6);
+
+    private Integer id;
+
+    private MotorID(Integer id) {
+      this.id = id;
+    }
+
+    public Integer getId() {
+      return id;
+    }
   }
 }

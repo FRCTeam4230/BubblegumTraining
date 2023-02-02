@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.MotorID;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.IntakeCmd;
@@ -11,8 +12,12 @@ import frc.robot.commands.OutputCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
+
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,7 +30,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain driveTrain = new DriveTrain();
+  private final DriveTrain driveTrain = new DriveTrain(
+    Arrays.asList(MotorID.LEFT_1_MOTOR_ID, MotorID.LEFT_2_MOTOR_ID, MotorID.RIGHT_1_MOTOR_ID,
+    MotorID.RIGHT_2_MOTOR_ID));
+    
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
@@ -34,10 +42,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    //Setting default commands
-    driveTrain.setDefaultCommand(new Drive(driveTrain, driverController));
+    
     // Configure the trigger bindings
     configureBindings();
+
+    //configure default commands
+    configureDefaultCommands();
   }
 
   /**
@@ -55,9 +65,12 @@ public class RobotContainer {
     XboxController.Button.kLeftBumper.value).whileTrue(new IntakeCmd(intakeSubsystem));
     new JoystickButton(driverController, 
     XboxController.Button.kRightBumper.value).whileTrue(new OutputCmd(intakeSubsystem));
-
   }
 
+  private void configureDefaultCommands(){
+    //Setting default commands
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new Drive(driveTrain,driverController));
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
