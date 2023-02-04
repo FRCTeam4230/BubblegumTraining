@@ -9,13 +9,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MotorID;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   private final CANSparkMax motor;
 
   public IntakeSubsystem() {
-    motor = new CANSparkMax(Constants.intake.INTAKE_MOTOR_ID, MotorType.kBrushless);
+    motor = new CANSparkMax(MotorID.INTAKE_MOTOR_ID.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.intake.INTAKE_RAMP_RATE);
   }

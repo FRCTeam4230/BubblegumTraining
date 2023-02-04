@@ -9,13 +9,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MotorID;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private final CANSparkMax motor;
 
   public ArmSubsystem() {
-    motor = new CANSparkMax(Constants.arm.ARM_MOTOR_ID, MotorType.kBrushless);
+    motor = new CANSparkMax(MotorID.ARM_MOTOR_ID.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.arm.ARM_RAMP_RATE);
     //Reset encoders

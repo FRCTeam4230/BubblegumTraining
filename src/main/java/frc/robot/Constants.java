@@ -24,22 +24,19 @@ public final class Constants {
     public static final double ROTATION_MULTIPLIER = 0.6;
 
     //Ramp rate
-    public static final double DRIVE_RAMP_RATE = 0;
-    public static final double MOTOR_ROTATION_TO_INCHES = 0;
+    public static final double DRIVE_RAMP_RATE = 0.5;
+    public static final double MOTOR_ROTATION_TO_INCHES = 72/40.683; //TODO: Fix this for 2023
 
   }
 
   public static class arm {
-    public static final int ARM_MOTOR_ID = 4;
-    public static final double ARM_RAMP_RATE = 0;
+    public static final double ARM_RAMP_RATE = 0.5;
 
   }
 
   public static class intake {
-
-    public static final int INTAKE_MOTOR_ID = 5;
-    public static final double INTAKE_RAMP_RATE = 0;
-    public static final double INTAKE_SPEED = 0;
+    public static final double INTAKE_RAMP_RATE = 0.5;
+    public static final double INTAKE_SPEED = 0.5; //50 % for now
 
   }
 
@@ -48,7 +45,7 @@ public final class Constants {
   }
 
   public enum MotorID {
-    LEFT_1_MOTOR_ID(0), LEFT_2_MOTOR_ID(1), RIGHT_1_MOTOR_ID(3),
+    LEFT_1_MOTOR_ID(1), LEFT_2_MOTOR_ID(2), RIGHT_1_MOTOR_ID(3),
     RIGHT_2_MOTOR_ID(4), ARM_MOTOR_ID(5), INTAKE_MOTOR_ID(6);
 
     private Integer id;
