@@ -18,6 +18,8 @@ public class ArmSubsystem extends SubsystemBase {
     motor = new CANSparkMax(Constants.arm.ARM_MOTOR_ID, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.arm.ARM_RAMP_RATE);
+    //Reset encoders
+    motor.getEncoder().setPosition(0);
   }
 
   public void setSpeed(double speed, boolean inverted) {
@@ -27,6 +29,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void stop() {
     motor.set(0);
+  }
+
+  public double getEncoder() {
+    return motor.getEncoder().getPosition();
   }
 
   @Override

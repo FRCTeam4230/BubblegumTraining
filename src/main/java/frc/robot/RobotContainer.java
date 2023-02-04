@@ -29,11 +29,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  //Needed to pass in list because it uses a list in constructor
   private final DriveTrain driveTrain = new DriveTrain(
     Arrays.asList(MotorID.LEFT_1_MOTOR_ID, MotorID.LEFT_2_MOTOR_ID, MotorID.RIGHT_1_MOTOR_ID,
     MotorID.RIGHT_2_MOTOR_ID));
-    
+
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
@@ -50,21 +50,13 @@ public class RobotContainer {
     configureDefaultCommands();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
     //Buttons for intake
     new JoystickButton(driverController, 
     XboxController.Button.kLeftBumper.value).whileTrue(new IntakeCmd(intakeSubsystem));
     new JoystickButton(driverController, 
     XboxController.Button.kRightBumper.value).whileTrue(new OutputCmd(intakeSubsystem));
+
   }
 
   private void configureDefaultCommands(){

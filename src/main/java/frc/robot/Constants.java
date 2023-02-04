@@ -19,12 +19,6 @@ public final class Constants {
 
   public static class driveTrain {
 
-    //Motor IDs
-    public static final int LEFT_1_MOTOR_ID = 0;
-    public static final int RIGHT_2_MOTOR_ID = 1;
-    public static final int RIGHT_1_MOTOR_ID = 2;
-    public static final int LEFT_2_MOTOR_ID = 3;
-
     //Multipliers
     public static final double SPEED_MULTIPLIER = 0.6;
     public static final double ROTATION_MULTIPLIER = 0.6;

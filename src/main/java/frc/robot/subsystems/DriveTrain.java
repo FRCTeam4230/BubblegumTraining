@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -26,17 +25,15 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup leftGroup;
   private final MotorControllerGroup rightGroup;
 
-  private CANSparkMax left1Motor;
-  private CANSparkMax left2Motor;
-  private CANSparkMax right1Motor;
-  private CANSparkMax right2Motor;
-
   private DifferentialDrive differentialDrive;
 
+  //Dictionary of motor ids with motors
   private Map<MotorID, CANSparkMax> motors = new HashMap<>();
+  //Diccionary with motor ids with encoders
   private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
-  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {
+  //Function for configuring spark maxes
+  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {//Lambda notation
     CANSparkMax motor = new CANSparkMax(id.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.driveTrain.DRIVE_RAMP_RATE);
@@ -103,5 +100,18 @@ public class DriveTrain extends SubsystemBase {
     motorEncoders.values().forEach(encoder -> encoder.setPosition(0));
   }
 
+  private double getLeftEncoder() {
+    return (motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
+    + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2;
+  }
+
+  private double getRightEncoder() {
+    return (motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
+    + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2;
+  }
+
+  private double getAverageEncoder() {
+    return (getLeftEncoder() + getRightEncoder()) / 2;
+  }
   
 }
