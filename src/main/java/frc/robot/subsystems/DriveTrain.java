@@ -9,18 +9,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorID;
 
+import edu.wpi.first.wpilibj.SPI;
+
 public class DriveTrain extends SubsystemBase {
+  private final AHRS navx;
   
   private final MotorControllerGroup leftGroup;
   private final MotorControllerGroup rightGroup;
@@ -40,6 +46,7 @@ public class DriveTrain extends SubsystemBase {
     motor.setIdleMode(IdleMode.kCoast);
 
     RelativeEncoder maxEncoder = motor.getEncoder();
+    System.out.println("Conversion factor: " + Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
     maxEncoder.setPositionConversionFactor(Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
 
     return motor;
@@ -48,6 +55,9 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain(List<MotorID> motorIds) {
     super();
+
+    navx = new AHRS(SPI.Port.kMXP);
+    navx.calibrate();
 
     motorIds.forEach(motorId -> {
       CANSparkMax controller = initiateMotors.apply(motorId);
@@ -58,6 +68,7 @@ public class DriveTrain extends SubsystemBase {
         case RIGHT_1_MOTOR_ID:
         case RIGHT_2_MOTOR_ID:
           controller.setInverted(true);
+          System.out.println("CONTROLLERS INVERTED");
           break;
         default:
           break;
@@ -78,13 +89,15 @@ public class DriveTrain extends SubsystemBase {
     differentialDrive.setDeadband(0.05); //this is for worn out controllers. dial in if needed
 
     resetEncoders();
+
+    SmartDashboard.putData(this);
   }
 
   /*
    * arcade drive. speed and rotation
    */
   public void arcadeDrive(double speed, double rotation) {
-    differentialDrive.arcadeDrive(speed, rotation);
+    differentialDrive.arcadeDrive(rotation, speed);
   }
 
   public void stop() {
@@ -113,5 +126,21 @@ public class DriveTrain extends SubsystemBase {
   private double getAverageEncoder() {
     return (getLeftEncoder() + getRightEncoder()) / 2;
   }
+
+  private double getRotation() {
+    return navx.getAngle();
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+
+    builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
+    builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
+    builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
+
+  }
+
+
   
 }
