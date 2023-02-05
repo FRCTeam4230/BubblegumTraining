@@ -72,11 +72,10 @@ public class ArmPID extends CommandBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
 
-    builder.addDoubleProperty("kP: ", pidController::getP, null);
-    builder.addDoubleProperty("kI: ", pidController::getI, null);
-    builder.addDoubleProperty("kD: ", pidController::getD, null);
+    builder.addDoubleProperty("kP: ", pidController::getP, pidController::setP);
+    builder.addDoubleProperty("kI: ", pidController::getI, pidController::setI);
+    builder.addDoubleProperty("kD: ", pidController::getD, pidController::setD);
     builder.addDoubleProperty("Encoder Degrees: ", armSubsystem::getEncoder, null);
-    
-
+  
   }
 }
