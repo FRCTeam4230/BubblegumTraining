@@ -5,25 +5,35 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorID;
 
 public class ArmSubsystem extends SubsystemBase {
-  /** Creates a new ArmSubsystem. */
   private final CANSparkMax motor;
 
   public ArmSubsystem() {
     motor = new CANSparkMax(MotorID.ARM_MOTOR_ID.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.arm.ARM_RAMP_RATE);
+    //Change to kBreak after testing encoders
+    //Leave as kCoast right now so we can move arm around to see if the encoders are recording things right
+    motor.setIdleMode(IdleMode.kCoast);
     //Reset encoders
     motor.getEncoder().setPosition(0);
+    //Setting conversion factor for encoder
+    motor.getEncoder().setPositionConversionFactor(Constants.arm.MOTOR_TO_DEGREES);
+    
+
+    SmartDashboard.putData(this);
   }
 
-  public void setSpeed(double speed, boolean inverted) {
+  public void setAngle(double speed, boolean inverted) {
     motor.setInverted(inverted);
     motor.set(speed);
   }
@@ -37,7 +47,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic() {}
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+
+    builder.addDoubleProperty("Arm angle in radians", this::getEncoder, null);
   }
 }

@@ -33,8 +33,7 @@ public final class Constants {
     public static final int ARM_MOTOR_ID = 4;
     public static final double ARM_RAMP_RATE = 0.5;
     //Might change encoder to more accurate. Update the number 42 is we get new encoder
-    //Also, the output is in raidans
-    public static final double MOTOR_TO_RADIANS = (1 / 42.0) * (1 / 48.0) * (2 * Math.PI);
+    public static final double MOTOR_TO_DEGREES = (1 / 42.0) * (1 / 48.0) * 360;
 
 
   }
@@ -47,6 +46,29 @@ public final class Constants {
 
   public static class OI {
     public static final int XBOX_PORT = 0;
+  }
+
+  public static class ArmPIDConstants {
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double VELOCITY_TOLERANCE = 0;
+    public static final double POSITION_TOLERANCE = 0;
+
+  }
+
+  public static class ArmPositions {
+
+    //When the arm is inside the robot
+    public static final double BRING_IN = 0;
+    //When the robot scores in middle row
+    public static final double SCORE = 0;
+    //When the robot is picking stuff off of the ground
+    public static final double PICK_UP_FROM_GROUND = 0;
+    //When the robot is picking stuff from the loading station
+    public static final double PICK_UP_FROM_STATION = 0;
+
   }
 
   public enum MotorID {
@@ -63,4 +85,5 @@ public final class Constants {
       return id;
     }
   }
+
 }

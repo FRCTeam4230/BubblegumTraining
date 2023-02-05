@@ -46,7 +46,6 @@ public class DriveTrain extends SubsystemBase {
     motor.setIdleMode(IdleMode.kCoast);
 
     RelativeEncoder maxEncoder = motor.getEncoder();
-    System.out.println("Conversion factor: " + Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
     maxEncoder.setPositionConversionFactor(Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
 
     return motor;
@@ -65,8 +64,8 @@ public class DriveTrain extends SubsystemBase {
       motorEncoders.put(motorId, controller.getEncoder());
 
       switch (motorId) {
-        case RIGHT_1_MOTOR_ID:
-        case RIGHT_2_MOTOR_ID:
+        case LEFT_1_MOTOR_ID:
+        case LEFT_2_MOTOR_ID:
           controller.setInverted(true);
           System.out.println("CONTROLLERS INVERTED");
           break;
@@ -138,6 +137,7 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
     builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
     builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
+    builder.addDoubleProperty("Rotation: ", this::getRotation, null);
 
   }
 

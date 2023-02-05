@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmPIDConstants;
 import frc.robot.Constants.MotorID;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.OutputCmd;
+import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -56,6 +58,17 @@ public class RobotContainer {
     XboxController.Button.kLeftBumper.value).whileTrue(new IntakeCmd(intakeSubsystem));
     new JoystickButton(driverController, 
     XboxController.Button.kRightBumper.value).whileTrue(new OutputCmd(intakeSubsystem));
+
+    //Buttons for arm
+    new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new ArmPID(armSubsystem,
+    Constants.ArmPositions.PICK_UP_FROM_GROUND));
+    new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new ArmPID(armSubsystem,
+    Constants.ArmPositions.PICK_UP_FROM_STATION));
+    new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new ArmPID(armSubsystem,
+    Constants.ArmPositions.BRING_IN));
+    new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ArmPID(armSubsystem,
+    Constants.ArmPositions.SCORE));
+    
 
   }
 
