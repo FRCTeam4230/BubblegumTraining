@@ -25,12 +25,17 @@ public final class Constants {
 
     //Ramp rate
     public static final double DRIVE_RAMP_RATE = 0.5;
-    public static final double MOTOR_ROTATION_TO_INCHES = 72/40.683; //TODO: Fix this for 2023
+    public static final double  MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI);
 
   }
 
   public static class arm {
+    public static final int ARM_MOTOR_ID = 4;
     public static final double ARM_RAMP_RATE = 0.5;
+    //Might change encoder to more accurate. Update the number 42 is we get new encoder
+    //Also, the output is in raidans
+    public static final double MOTOR_TO_RADIANS = (1 / 42.0) * (1 / 48.0) * (2 * Math.PI);
+
 
   }
 
