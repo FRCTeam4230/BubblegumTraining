@@ -130,6 +130,31 @@ public class DriveTrain extends SubsystemBase {
     return navx.getAngle();
   }
 
+      /** Zeroes the heading of the robot. */
+      public void zeroHeading() {
+        //m_gyro.reset();
+      }
+    
+      /**
+       * Returns the heading of the robot.
+       *
+       * @return the robot's heading in degrees, from 180 to 180
+       */
+      public double getHeading() {
+        //return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return 0.0;
+      }
+    
+      /**
+       * Returns the turn rate of the robot.
+       *
+       * @return The turn rate of the robot, in degrees per second
+       */
+      public double getTurnRate() {
+        //return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return 0.0;
+      }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);

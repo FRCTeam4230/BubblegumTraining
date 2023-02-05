@@ -17,9 +17,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Arrays;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -68,6 +70,25 @@ public class RobotContainer {
     Constants.ArmPositions.BRING_IN));
     new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ArmPID(armSubsystem,
     Constants.ArmPositions.SCORE));
+
+
+
+    //should cause robot to drive straight while the start button is held
+    new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(
+        new PIDCommand(
+            new PIDController(
+                Constants.driveTrain.kStabilizationP,
+                Constants.driveTrain.kStabilizationI,
+                Constants.driveTrain.kStabilizationD),
+            // Close the loop on the turn rate
+              driveTrain::getTurnRate,
+            // Setpoint is 0
+            0,
+            // Pipe the output to the turning controls
+            output -> driveTrain.arcadeDrive(-driverController.getLeftY(), output),
+            // Require the robot drive 
+            driveTrain));
+
     
 
   }

@@ -17,7 +17,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class driveTrain {
+  public static class driveTrain { //Classes always start with a capital. if you use the ide, you can rename this and then it'll rename it everywhere else for you
 
     //Multipliers
     public static final double SPEED_MULTIPLIER = 0.6;
@@ -27,6 +27,10 @@ public final class Constants {
     public static final double DRIVE_RAMP_RATE = 0.5;
     public static final double  MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI);
 
+    //PID
+    public static final double kStabilizationP = 0.0;
+    public static final double kStabilizationI = 0.0;
+    public static final double kStabilizationD = 0.0;
   }
 
   public static class arm {
