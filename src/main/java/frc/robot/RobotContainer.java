@@ -17,6 +17,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Arrays;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -76,16 +77,18 @@ public class RobotContainer {
     //should cause robot to drive straight while the start button is held
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(
         new PIDCommand(
+          //Creates PID controller to pass into PID Command
             new PIDController(
                 Constants.driveTrain.kStabilizationP,
                 Constants.driveTrain.kStabilizationI,
                 Constants.driveTrain.kStabilizationD),
+            //Passes in measurement supplier
             // Close the loop on the turn rate
-              driveTrain::getTurnRate,
-            // Setpoint is 0
-            0,
+              driveTrain::getRobotPitch,
+            // Passes in setpoint
+            driveTrain.getSetPoint(),
             // Pipe the output to the turning controls
-            output -> driveTrain.arcadeDrive(-driverController.getLeftY(), output),
+            output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -0.3, 0.3), 0),
             // Require the robot drive 
             driveTrain));
 

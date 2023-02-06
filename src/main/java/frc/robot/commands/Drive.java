@@ -31,7 +31,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(driver.getLeftY() * Constants.driveTrain.SPEED_MULTIPLIER, 
+    driveTrain.arcadeDrive(driver.getLeftY() * -1 * Constants.driveTrain.SPEED_MULTIPLIER, 
     driver.getRightX() * Constants.driveTrain.ROTATION_MULTIPLIER);
   }
 

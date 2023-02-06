@@ -27,19 +27,19 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase {
   private final AHRS navx;
-  
+
   private final MotorControllerGroup leftGroup;
   private final MotorControllerGroup rightGroup;
 
   private DifferentialDrive differentialDrive;
 
-  //Dictionary of motor ids with motors
+  // Dictionary of motor ids with motors
   private Map<MotorID, CANSparkMax> motors = new HashMap<>();
-  //Diccionary with motor ids with encoders
+  // Diccionary with motor ids with encoders
   private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
-  //Function for configuring spark maxes
-  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {//Lambda notation
+  // Function for configuring spark maxes
+  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {// Lambda notation
     CANSparkMax motor = new CANSparkMax(id.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.driveTrain.DRIVE_RAMP_RATE);
@@ -50,7 +50,6 @@ public class DriveTrain extends SubsystemBase {
 
     return motor;
   };
-
 
   public DriveTrain(List<MotorID> motorIds) {
     super();
@@ -67,25 +66,24 @@ public class DriveTrain extends SubsystemBase {
         case LEFT_1_MOTOR_ID:
         case LEFT_2_MOTOR_ID:
           controller.setInverted(true);
-          System.out.println("CONTROLLERS INVERTED");
           break;
         default:
           break;
       }
-      
+
     });
-    
-    //Building motor groups
+
+    // Building motor groups
     leftGroup = new MotorControllerGroup(motors.get(MotorID.LEFT_1_MOTOR_ID),
-    motors.get(MotorID.LEFT_2_MOTOR_ID));
+        motors.get(MotorID.LEFT_2_MOTOR_ID));
     rightGroup = new MotorControllerGroup(motors.get(MotorID.RIGHT_1_MOTOR_ID),
-    motors.get(MotorID.RIGHT_2_MOTOR_ID));
+        motors.get(MotorID.RIGHT_2_MOTOR_ID));
 
-    leftGroup.setInverted(true);
+    // leftGroup.setInverted(true);
 
-    //Building differential drive
+    // Building differential drive
     differentialDrive = new DifferentialDrive(leftGroup, rightGroup);
-    differentialDrive.setDeadband(0.05); //this is for worn out controllers. dial in if needed
+    differentialDrive.setDeadband(0.05); // this is for worn out controllers. dial in if needed
 
     resetEncoders();
 
@@ -96,7 +94,7 @@ public class DriveTrain extends SubsystemBase {
    * arcade drive. speed and rotation
    */
   public void arcadeDrive(double speed, double rotation) {
-    differentialDrive.arcadeDrive(rotation, speed);
+    differentialDrive.arcadeDrive(speed, rotation);
   }
 
   public void stop() {
@@ -114,46 +112,54 @@ public class DriveTrain extends SubsystemBase {
 
   private double getLeftEncoder() {
     return (motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
-    + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2;
+        + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2;
   }
 
   private double getRightEncoder() {
     return (motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
-    + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2;
+        + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2;
   }
 
   private double getAverageEncoder() {
     return (getLeftEncoder() + getRightEncoder()) / 2;
   }
 
-  private double getRotation() {
-    return navx.getAngle();
+  public  double getRobotPitch() {
+    return navx.getPitch();
   }
 
-      /** Zeroes the heading of the robot. */
-      public void zeroHeading() {
-        //m_gyro.reset();
-      }
-    
-      /**
-       * Returns the heading of the robot.
-       *
-       * @return the robot's heading in degrees, from 180 to 180
-       */
-      public double getHeading() {
-        //return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-        return 0.0;
-      }
-    
-      /**
-       * Returns the turn rate of the robot.
-       *
-       * @return The turn rate of the robot, in degrees per second
-       */
-      public double getTurnRate() {
-        //return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-        return 0.0;
-      }
+  /** Zeroes the heading of the robot. */
+  public void zeroHeading() {
+    navx.reset();
+  }
+
+  /**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from 180 to 180
+   */
+  public double getHeading() {
+    //Gets the remainder of the gyro angle and 360
+    //Returns angle between 0 and 360
+    return Math.IEEEremainder(navx.getAngle(), 360);
+  }
+
+  /**
+   * Returns the turn rate of the robot.
+   *
+   * @return The turn rate of the robot, in degrees per second
+   */
+  public double getTurnRate() {
+    // return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return navx.getRate();
+  }
+
+  public double getSetPoint() {
+    if(navx.getPitch() > 0.99 || navx.getPitch() < 1.1) {
+      return 1.0;
+    }
+    return 0.0;
+  }
 
   @Override
   public void initSendable(SendableBuilder builder) {
@@ -162,10 +168,17 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
     builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
     builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
-    builder.addDoubleProperty("Rotation: ", this::getRotation, null);
+    builder.addDoubleProperty("Gyro Pitch", navx::getPitch, null);
+    builder.addDoubleProperty("Gyro QuarternionX", navx::getQuaternionX, null);
+    builder.addDoubleProperty("Gyro rate: ", navx::getRate, null);
+    builder.addDoubleProperty("Gyro get heading: ", this::getHeading, null);
+    builder.addDoubleProperty("Gyro get angle: ", navx::getAngle, null);
+    builder.addDoubleProperty("getVelocityX: ", navx::getVelocityX, null);
+    builder.addDoubleProperty("getVelocityY: ", navx::getVelocityY, null);
+    builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
+
+
 
   }
 
-
-  
 }
