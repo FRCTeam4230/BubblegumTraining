@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Subsystem;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -28,10 +30,14 @@ public final class Constants {
     public static final double  MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI);
 
     //PID
-    public static final double kStabilizationP = 1.0;
-    public static final double kStabilizationI = 0.0;
-    public static final double kStabilizationD = 0.0;
+    public static double kStabilizationP = 0.2;
+    public static double kStabilizationI = 0.0;
+    public static double kStabilizationD = 0.0;
+
+
     public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0.2;
+    public static final double kPositionTolerance = 0.5;
+    public static final double kVelocityTolerance = 0;
   }
 
   public static class arm {

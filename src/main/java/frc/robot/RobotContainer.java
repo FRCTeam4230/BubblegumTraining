@@ -10,6 +10,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.OutputCmd;
+import frc.robot.commands.PIDCommandWithTolerance;
 import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
@@ -76,7 +77,7 @@ public class RobotContainer {
 
     //should cause robot to drive straight while the start button is held
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(
-        new PIDCommand(
+        new PIDCommandWithTolerance(
           //Creates PID controller to pass into PID Command
             new PIDController(
                 Constants.driveTrain.kStabilizationP,
@@ -86,11 +87,15 @@ public class RobotContainer {
             // Close the loop on the turn rate
               driveTrain::getRobotPitch,
             // Passes in setpoint
-            driveTrain.getSetPoint(),
+            1,
             // Pipe the output to the turning controls
             output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -0.3, 0.3), 0),
             // Require the robot drive 
-            driveTrain));
+            driveTrain,
+            //Position tolerance
+            Constants.driveTrain.kPositionTolerance,
+            //Velocity tolerance
+            Constants.driveTrain.kVelocityTolerance));
 
     
 

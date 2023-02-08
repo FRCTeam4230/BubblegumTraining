@@ -86,8 +86,11 @@ public class DriveTrain extends SubsystemBase {
     differentialDrive.setDeadband(0.05); // this is for worn out controllers. dial in if needed
 
     resetEncoders();
+    
 
     SmartDashboard.putData(this);
+    SmartDashboard.putData(navx);
+    SmartDashboard.putData(differentialDrive);
   }
 
   /*
@@ -155,10 +158,12 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getSetPoint() {
-    if(navx.getPitch() > 0.99 || navx.getPitch() < 1.1) {
-      return 1.0;
-    }
-    return 0.0;
+    return 1.0;
+  }
+
+  public Boolean isLevel(){
+    return navx.getPitch() <= getSetPoint()+Constants.driveTrain.kPositionTolerance 
+      && navx.getPitch() >= getSetPoint()-Constants.driveTrain.kPositionTolerance;
   }
 
   @Override
@@ -176,8 +181,9 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("getVelocityX: ", navx::getVelocityX, null);
     builder.addDoubleProperty("getVelocityY: ", navx::getVelocityY, null);
     builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
-
-
+    builder.addBooleanProperty("Level", this::isLevel, null);
+    navx.initSendable(builder);
+    differentialDrive.initSendable(builder);
 
   }
 
