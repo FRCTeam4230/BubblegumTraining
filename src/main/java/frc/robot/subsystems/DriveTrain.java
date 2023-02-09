@@ -131,6 +131,13 @@ public class DriveTrain extends SubsystemBase {
     return navx.getPitch();
   }
 
+  public double getLeveledPitch() {
+    if (isLevel()){
+      return navx.getPitch();
+    }
+    return 1;
+  }
+
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     navx.reset();
@@ -182,6 +189,7 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("getVelocityY: ", navx::getVelocityY, null);
     builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
     builder.addBooleanProperty("Level", this::isLevel, null);
+    builder.addDoubleProperty("Error: ", () -> navx.getPitch() - 1, null);
     navx.initSendable(builder);
     differentialDrive.initSendable(builder);
 

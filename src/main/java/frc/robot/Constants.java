@@ -30,12 +30,12 @@ public final class Constants {
     public static final double  MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI);
 
     //PID
-    public static double kStabilizationP = 0.2;
+    public static double kStabilizationP = 0.04;
     public static double kStabilizationI = 0.0;
     public static double kStabilizationD = 0.0;
 
 
-    public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0.2;
+    public static final double CHARGING_STATION_SPEED_MULTIPLIER =  0;
     public static final double kPositionTolerance = 0.5;
     public static final double kVelocityTolerance = 0;
   }

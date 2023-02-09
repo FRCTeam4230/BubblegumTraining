@@ -17,6 +17,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Arrays;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -86,24 +87,22 @@ public class RobotContainer {
             //Passes in measurement supplier
             // Close the loop on the turn rate
               driveTrain::getRobotPitch,
-            // Passes in setpoint
-            1,
+            // Passes in setpoint (setpoint weill be 1 unless we are "level")
+            () -> {return 1;},
+            //driveTrain::getLeveledPitch,
             // Pipe the output to the turning controls
-            output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -0.3, 0.3), 0),
+            output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -0.4, 0.4), 0),
             // Require the robot drive 
             driveTrain,
             //Position tolerance
-            Constants.driveTrain.kPositionTolerance,
-            //Velocity tolerance
-            Constants.driveTrain.kVelocityTolerance));
-
-    
+            Constants.driveTrain.kPositionTolerance));
 
   }
 
   private void configureDefaultCommands(){
     //Setting default commands
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new Drive(driveTrain,driverController));
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new Drive(driveTrain, driverController::getLeftY, 
+    driverController::getRightX));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

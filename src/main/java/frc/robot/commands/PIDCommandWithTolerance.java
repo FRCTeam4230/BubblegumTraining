@@ -21,16 +21,18 @@ public class PIDCommandWithTolerance extends PIDCommand {
   /** Creates a new PIDCommandWithTolerance. */
   private SubsystemBase subsystemBase;
   public PIDCommandWithTolerance(PIDController pidController, DoubleSupplier measurementSource,
-     double setPointSource, DoubleConsumer useOutput, SubsystemBase subsystem, 
-    double positionTolerance, double velocityTolerance) {
+     DoubleSupplier setPointSource, DoubleConsumer useOutput, SubsystemBase subsystem, 
+    double positionTolerance) {
 
     super(pidController, measurementSource, setPointSource, useOutput, subsystem);
-    getController().setTolerance(positionTolerance);
+    //getController().setTolerance(positionTolerance);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
       this.subsystemBase = subsystem;
     SmartDashboard.putData(getController());
 
+    getController().setTolerance(positionTolerance);
+    
   }
 
 

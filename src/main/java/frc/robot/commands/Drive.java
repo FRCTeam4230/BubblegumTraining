@@ -4,7 +4,8 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
@@ -12,11 +13,13 @@ import frc.robot.subsystems.DriveTrain;
 public class Drive extends CommandBase {
   /** Creates a new Drive. */
   private final DriveTrain driveTrain;
-  private final XboxController driver;
+  private final DoubleSupplier speed;
+  private final DoubleSupplier rotation;
 
-  public Drive(DriveTrain driveTrain, XboxController driver) {
+  public Drive(DriveTrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation) {
     this.driveTrain = driveTrain;
-    this.driver = driver;
+    this.speed = speed;
+    this.rotation = rotation;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
@@ -31,8 +34,8 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(driver.getLeftY() * -1 * Constants.driveTrain.SPEED_MULTIPLIER, 
-    driver.getRightX() * Constants.driveTrain.ROTATION_MULTIPLIER);
+    driveTrain.arcadeDrive(speed.getAsDouble() * -1 * Constants.driveTrain.SPEED_MULTIPLIER, 
+    rotation.getAsDouble() * Constants.driveTrain.ROTATION_MULTIPLIER);
   }
 
   // Called once the command ends or is interrupted.
