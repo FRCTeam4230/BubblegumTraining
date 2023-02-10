@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorID;
@@ -15,15 +18,20 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   private final CANSparkMax motor;
 
+  //color sensor in the future to know what we are carrying. (for auto and for dashbaord alerts)
+
+
   public IntakeSubsystem() {
     motor = new CANSparkMax(MotorID.INTAKE_MOTOR_ID.getId(), MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setOpenLoopRampRate(Constants.intake.INTAKE_RAMP_RATE);
+
+    SmartDashboard.putData(this);
   }
 
-  public void setSpeed(double speed, boolean inverted) {
-    motor.setInverted(inverted);
-    motor.set(speed);
+  public void setSpeed(double speed, boolean intake) {
+    motor.setInverted(intake);
+    motor.set(MathUtil.clamp(speed, -.99, .99));
   }
 
   public void stop() {
@@ -33,5 +41,10 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+
   }
 }

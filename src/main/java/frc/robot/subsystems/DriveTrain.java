@@ -25,6 +25,11 @@ import frc.robot.Constants.MotorID;
 
 import edu.wpi.first.wpilibj.SPI;
 
+/*
+ * STATIC IMPORTS
+ */
+import static frc.robot.StaticFunctions.initiateCANSparkMaxMotor;
+
 public class DriveTrain extends SubsystemBase {
   private final AHRS navx;
 
@@ -38,19 +43,6 @@ public class DriveTrain extends SubsystemBase {
   // Diccionary with motor ids with encoders
   private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
-  // Function for configuring spark maxes
-  private static Function<MotorID, CANSparkMax> initiateMotors = (id) -> {// Lambda notation
-    CANSparkMax motor = new CANSparkMax(id.getId(), MotorType.kBrushless);
-    motor.restoreFactoryDefaults();
-    motor.setOpenLoopRampRate(Constants.driveTrain.DRIVE_RAMP_RATE);
-    motor.setIdleMode(IdleMode.kCoast);
-
-    RelativeEncoder maxEncoder = motor.getEncoder();
-    maxEncoder.setPositionConversionFactor(Constants.driveTrain.MOTOR_ROTATION_TO_INCHES);
-
-    return motor;
-  };
-
   public DriveTrain(List<MotorID> motorIds) {
     super();
 
@@ -58,7 +50,7 @@ public class DriveTrain extends SubsystemBase {
     navx.calibrate();
 
     motorIds.forEach(motorId -> {
-      CANSparkMax controller = initiateMotors.apply(motorId);
+      CANSparkMax controller = initiateCANSparkMaxMotor.apply(motorId);
       motors.put(motorId, controller);
       motorEncoders.put(motorId, controller.getEncoder());
 

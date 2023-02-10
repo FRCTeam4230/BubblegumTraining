@@ -90,17 +90,22 @@ public final class Constants {
   }
 
   public enum MotorID {
-    LEFT_1_MOTOR_ID(1), LEFT_2_MOTOR_ID(2), RIGHT_1_MOTOR_ID(3),
-    RIGHT_2_MOTOR_ID(4), ARM_MOTOR_ID(5), INTAKE_MOTOR_ID(6);
+    LEFT_1_MOTOR_ID(1, driveTrain.DRIVE_RAMP_RATE), LEFT_2_MOTOR_ID(2, driveTrain.DRIVE_RAMP_RATE), RIGHT_1_MOTOR_ID(3, driveTrain.DRIVE_RAMP_RATE),
+    RIGHT_2_MOTOR_ID(4, driveTrain.DRIVE_RAMP_RATE), ARM_MOTOR_ID(5, arm.ARM_RAMP_RATE), INTAKE_MOTOR_ID(6, intake.INTAKE_RAMP_RATE);
 
     private Integer id;
+    private Double rampRate;
 
-    private MotorID(Integer id) {
+    private MotorID(Integer id, Double rampRate) {
       this.id = id;
     }
 
     public Integer getId() {
       return id;
+    }
+    
+    public Double getRampRate(){
+      return rampRate;
     }
   }
 
