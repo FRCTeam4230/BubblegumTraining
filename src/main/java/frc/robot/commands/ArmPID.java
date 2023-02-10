@@ -44,10 +44,10 @@ public class ArmPID extends CommandBase {
 
   @Override
   public void execute() {
-    double output = pidController.calculate(armSubsystem.getEncoder());
+    double output = pidController.calculate(armSubsystem.getPosition());
 
     //Puts output into a range
-    output = MathUtil.clamp(output, -0.2, 0.2);
+    //output = MathUtil.clamp(output, -0.2, 0.2); //TODO: why these clamped numgbers?? // these sould be the constants from the Constnats
     armSubsystem.setAngle(output, false);
   }
 
@@ -76,7 +76,7 @@ public class ArmPID extends CommandBase {
     builder.addDoubleProperty("kP: ", pidController::getP, pidController::setP);
     builder.addDoubleProperty("kI: ", pidController::getI, pidController::setI);
     builder.addDoubleProperty("kD: ", pidController::getD, pidController::setD);
-    builder.addDoubleProperty("Encoder Degrees: ", armSubsystem::getEncoder, null);
+    builder.addDoubleProperty("Encoder Degrees: ", armSubsystem::getPosition, null);
   
   }
 }
