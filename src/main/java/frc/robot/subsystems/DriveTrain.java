@@ -10,6 +10,8 @@ import java.util.Map;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -84,7 +86,8 @@ public class DriveTrain extends SubsystemBase {
    * arcade drive. speed and rotation
    */
   public void arcadeDrive(double speed, double rotation) {
-    differentialDrive.arcadeDrive(speed, rotation);
+    differentialDrive.arcadeDrive(
+    MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
   }
 
   public void stop() {

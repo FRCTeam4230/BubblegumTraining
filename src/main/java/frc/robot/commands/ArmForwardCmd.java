@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
+//TODO   inline these instead
 public class ArmForwardCmd extends CommandBase {
   /** Creates a new ArmForwardCmd. */
   private final ArmSubsystem armSubsystem;

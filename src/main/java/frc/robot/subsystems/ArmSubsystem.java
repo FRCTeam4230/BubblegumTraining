@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.StaticFunctions;
 import frc.robot.Constants.MotorID;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -25,14 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
   
 
   public ArmSubsystem() {
-    motor = new CANSparkMax(MotorID.ARM_MOTOR_ID.getId(), MotorType.kBrushless);
-    motor.restoreFactoryDefaults();
-    motor.setOpenLoopRampRate(Constants.arm.ARM_RAMP_RATE);
-    //Change to kBreak after testing encoders
-    //Leave as kCoast right now so we can move arm around to see if the encoders are recording things right
-    motor.setIdleMode(IdleMode.kCoast);
-    //Setting conversion factor for encoder
-    motor.getEncoder().setPositionConversionFactor(Constants.arm.MOTOR_TO_DEGREES);
+    motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.ARM_MOTOR_ID);
 
     encoder = new DutyCycleEncoder(Constants.arm.ENCODER_PORT);
     frontLimit = new DigitalInput(Constants.arm.FRONT_LIMIT_PORT);

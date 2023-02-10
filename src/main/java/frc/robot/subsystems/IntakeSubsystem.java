@@ -5,13 +5,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.StaticFunctions;
 import frc.robot.Constants.MotorID;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -22,10 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
   public IntakeSubsystem() {
-    motor = new CANSparkMax(MotorID.INTAKE_MOTOR_ID.getId(), MotorType.kBrushless);
-    motor.restoreFactoryDefaults();
-    motor.setOpenLoopRampRate(Constants.intake.INTAKE_RAMP_RATE);
-
+    motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.INTAKE_MOTOR_ID);
+    
     SmartDashboard.putData(this);
   }
 
