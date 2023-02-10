@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -45,6 +46,12 @@ public final class Constants {
     public static final double ARM_RAMP_RATE = 0.5;
     //Might change encoder to more accurate. Update the number 42 is we get new encoder
     public static final double MOTOR_TO_DEGREES = (1 / 42.0) * (1 / 48.0) * 360;
+	public static final int ENCODER_PORT = 0;
+	public static final int FRONT_LIMIT_PORT = 1;
+	public static final int BACK_LIMIT_PORT = 2;
+	public static final double FORWARD_LIMIT_ANGLE = 0;
+	public static final double BACK_LIMIT_ANGLE = 0;
+  
 
 
   }
