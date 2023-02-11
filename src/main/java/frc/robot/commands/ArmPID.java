@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,8 +24,7 @@ public class ArmPID extends CommandBase {
 
     pidController = new PIDController(Constants.ArmPIDConstants.kP, Constants.ArmPIDConstants.kI, 
     Constants.ArmPIDConstants.kD);
-    pidController.setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE, 
-    Constants.ArmPIDConstants.VELOCITY_TOLERANCE);
+    pidController.setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE);
 
     this.target = target;
 
@@ -46,8 +46,8 @@ public class ArmPID extends CommandBase {
     double output = pidController.calculate(armSubsystem.getPosition());
 
     //Puts output into a range
-    //output = MathUtil.clamp(output, -0.2, 0.2); //TODO: why these clamped numgbers?? // these sould be the constants from the Constnats
-    armSubsystem.setAngle(output, false);
+    output = MathUtil.clamp(output, -Constants.ArmPIDConstants.RANGE, Constants.ArmPIDConstants.RANGE);
+    armSubsystem.setAngle(output, true);
   }
 
 
@@ -60,12 +60,6 @@ public class ArmPID extends CommandBase {
   @Override
   public boolean isFinished() {
     return pidController.atSetpoint();
-  }
-
-  public void MoveArm(double degrees) {
-    pidController.reset();
-    pidController.setSetpoint(degrees);
-
   }
 
   @Override

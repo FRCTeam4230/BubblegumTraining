@@ -5,8 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -23,17 +21,22 @@ public class ArmSubsystem extends SubsystemBase {
   private final CANSparkMax motor;
   private final DigitalInput frontLimit;
   private final DigitalInput backLimit;
+  private boolean goingForward;
   
 
   public ArmSubsystem() {
     motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.ARM_MOTOR_ID);
+
 
     encoder = new DutyCycleEncoder(Constants.arm.ENCODER_PORT);
     frontLimit = new DigitalInput(Constants.arm.FRONT_LIMIT_PORT);
     backLimit = new DigitalInput(Constants.arm.BACK_LIMIT_PORT);
 
     resetEncoders();
+
+    encoder.setDistancePerRotation(360);
     
+    goingForward = false;
 
     SmartDashboard.putData(this);
     SmartDashboard.putData(encoder);
@@ -43,9 +46,16 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setAngle(double speed, boolean forward) {
-    
+    goingForward = forward;
     motor.setInverted(forward);
-    motor.set(MathUtil.clamp(speed, -0.99, 0.99));
+    //If the arm is going forward and is at the very front or if the arm is going backwards and is at the very back, stop
+    //else, move
+    if((forward && isForward()) || (!forward && isBack())) {
+      stop();
+    } else {
+      //If none of the previous conditions were satisfied, the arm can move
+      motor.set(MathUtil.clamp(speed, -0.99, 0.99));
+    }
   }
 
   public void stop() {
@@ -59,13 +69,15 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  //   if ((isForward() || (isBack() {
-  //     stop();
-  //   }
+    //If the arm is at the very front and going forward, or if the arm
+    //is at the very back and going backwards, stop the arm
+    if ((isForward() && goingForward) || (isBack() && !goingForward)) {
+      stop();
+    }
 
-  //   if (isDown()) {
-  //     resetEncoder();
-  //   }
+    if (isForward()) {
+      encoder.reset();
+    }
   }
 
   public boolean isForward() {
@@ -86,7 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
 
-    builder.addDoubleProperty("Arm encoder: ", this::getMotorEncoderPosition, null);
+    builder.addDoubleProperty("Arm motor encoder: ", this::getMotorEncoderPosition, null);
     encoder.initSendable(builder);
     frontLimit.initSendable(builder);
     backLimit.initSendable(builder);

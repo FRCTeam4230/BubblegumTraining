@@ -26,8 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putData(this);
   }
 
-  public void setSpeed(double speed, boolean intake) {
-    motor.setInverted(intake);
+  public void setSpeed(double speed) {
     motor.set(MathUtil.clamp(speed, -.99, .99));
   }
 

@@ -5,17 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 //TODO   inline these instead
 public class ArmForwardCmd extends CommandBase {
   /** Creates a new ArmForwardCmd. */
   private final ArmSubsystem armSubsystem;
-  private final double speed;
 
-  public ArmForwardCmd(ArmSubsystem armSubsystem, double speed) {
+  public ArmForwardCmd(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
-    this.speed = speed;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
@@ -28,12 +27,16 @@ public class ArmForwardCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.setAngle(speed, false);
+    armSubsystem.setAngle(Constants.arm.ARM_SPEED, true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if(interrupted) {
+      armSubsystem.stop();
+    }
+  }
 
   // Returns true when the command should end.
   @Override

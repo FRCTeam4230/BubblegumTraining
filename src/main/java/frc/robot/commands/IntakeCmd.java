@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCmd extends CommandBase {
   /** Creates a new IntakeCmd. */
   private final IntakeSubsystem intakeSubsystem;
-  public IntakeCmd(IntakeSubsystem intakeSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private final DoubleSupplier speedSupplier;
+  
+  public IntakeCmd(IntakeSubsystem intakeSubsystem, DoubleSupplier speedSupplier) {
+    this.speedSupplier = speedSupplier;
     this.intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);
   }
@@ -24,7 +27,7 @@ public class IntakeCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setSpeed(Constants.intake.INTAKE_SPEED, true);
+    intakeSubsystem.setSpeed(speedSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

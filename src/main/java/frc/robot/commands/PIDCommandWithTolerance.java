@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -41,7 +42,6 @@ public class PIDCommandWithTolerance extends PIDCommand {
   @Override
   public boolean isFinished() {
     //this should be the driveTrain.isLevel but you can't do that from what y
-    //return ((DriveTrain)subsystemBase).isLevel();
-   return false;
+    return ((DriveTrain)subsystemBase).isLevel();
   }
 }

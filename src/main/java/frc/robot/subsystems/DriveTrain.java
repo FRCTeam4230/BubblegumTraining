@@ -10,6 +10,7 @@ import java.util.Map;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -90,6 +91,10 @@ public class DriveTrain extends SubsystemBase {
     MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
   }
 
+  public void setSpeeds(double leftSpeed, double rightSpeed) {
+    differentialDrive.tankDrive(leftSpeed, rightSpeed);
+  }
+
   public void stop() {
     differentialDrive.tankDrive(0, 0);
   }
@@ -103,17 +108,17 @@ public class DriveTrain extends SubsystemBase {
     motorEncoders.values().forEach(encoder -> encoder.setPosition(0));
   }
 
-  private double getLeftEncoder() {
+  public double getLeftEncoder() {
     return (motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
         + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2;
   }
 
-  private double getRightEncoder() {
+  public double getRightEncoder() {
     return (motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
         + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2;
   }
 
-  private double getAverageEncoder() {
+  public double getAverageEncoder() {
     return (getLeftEncoder() + getRightEncoder()) / 2;
   }
 
@@ -163,6 +168,20 @@ public class DriveTrain extends SubsystemBase {
       && navx.getPitch() >= getSetPoint()-Constants.driveTrain.kPositionTolerance;
   }
 
+  public void lock() {
+    setLockMode(IdleMode.kBrake);
+  }
+
+  public void coast() {
+    setLockMode(IdleMode.kCoast);
+  }
+
+  private void setLockMode(IdleMode mode) {
+    motors.entrySet().forEach(motor -> {
+      motor.getValue().setIdleMode(mode);
+    });
+  }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
@@ -180,6 +199,7 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
     builder.addBooleanProperty("Level", this::isLevel, null);
     builder.addDoubleProperty("Error: ", () -> navx.getPitch() - 1, null);
+
     navx.initSendable(builder);
     differentialDrive.initSendable(builder);
 

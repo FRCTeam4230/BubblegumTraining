@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 /**
@@ -19,6 +21,24 @@ import com.revrobotics.CANSparkMax.IdleMode;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static class AutoConstants {
+
+    public static final double  DISTANCE_TO_CHARGE_STATION = 62.0 - driveTrain.ROBOT_LENGTH/4;
+
+  }
+
+  public static final class DriveDistanceParams {
+    public static final double kP = 0.03;
+    public static final double kI = 0;
+    public static final double kD = 0.005;
+
+    public static final double baseSpeed = 0.02;
+
+    public static final double tolerance = 1;
+    public static final double velocityTolerance = 0.2;
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
@@ -32,16 +52,28 @@ public final class Constants {
 
     // Ramp rate
     public static final double DRIVE_RAMP_RATE = 1.0;
-    public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI);
+   // public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
+    public static final double MOTOR_ROTATION_TO_INCHES = 72 / 40.687;//.03022; //pulse per
+
+
 
     // PID
-    public static double kStabilizationP = 0.04;
-    public static double kStabilizationI = 0.0;
-    public static double kStabilizationD = 0.0;
+    public static double CHARGE_STATION_P = 0.04;
+    public static double CHARGE_STATION_I = 0.0;
+    public static double CHARGE_STATION_D = 0.0;
 
     public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0;
     public static final double kPositionTolerance = 0.5;
     public static final double kVelocityTolerance = 0;
+    public static final double PID_CLAMP_RANGE = 0.4;
+
+    public static final double ROBOT_LENGTH = 32.0;
+    public static final double ROBOT_WIDTH = 24.0;
+
+    public static final double DRIVE_P = 1.0;
+    public static final double DRIVE_I = 0;
+    public static final double DRIVE_D = 0;
+
   }
 
   public static class arm {
@@ -54,7 +86,8 @@ public final class Constants {
     public static final int FRONT_LIMIT_PORT = 1;
     public static final int BACK_LIMIT_PORT = 2;
     public static final double FORWARD_LIMIT_ANGLE = 0;
-    public static final double BACK_LIMIT_ANGLE = 0;
+    public static final double BACK_LIMIT_ANGLE = -265.5;
+    public static final double ARM_SPEED = 0.2;
 
   }
 
@@ -76,6 +109,7 @@ public final class Constants {
     public static final double kD = 0;
     public static final double VELOCITY_TOLERANCE = 0;
     public static final double POSITION_TOLERANCE = 0;
+    public static final double RANGE = 0.2;
 
   }
 
@@ -99,8 +133,8 @@ public final class Constants {
     RIGHT_1_MOTOR_ID(3, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
     RIGHT_2_MOTOR_ID(4,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
 
-    ARM_MOTOR_ID(5, arm.ARM_RAMP_RATE, IdleMode.kCoast, arm.MOTOR_TO_DEGREES),
-    INTAKE_MOTOR_ID(6,  intake.INTAKE_RAMP_RATE, IdleMode.kCoast, intake.MOTOR_ROTATION_TO_INCHES);
+    ARM_MOTOR_ID(6, arm.ARM_RAMP_RATE, IdleMode.kCoast, arm.MOTOR_TO_DEGREES),
+    INTAKE_MOTOR_ID(5,  intake.INTAKE_RAMP_RATE, IdleMode.kCoast, intake.MOTOR_ROTATION_TO_INCHES);
 
     private Integer id;
     private Double rampRate;

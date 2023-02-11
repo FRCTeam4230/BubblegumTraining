@@ -7,14 +7,18 @@ package frc.robot;
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.OutputCmd;
 import frc.robot.commands.PIDCommandWithTolerance;
-import frc.robot.commands.ArmPID;
+import frc.robot.commands.SetDriveTrainMotorIdleMode;
+import frc.robot.commands.ArmBackwardCmd;
+import frc.robot.commands.ArmForwardCmd;
+import frc.robot.commands.AutoCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Arrays;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -29,6 +33,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final XboxController driverController =
+      new XboxController(Constants.OI.XBOX_PORT);
+  //Subsystems
   //Needed to pass in list because it uses a list in constructor
   private final DriveTrain driveTrain = new DriveTrain(
     Arrays.asList(MotorID.LEFT_1_MOTOR_ID, MotorID.LEFT_2_MOTOR_ID, MotorID.RIGHT_1_MOTOR_ID,
@@ -37,8 +44,13 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-  private final XboxController driverController =
-      new XboxController(Constants.OI.XBOX_PORT);
+  //Commands
+  private DoubleSupplier intakeSupplier = () -> driverController.getLeftTriggerAxis()
+   - driverController.getRightTriggerAxis();
+  private final IntakeCmd intakeCommand = new IntakeCmd(intakeSubsystem, intakeSupplier);
+
+
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -51,13 +63,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //Buttons for intake
-    new JoystickButton(driverController, 
-    XboxController.Button.kLeftBumper.value).whileTrue(new IntakeCmd(intakeSubsystem));
-    new JoystickButton(driverController, 
-    XboxController.Button.kRightBumper.value).whileTrue(new OutputCmd(intakeSubsystem));
 
-    //Buttons for arm
+    /*
     new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new ArmPID(armSubsystem,
     Constants.ArmPositions.PICK_UP_FROM_GROUND));
     new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new ArmPID(armSubsystem,
@@ -66,29 +73,39 @@ public class RobotContainer {
     Constants.ArmPositions.BRING_IN));
     new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ArmPID(armSubsystem,
     Constants.ArmPositions.SCORE));
+    */
+
+      //Buttons for moving arm
+      new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).whileTrue(
+        new ArmForwardCmd(armSubsystem)
+      );
+      new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(
+        new ArmBackwardCmd(armSubsystem)
+      );
 
 
-
-    //should cause robot to drive straight while the start button is held
-    new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(
-        new PIDCommandWithTolerance(
+    new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new SetDriveTrainMotorIdleMode(driveTrain, true).andThen(
+      new PIDCommandWithTolerance(
           //Creates PID controller to pass into PID Command
             new PIDController(
-                Constants.driveTrain.kStabilizationP,
-                Constants.driveTrain.kStabilizationI,
-                Constants.driveTrain.kStabilizationD),
+                Constants.driveTrain.CHARGE_STATION_P,
+                Constants.driveTrain.CHARGE_STATION_I,
+                Constants.driveTrain.CHARGE_STATION_D),
             //Passes in measurement supplier
-            // Close the loop on the turn rate
+            // Close the loop on the turn rat
               driveTrain::getRobotPitch,
-            // Passes in setpoint (setpoint weill be 1 unless we are "level")
+            // Passes in setpoint
             () -> {return 1;},
-            //driveTrain::getLeveledPitch,
             // Pipe the output to the turning controls
-            output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -0.4, 0.4), 0),
+            output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), 0),
             // Require the robot drive 
             driveTrain,
             //Position tolerance
-            Constants.driveTrain.kPositionTolerance));
+            Constants.driveTrain.kPositionTolerance)
+    ));
+            
+      
+        
 
   }
 
@@ -96,13 +113,25 @@ public class RobotContainer {
     //Setting default commands
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new Drive(driveTrain, driverController::getLeftY, 
     driverController::getRightX));
+    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, intakeCommand);
   }
+
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new AutoCommand(driveTrain, armSubsystem, intakeSubsystem);
   }
+
+  public void driveTrainLock() {
+    driveTrain.lock();
+  }
+
+  public void driveTrainCoast() {
+    driveTrain.coast();
+  }
+  
 }
