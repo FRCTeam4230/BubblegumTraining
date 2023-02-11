@@ -83,6 +83,8 @@ public class RobotContainer {
         new ArmBackwardCmd(armSubsystem)
       );
 
+      new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new AutoCommand(driveTrain,armSubsystem,intakeSubsystem));
+
 
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new SetDriveTrainMotorIdleMode(driveTrain, true).andThen(
       new PIDCommandWithTolerance(

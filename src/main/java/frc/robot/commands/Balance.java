@@ -40,6 +40,12 @@ public class Balance extends PIDCommand {
   SmartDashboard.putData(this);
   }
 
+  @Override
+  public void execute() {
+      // TODO Auto-generated method stub
+      super.execute();
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
