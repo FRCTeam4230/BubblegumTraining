@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.driveTrainCoast();
+    m_robotContainer.getTeleopCommand();
   }
 
   /** This function is called periodically during operator control. */
