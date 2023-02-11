@@ -87,6 +87,8 @@ public class DriveTrain extends SubsystemBase {
    * arcade drive. speed and rotation
    */
   public void arcadeDrive(double speed, double rotation) {
+
+    //TODO: FIX THIS. this is backwards and has to dow tith e wiring being different
     differentialDrive.arcadeDrive(
     MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
   }

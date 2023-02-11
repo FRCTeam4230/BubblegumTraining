@@ -29,7 +29,7 @@ public class Balance extends PIDCommand {
   // Passes in setpoint
   () -> {return 1;},
   // Pipe the output to the turning controls
-  output -> driveTrain.arcadeDrive(MathUtil.clamp(-output, -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), 0),
+  output -> driveTrain.arcadeDrive(MathUtil.clamp(0, -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), -output),
   // Require the robot drive 
   driveTrain);
 

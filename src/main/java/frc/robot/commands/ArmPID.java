@@ -47,7 +47,7 @@ public class ArmPID extends CommandBase {
 
     //Puts output into a range
     output = MathUtil.clamp(output, -Constants.ArmPIDConstants.RANGE, Constants.ArmPIDConstants.RANGE);
-    armSubsystem.setAngle(output, true);
+   // armSubsystem.setAngle(output, true);
   }
 
 

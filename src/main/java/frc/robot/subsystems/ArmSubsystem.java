@@ -45,18 +45,25 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-  public void setAngle(double speed, boolean forward) {
-    goingForward = forward;
-    motor.setInverted(forward);
-    //If the arm is going forward and is at the very front or if the arm is going backwards and is at the very back, stop
-    //else, move
-    if((forward && isForward()) || (!forward && isBack())) {
+
+  public void goForward(double speed){
+    if (!isForward()){
+      motor.setInverted(false);
+      motor.set(MathUtil.clamp(speed,-0.99,.99));
+    }else{
       stop();
-    } else {
-      //If none of the previous conditions were satisfied, the arm can move
-      motor.set(MathUtil.clamp(speed, -0.99, 0.99));
     }
   }
+
+  public void goBackwards(double speed){
+    if (!isBack()){
+      motor.setInverted(true);
+      motor.set(MathUtil.clamp(speed,-.99,.99));
+    }else{
+      stop();
+    }
+  }
+
 
   public void stop() {
     motor.set(0);
@@ -68,24 +75,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    //If the arm is at the very front and going forward, or if the arm
-    //is at the very back and going backwards, stop the arm
-    if ((isForward() && goingForward) || (isBack() && !goingForward)) {
-      stop();
-    }
-
-    if (isForward()) {
-      encoder.reset();
-    }
   }
 
   public boolean isForward() {
-    return !frontLimit.get() || getPosition() >= Constants.arm.FORWARD_LIMIT_ANGLE;
+    return !frontLimit.get();// || getPosition() >= Constants.arm.FORWARD_LIMIT_ANGLE;
   }
 
   public boolean isBack() {
-    return !backLimit.get() || getPosition() <= Constants.arm.BACK_LIMIT_ANGLE;
+    return !backLimit.get();// || getPosition() <= Constants.arm.BACK_LIMIT_ANGLE;
   }
 
   public double getPosition() {
@@ -98,6 +95,10 @@ public class ArmSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
 
+
+    builder.addBooleanProperty("GoingForward", () -> goingForward, null);
+    builder.addBooleanProperty("IsForward", this::isForward, null);
+    builder.addBooleanProperty("isBack", this::isBack, null);
     builder.addDoubleProperty("Arm motor encoder: ", this::getMotorEncoderPosition, null);
     encoder.initSendable(builder);
     frontLimit.initSendable(builder);

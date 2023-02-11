@@ -87,8 +87,8 @@ public class RobotContainer {
      */
 
     // Buttons for moving arm
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).whileTrue(new ArmForwardCmd(armSubsystem));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new ArmBackwardCmd(armSubsystem));
+    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).whileTrue(new ArmBackwardCmd(armSubsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new ArmForwardCmd(armSubsystem));
 
     // test auto.. use back button
     new JoystickButton(driverController, XboxController.Button.kBack.value)
@@ -101,8 +101,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands() {
     // Setting default commands
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new Drive(driveTrain, driverController::getLeftY,
-        driverController::getRightX));
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, getTeleopCommand());
     CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, intakeCommand);
   }
 
@@ -120,7 +119,7 @@ public class RobotContainer {
    */
   public Command getTeleopCommand() {
     driveTrain.coast();
-    return new Drive(driveTrain, driverController::getLeftY, driverController::getRightY);
+    return new Drive(driveTrain, () -> -1 * driverController.getRightX(), () -> -1 * driverController.getLeftY());
   }
 
 }

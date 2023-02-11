@@ -27,7 +27,7 @@ public class ArmForwardCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.setAngle(Constants.arm.ARM_SPEED, true);
+    armSubsystem.goForward(Constants.arm.ARM_SPEED);
   }
 
   // Called once the command ends or is interrupted.
