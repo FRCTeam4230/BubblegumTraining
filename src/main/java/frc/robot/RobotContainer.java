@@ -95,8 +95,10 @@ public class RobotContainer {
         .onTrue(basicAutoCommand);
 
     new JoystickButton(driverController, XboxController.Button.kStart.value)
-        .whileTrue(new Balance(driveTrain));
-
+        .whileTrue(
+         // new SetDriveTrainMotorIdleMode(driveTrain, true)
+          //.andThen(
+            new Balance(driveTrain));
   }
 
   private void configureDefaultCommands() {

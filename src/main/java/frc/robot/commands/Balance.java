@@ -29,14 +29,14 @@ public class Balance extends PIDCommand {
   // Passes in setpoint
   () -> {return 1;},
   // Pipe the output to the turning controls
-  output -> driveTrain.arcadeDrive(MathUtil.clamp(0, -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), -output),
+  output -> driveTrain.arcadeDrive(0, MathUtil.clamp(-output , -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE)),
   // Require the robot drive 
   driveTrain);
 
   getController().setTolerance(Constants.driveTrain.kPositionTolerance);
 
   this.driveTrain = driveTrain;
-
+  this.driveTrain.lock();
   SmartDashboard.putData(this);
   }
 

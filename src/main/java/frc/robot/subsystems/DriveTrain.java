@@ -41,6 +41,8 @@ public class DriveTrain extends SubsystemBase {
   // Diccionary with motor ids with encoders
   private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
+  private IdleMode idleMode;
+
   public DriveTrain(List<MotorID> motorIds) {
     super();
 
@@ -179,6 +181,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   private void setLockMode(IdleMode mode) {
+    idleMode = mode;
     motors.entrySet().forEach(motor -> {
       motor.getValue().setIdleMode(mode);
     });
@@ -201,10 +204,15 @@ public class DriveTrain extends SubsystemBase {
     builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
     builder.addBooleanProperty("Level", this::isLevel, null);
     builder.addDoubleProperty("Error: ", () -> navx.getPitch() - 1, null);
+    builder.addBooleanProperty("BRQAKE MODE", this::isBrake, null);
 
     navx.initSendable(builder);
     differentialDrive.initSendable(builder);
 
+  }
+
+  private  boolean isBrake(){
+    return idleMode == IdleMode.kBrake;
   }
 
 }

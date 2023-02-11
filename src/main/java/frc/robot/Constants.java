@@ -47,7 +47,7 @@ public final class Constants {
                                    // and then it'll rename it everywhere else for you
 
     // Multipliers
-    public static final double SPEED_MULTIPLIER = 0.75;
+    public static final double SPEED_MULTIPLIER = 0.9;
     public static final double ROTATION_MULTIPLIER = 0.68;
 
     // Ramp rate
@@ -63,9 +63,9 @@ public final class Constants {
     public static double CHARGE_STATION_D = 0.0;
 
     public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0;
-    public static final double kPositionTolerance = 0.5;
+    public static final double kPositionTolerance = 1.5;
     public static final double kVelocityTolerance = 0;
-    public static final double PID_CLAMP_RANGE = 0.5;
+    public static final double PID_CLAMP_RANGE = 0.4;
 
     public static final double ROBOT_LENGTH = 32.0;
     public static final double ROBOT_WIDTH = 24.0;
@@ -93,7 +93,7 @@ public final class Constants {
 
   public static class intake {
     public static final double INTAKE_RAMP_RATE = 0.5;
-    public static final double INTAKE_SPEED = 0.5; // 50 % for now
+    public static final double INTAKE_SPEED = 0.35; // 50 % for now
     public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 48.0) * 360; //copied from drivetrain
 
   }
