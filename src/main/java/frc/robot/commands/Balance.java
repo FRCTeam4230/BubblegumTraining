@@ -24,7 +24,7 @@ public class Balance extends PIDCommand {
         Constants.DriveTrain.CHARGE_STATION_I,
         Constants.DriveTrain.CHARGE_STATION_D),
   //Passes in measurement supplier
-    driveTrain::getLeveledPitch,
+    driveTrain::getPitch,
   // Passes in setpoint
   driveTrain::getSetPoint,
   // Pipe the output to the turning controls
@@ -35,7 +35,6 @@ public class Balance extends PIDCommand {
   getController().setTolerance(Constants.DriveTrain.kPositionTolerance);
 
   this.driveTrain = driveTrain;
-  this.driveTrain.lock();
   SmartDashboard.putData(this);
   }
 

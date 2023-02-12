@@ -51,9 +51,10 @@ public class RobotContainer {
 
 
   private Command basicAutoCommand =       
-    new SetDriveTrainMotorIdleMode(driveTrain, true)
-    .andThen(DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION))
-    .andThen(new Balance(driveTrain));
+  
+    (DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION))
+    .andThen(new Balance(driveTrain))
+    .andThen(() -> driveTrain.lock());
 
 
 

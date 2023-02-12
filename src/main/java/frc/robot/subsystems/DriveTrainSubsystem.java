@@ -126,12 +126,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return (getLeftEncoder() + getRightEncoder()) / 2;
   }
 
-
-  public double getLeveledPitch() {
-    if (!isLevel()){
-      return navx.getPitch();
-    }
-    return 1;
+  public double getPitch(){
+    return navx.getPitch();
   }
 
   /** Zeroes the heading of the robot. */
