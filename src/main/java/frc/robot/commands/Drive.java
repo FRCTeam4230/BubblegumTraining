@@ -44,11 +44,11 @@ public class Drive extends CommandBase {
     double wantedRotation = rotation.getAsDouble();
 
     if (armOut.getAsBoolean()){
-      wantedSpeed = wantedSpeed * Constants.driveTrain.SPEED_ARM_OUT_MULTIPLIER;
-      wantedRotation = wantedRotation * Constants.driveTrain.SPEED_ARM_OUT_MULTIPLIER;
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
     }else{
-      wantedSpeed = wantedSpeed * Constants.driveTrain.SPEED_MULTIPLIER;
-      wantedRotation = wantedRotation * Constants.driveTrain.SPEED_MULTIPLIER;
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_MULTIPLIER;
     }
 
     //now pass in the calcualted speed and rotation

@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
-import frc.robot.Constants.driveTrain;
+import frc.robot.Constants.DriveTrain;
 import frc.robot.subsystems.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,19 +21,19 @@ public class Balance extends PIDCommand {
   public Balance(DriveTrain driveTrain) {
     super(
       new PIDController(
-        Constants.driveTrain.CHARGE_STATION_P,
-        Constants.driveTrain.CHARGE_STATION_I,
-        Constants.driveTrain.CHARGE_STATION_D),
+        Constants.DriveTrain.CHARGE_STATION_P,
+        Constants.DriveTrain.CHARGE_STATION_I,
+        Constants.DriveTrain.CHARGE_STATION_D),
   //Passes in measurement supplier
     driveTrain::getLeveledPitch,
   // Passes in setpoint
   driveTrain::getSetPoint,
   // Pipe the output to the turning controls
-  output -> driveTrain.arcadeDrive(MathUtil.clamp(-output , -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), 0),
+  output -> driveTrain.arcadeDrive(MathUtil.clamp(-output , -Constants.DriveTrain.PID_CLAMP_RANGE, Constants.DriveTrain.PID_CLAMP_RANGE), 0),
   // Require the robot drive 
   driveTrain);
 
-  getController().setTolerance(Constants.driveTrain.kPositionTolerance);
+  getController().setTolerance(Constants.DriveTrain.kPositionTolerance);
 
   this.driveTrain = driveTrain;
   this.driveTrain.lock();

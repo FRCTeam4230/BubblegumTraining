@@ -28,7 +28,7 @@ public final class Constants {
 
   public static class AutoConstants {
 
-    public static final double  DISTANCE_TO_CHARGE_STATION = 62.0 - driveTrain.ROBOT_LENGTH/4;
+    public static final double  DISTANCE_TO_CHARGE_STATION = 62.0 - DriveTrain.ROBOT_LENGTH/4;
 
   }
 
@@ -48,7 +48,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class driveTrain { // Classes always start with a capital. if you use the ide, you can rename this
+  public static class DriveTrain { // Classes always start with a capital. if you use the ide, you can rename this
                                    // and then it'll rename it everywhere else for you
 
     // Multipliers
@@ -83,7 +83,7 @@ public final class Constants {
 
   }
 
-  public static class arm {
+  public static class Arm {
     public static final int ARM_MOTOR_ID = 4;
     public static final double ARM_RAMP_RATE = 0.5;
     // Might change encoder to more accurate. Update the number 42 is we get new
@@ -134,13 +134,13 @@ public final class Constants {
   }
 
   public enum MotorID {
-    LEFT_1_MOTOR_ID(1, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
-    LEFT_2_MOTOR_ID(2,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
+    LEFT_1_MOTOR_ID(1, DriveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, DriveTrain.MOTOR_ROTATION_TO_INCHES), 
+    LEFT_2_MOTOR_ID(2,  DriveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, DriveTrain.MOTOR_ROTATION_TO_INCHES),
 
-    RIGHT_1_MOTOR_ID(3, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
-    RIGHT_2_MOTOR_ID(4,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
+    RIGHT_1_MOTOR_ID(3, DriveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, DriveTrain.MOTOR_ROTATION_TO_INCHES),
+    RIGHT_2_MOTOR_ID(4,  DriveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, DriveTrain.MOTOR_ROTATION_TO_INCHES), 
 
-    ARM_MOTOR_ID(6, arm.ARM_RAMP_RATE, IdleMode.kBrake, arm.MOTOR_TO_DEGREES),
+    ARM_MOTOR_ID(6, Arm.ARM_RAMP_RATE, IdleMode.kBrake, Arm.MOTOR_TO_DEGREES),
     INTAKE_MOTOR_ID(5,  intake.INTAKE_RAMP_RATE, IdleMode.kCoast, intake.MOTOR_ROTATION_TO_INCHES);
 
     private Integer id;

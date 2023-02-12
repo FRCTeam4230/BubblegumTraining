@@ -165,8 +165,8 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public Boolean isLevel(){
-    return navx.getPitch() <= getSetPoint()+Constants.driveTrain.kPositionTolerance 
-      && navx.getPitch() >= getSetPoint()-Constants.driveTrain.kPositionTolerance;
+    return navx.getPitch() <= getSetPoint()+Constants.DriveTrain.kPositionTolerance 
+      && navx.getPitch() >= getSetPoint()-Constants.DriveTrain.kPositionTolerance;
   }
 
   public void lock() {

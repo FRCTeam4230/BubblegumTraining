@@ -28,9 +28,9 @@ public class ArmSubsystem extends SubsystemBase {
     motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.ARM_MOTOR_ID);
 
 
-    encoder = new DutyCycleEncoder(Constants.arm.ENCODER_PORT);
-    frontLimit = new DigitalInput(Constants.arm.FRONT_LIMIT_PORT);
-    backLimit = new DigitalInput(Constants.arm.BACK_LIMIT_PORT);
+    encoder = new DutyCycleEncoder(Constants.Arm.ENCODER_PORT);
+    frontLimit = new DigitalInput(Constants.Arm.FRONT_LIMIT_PORT);
+    backLimit = new DigitalInput(Constants.Arm.BACK_LIMIT_PORT);
 
     resetEncoders();
 
