@@ -72,7 +72,7 @@ public final class Constants {
     public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0;
     public static final double kPositionTolerance = 0.8;
     public static final double kVelocityTolerance = 0;
-    public static final double PID_CLAMP_RANGE = 0.6;
+    public static final double PID_CLAMP_RANGE = 0.45;
 
     public static final double ROBOT_LENGTH = 32.0;
     public static final double ROBOT_WIDTH = 24.0;
