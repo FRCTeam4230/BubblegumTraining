@@ -118,7 +118,8 @@ public class RobotContainer {
    */
   public Command getTeleopCommand() {
     driveTrain.coast();
-    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX());
+    //need to tell the drive command about the arm position
+    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX(), () -> !armSubsystem.isBack());
   }
 
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -15,11 +16,14 @@ public class Drive extends CommandBase {
   private final DriveTrain driveTrain;
   private final DoubleSupplier speed;
   private final DoubleSupplier rotation;
+  private final BooleanSupplier armOut;
 
-  public Drive(DriveTrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation) {
+  public Drive(DriveTrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier armOut) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
+    this.armOut = armOut;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
@@ -34,8 +38,21 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(speed.getAsDouble() * -1 * Constants.driveTrain.SPEED_MULTIPLIER, 
-    rotation.getAsDouble() * Constants.driveTrain.ROTATION_MULTIPLIER);
+
+    //GET TEH SPEED /rotation here. 
+    double wantedSpeed = speed.getAsDouble();
+    double wantedRotation = rotation.getAsDouble();
+
+    if (armOut.getAsBoolean()){
+      wantedSpeed = wantedSpeed * Constants.driveTrain.SPEED_ARM_OUT_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.driveTrain.SPEED_ARM_OUT_MULTIPLIER;
+    }else{
+      wantedSpeed = wantedSpeed * Constants.driveTrain.SPEED_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.driveTrain.SPEED_MULTIPLIER;
+    }
+
+    //here  you will want to possibly remove the drivetrain.SPEED_MULTIPLIER.. dunno
+    driveTrain.arcadeDrive(-1 * wantedSpeed, wantedRotation);
   }
 
   // Called once the command ends or is interrupted.

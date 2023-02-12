@@ -54,7 +54,9 @@ public final class Constants {
     // Multipliers
     public static final double SPEED_MULTIPLIER = 0.9;
     public static final double ROTATION_MULTIPLIER = 0.68;
-
+    
+    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.6;
+  
     // Ramp rate
     public static final double DRIVE_RAMP_RATE = 1.0;
    // public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
