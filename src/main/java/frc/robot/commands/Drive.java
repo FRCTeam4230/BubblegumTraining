@@ -51,7 +51,7 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.driveTrain.SPEED_MULTIPLIER;
     }
 
-    //here  you will want to possibly remove the drivetrain.SPEED_MULTIPLIER.. dunno
+    //now pass in the calcualted speed and rotation
     driveTrain.arcadeDrive(-1 * wantedSpeed, wantedRotation);
   }
 
