@@ -128,7 +128,7 @@ public class DriveTrain extends SubsystemBase {
 
 
   public double getLeveledPitch() {
-    if (isLevel()){
+    if (!isLevel()){
       return navx.getPitch();
     }
     return 1;

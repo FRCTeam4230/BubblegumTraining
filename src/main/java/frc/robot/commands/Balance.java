@@ -27,7 +27,7 @@ public class Balance extends PIDCommand {
   //Passes in measurement supplier
     driveTrain::getLeveledPitch,
   // Passes in setpoint
-  () -> {return 1;},
+  driveTrain::getSetPoint,
   // Pipe the output to the turning controls
   output -> driveTrain.arcadeDrive(MathUtil.clamp(-output , -Constants.driveTrain.PID_CLAMP_RANGE, Constants.driveTrain.PID_CLAMP_RANGE), 0),
   // Require the robot drive 
