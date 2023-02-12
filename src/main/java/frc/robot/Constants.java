@@ -98,7 +98,7 @@ public final class Constants {
 
   }
 
-  public static class intake {
+  public static class Intake {
     public static final double INTAKE_RAMP_RATE = 0.5;
     public static final double INTAKE_SPEED = 0.35; // 50 % for now
     public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 48.0) * 360; //copied from drivetrain
@@ -141,7 +141,7 @@ public final class Constants {
     RIGHT_2_MOTOR_ID(4,  DriveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, DriveTrain.MOTOR_ROTATION_TO_INCHES), 
 
     ARM_MOTOR_ID(6, Arm.ARM_RAMP_RATE, IdleMode.kBrake, Arm.MOTOR_TO_DEGREES),
-    INTAKE_MOTOR_ID(5,  intake.INTAKE_RAMP_RATE, IdleMode.kCoast, intake.MOTOR_ROTATION_TO_INCHES);
+    INTAKE_MOTOR_ID(5,  Intake.INTAKE_RAMP_RATE, IdleMode.kCoast, Intake.MOTOR_ROTATION_TO_INCHES);
 
     private Integer id;
     private Double rampRate;

@@ -11,10 +11,10 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveDistanceParams;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveDistance extends CommandBase {
-  private final DriveTrain driveTrain;
+  private final DriveTrainSubsystem driveTrain;
 
   private final PIDController mg1PidController = new PIDController(DriveDistanceParams.kP, DriveDistanceParams.kI,
       DriveDistanceParams.kD);
@@ -29,12 +29,12 @@ public class DriveDistance extends CommandBase {
 
   private Double baseSpeed = DriveDistanceParams.baseSpeed;
 
-  private DriveDistance(DriveTrain driveTrain) {
+  private DriveDistance(DriveTrainSubsystem driveTrain) {
     this(driveTrain, 0);
   }
 
   /** Creates a new DriveDistance. */
-  private DriveDistance(DriveTrain driveTrain, double distance) {
+  private DriveDistance(DriveTrainSubsystem driveTrain, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
@@ -47,11 +47,11 @@ public class DriveDistance extends CommandBase {
     SmartDashboard.putData(this);
   }
 
-  public static final DriveDistance create(DriveTrain driveTrain) {
+  public static final DriveDistance create(DriveTrainSubsystem driveTrain) {
     return new DriveDistance(driveTrain);
   }
 
-  public static final DriveDistance create(DriveTrain driveSubsystem, Double distanceAsInches) {
+  public static final DriveDistance create(DriveTrainSubsystem driveSubsystem, Double distanceAsInches) {
     return new DriveDistance(driveSubsystem, distanceAsInches);
   }
 

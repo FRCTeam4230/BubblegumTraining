@@ -9,16 +9,16 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Drive extends CommandBase {
   /** Creates a new Drive. */
-  private final DriveTrain driveTrain;
+  private final DriveTrainSubsystem driveTrain;
   private final DoubleSupplier speed;
   private final DoubleSupplier rotation;
   private final BooleanSupplier armOut;
 
-  public Drive(DriveTrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier armOut) {
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier armOut) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;

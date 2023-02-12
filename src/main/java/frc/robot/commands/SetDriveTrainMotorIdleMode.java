@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class SetDriveTrainMotorIdleMode extends CommandBase {
   
-  private final DriveTrain driveTrain;
+  private final DriveTrainSubsystem driveTrain;
   private final boolean brake;
-  public SetDriveTrainMotorIdleMode(DriveTrain driveTrain, boolean brake) {
+  public SetDriveTrainMotorIdleMode(DriveTrainSubsystem driveTrain, boolean brake) {
     this.driveTrain = driveTrain;
     this.brake = brake;
 

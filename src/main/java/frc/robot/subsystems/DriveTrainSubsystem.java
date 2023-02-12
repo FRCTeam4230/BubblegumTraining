@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.SPI;
  */
 import static frc.robot.StaticFunctions.initiateCANSparkMaxMotor;
 
-public class DriveTrain extends SubsystemBase {
+public class DriveTrainSubsystem extends SubsystemBase {
   private final AHRS navx;
 
   private final MotorControllerGroup leftGroup;
@@ -43,7 +43,7 @@ public class DriveTrain extends SubsystemBase {
 
   private IdleMode idleMode;
 
-  public DriveTrain(List<MotorID> motorIds) {
+  public DriveTrainSubsystem(List<MotorID> motorIds) {
     super();
 
     navx = new AHRS(SPI.Port.kMXP);

@@ -9,16 +9,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveTrain;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Balance extends PIDCommand {
-  private DriveTrain driveTrain;
+  private DriveTrainSubsystem driveTrain;
   /** Creates a new Balance. */
-  public Balance(DriveTrain driveTrain) {
+  public Balance(DriveTrainSubsystem driveTrain) {
     super(
       new PIDController(
         Constants.DriveTrain.CHARGE_STATION_P,

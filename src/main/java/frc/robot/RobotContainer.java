@@ -13,7 +13,7 @@ import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
 import frc.robot.commands.Balance;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(Constants.OI.XBOX_PORT);
   // Subsystems
   // Needed to pass in list because it uses a list in constructor
-  private final DriveTrain driveTrain = new DriveTrain(
+  private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem(
       Arrays.asList(MotorID.LEFT_1_MOTOR_ID, MotorID.LEFT_2_MOTOR_ID, MotorID.RIGHT_1_MOTOR_ID,
           MotorID.RIGHT_2_MOTOR_ID));
 
