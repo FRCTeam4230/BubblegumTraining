@@ -22,11 +22,16 @@ import com.revrobotics.CANSparkMax.IdleMode;
  */
 public final class Constants {
 
+  //THIS IS THE MOTOR GROUP CONTROL FLAG>
+  //PROTOBOT is normal, 2023 ahs INVERTED gearboxes
+  public final static boolean isProtoBot = false;
+
   public static class AutoConstants {
 
     public static final double  DISTANCE_TO_CHARGE_STATION = 62.0 - driveTrain.ROBOT_LENGTH/4;
 
   }
+
 
   public static final class DriveDistanceParams {
     public static final double kP = 0.03;

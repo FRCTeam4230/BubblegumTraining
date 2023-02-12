@@ -57,7 +57,7 @@ public class DriveTrain extends SubsystemBase {
       switch (motorId) {
         case LEFT_1_MOTOR_ID:
         case LEFT_2_MOTOR_ID:
-          controller.setInverted(true);
+          controller.setInverted(Constants.isProtoBot);
           break;
         default:
           break;
