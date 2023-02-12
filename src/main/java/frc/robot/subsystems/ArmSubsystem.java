@@ -45,11 +45,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
+  private void rotate(double speed, boolean inverted){
+    motor.setInverted(false);
+    motor.set(MathUtil.clamp(speed,-0.99,.99));
+  }
 
   public void goForward(double speed){
     if (!isForward()){
-      motor.setInverted(false);
-      motor.set(MathUtil.clamp(speed,-0.99,.99));
+      rotate(speed, false);
     }else{
       stop();
     }
@@ -57,8 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void goBackwards(double speed){
     if (!isBack()){
-      motor.setInverted(true);
-      motor.set(MathUtil.clamp(speed,-.99,.99));
+      rotate(speed,true);
     }else{
       stop();
     }

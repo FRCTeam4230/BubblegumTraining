@@ -127,11 +127,11 @@ public final class Constants {
   }
 
   public enum MotorID {
-    LEFT_1_MOTOR_ID(4, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
-    LEFT_2_MOTOR_ID(3,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
+    LEFT_1_MOTOR_ID(1, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
+    LEFT_2_MOTOR_ID(2,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
 
-    RIGHT_1_MOTOR_ID(2, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
-    RIGHT_2_MOTOR_ID(1,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
+    RIGHT_1_MOTOR_ID(3, driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES),
+    RIGHT_2_MOTOR_ID(4,  driveTrain.DRIVE_RAMP_RATE, IdleMode.kCoast, driveTrain.MOTOR_ROTATION_TO_INCHES), 
 
     ARM_MOTOR_ID(6, arm.ARM_RAMP_RATE, IdleMode.kBrake, arm.MOTOR_TO_DEGREES),
     INTAKE_MOTOR_ID(5,  intake.INTAKE_RAMP_RATE, IdleMode.kCoast, intake.MOTOR_ROTATION_TO_INCHES);

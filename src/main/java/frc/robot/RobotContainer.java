@@ -95,10 +95,7 @@ public class RobotContainer {
         .onTrue(basicAutoCommand);
 
     new JoystickButton(driverController, XboxController.Button.kStart.value)
-        .whileTrue(
-         // new SetDriveTrainMotorIdleMode(driveTrain, true)
-          //.andThen(
-            new Balance(driveTrain));
+        .whileTrue(basicAutoCommand);
   }
 
   private void configureDefaultCommands() {
@@ -121,7 +118,7 @@ public class RobotContainer {
    */
   public Command getTeleopCommand() {
     driveTrain.coast();
-    return new Drive(driveTrain, () -> -1 * driverController.getRightX(), () -> -1 * driverController.getLeftY());
+    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX());
   }
 
 }
