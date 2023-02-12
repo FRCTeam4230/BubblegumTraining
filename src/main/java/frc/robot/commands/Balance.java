@@ -25,7 +25,7 @@ public class Balance extends PIDCommand {
         Constants.driveTrain.CHARGE_STATION_I,
         Constants.driveTrain.CHARGE_STATION_D),
   //Passes in measurement supplier
-    driveTrain::getRobotPitch,
+    driveTrain::getLeveledPitch,
   // Passes in setpoint
   () -> {return 1;},
   // Pipe the output to the turning controls
