@@ -24,21 +24,22 @@ public final class Constants {
 
   //THIS IS THE MOTOR GROUP CONTROL FLAG>
   //PROTOBOT is normal, 2023 ahs INVERTED gearboxes
-  public final static boolean isProtoBot = false;
+  public final static boolean isProtoBot = true;
 
   public static class AutoConstants {
 
-    public static final double  DISTANCE_TO_CHARGE_STATION = 62.0 - DriveTrain.ROBOT_LENGTH/4;
+    //Change robot length to the length of charged up bot
+    public static final double  DISTANCE_TO_CHARGE_STATION = 40;
 
   }
 
 
   public static final class DriveDistanceParams {
-    public static final double kP = 0.03;
+    public static final double kP = 0.07;
     public static final double kI = 0;
-    public static final double kD = 0.005;
+    public static final double kD = 0;
 
-    public static final double baseSpeed = 0.02;
+    public static final double baseSpeed = 0;
 
     public static final double tolerance = 1;
     public static final double velocityTolerance = 0.2;
@@ -59,7 +60,7 @@ public final class Constants {
   
     // Ramp rate
     public static final double DRIVE_RAMP_RATE = 1.0;
-   // public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
+  //  public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
     public static final double MOTOR_ROTATION_TO_INCHES = 72 / 40.687;//.03022; //pulse per
 
 
@@ -92,8 +93,8 @@ public final class Constants {
     public static final int ENCODER_PORT = 0;
     public static final int FRONT_LIMIT_PORT = 1;
     public static final int BACK_LIMIT_PORT = 2;
-    public static final double FORWARD_LIMIT_ANGLE = 0;
-    public static final double BACK_LIMIT_ANGLE = -265.5;
+    public static final double FORWARD_LIMIT_ANGLE = 265.5;
+    public static final double BACK_LIMIT_ANGLE = 0.5;
     public static final double ARM_SPEED = 0.6;
 
   }
@@ -111,11 +112,11 @@ public final class Constants {
 
   public static class ArmPIDConstants {
 
-    public static final double kP = 0;
+    public static final double kP = 0.03;
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double VELOCITY_TOLERANCE = 0;
-    public static final double POSITION_TOLERANCE = 0;
+    public static final double POSITION_TOLERANCE = 0.5;
     public static final double RANGE = 0.2;
 
   }
@@ -123,9 +124,9 @@ public final class Constants {
   public static class ArmPositions {
 
     // When the arm is inside the robot
-    public static final double BRING_IN = 0;
+    public static final double BRING_IN = 2;
     // When the robot scores in middle row
-    public static final double SCORE = 0;
+    public static final double SCORE = 35;
     // When the robot is picking stuff off of the ground
     public static final double PICK_UP_FROM_GROUND = 0;
     // When the robot is picking stuff from the loading station

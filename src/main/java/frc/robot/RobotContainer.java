@@ -7,10 +7,12 @@ package frc.robot;
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.SetDriveTrainMotorIdleMode;
 import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
+import frc.robot.commands.ArmPID;
 import frc.robot.commands.Balance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -19,9 +21,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -50,13 +55,14 @@ public class RobotContainer {
   private final IntakeCmd intakeCommand = new IntakeCmd(intakeSubsystem, intakeSupplier);
 
 
-  private Command basicAutoCommand =       
-  
+  private Command basicAutoCommand = 
     (DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION))
     .andThen(new Balance(driveTrain))
     .andThen(() -> driveTrain.lock());
 
 
+   private Command bringInArm = 
+    new ArmPID(armSubsystem, () -> Constants.ArmPositions.BRING_IN);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,11 +87,22 @@ public class RobotContainer {
      * Constants.ArmPositions.PICK_UP_FROM_STATION));
      * new JoystickButton(driverController,
      * XboxController.Button.kY.value).onTrue(new ArmPID(armSubsystem,
-     * Constants.ArmPositions.BRING_IN));
-     * new JoystickButton(driverController,
-     * XboxController.Button.kX.value).onTrue(new ArmPID(armSubsystem,
-     * Constants.ArmPositions.SCORE));
-     */
+     * Constants.ArmPositions.BRING_IN)); */
+
+      new JoystickButton(driverController, XboxController.Button.kX.value)
+      .onTrue(
+              new ArmPID(armSubsystem, () -> Constants.ArmPositions.SCORE)
+              .andThen(
+                new HoldArmCommand(armSubsystem, armSubsystem.getAngle())
+                .alongWith( new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED).withTimeout(2)))      
+      );
+
+
+      new JoystickButton(driverController, XboxController.Button.kY.value)
+        .onTrue(bringInArm);
+
+
+     
 
     // Buttons for moving arm
     new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).whileTrue(new ArmBackwardCmd(armSubsystem));
@@ -97,7 +114,12 @@ public class RobotContainer {
 
     new JoystickButton(driverController, XboxController.Button.kStart.value)
         .whileTrue(new Balance(driveTrain));
+
+        new JoystickButton(driverController, XboxController.Button.kA.value)
+        .whileTrue(DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION));
   }
+
+
 
   private void configureDefaultCommands() {
     // Setting default commands

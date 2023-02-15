@@ -34,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     resetEncoders();
 
-    encoder.setDistancePerRotation(360);
+    encoder.setDistancePerRotation(-360);
     
     goingForward = false;
 
@@ -45,14 +45,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-  private void rotate(double speed, boolean inverted){
-    motor.setInverted(false);
+  private void rotate(double speed){
+    // motor.setInverted(false);
     motor.set(MathUtil.clamp(speed,-0.99,.99));
   }
 
   public void goForward(double speed){
     if (!isForward()){
-      rotate(speed, false);
+      // rotate(speed, false);
+      rotate(speed);
+      goingForward = true;
     }else{
       stop();
     }
@@ -60,11 +62,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void goBackwards(double speed){
     if (!isBack()){
-      rotate(speed,true);
+      // rotate(speed,true);
+      rotate(speed);
+      goingForward = false;
     }else{
       stop();
     }
   }
+
 
 
   public void stop() {
@@ -77,19 +82,34 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if((isBack() && !goingForward) || (isForward() && goingForward)) {
+      // stop();
+    }
   }
 
   public boolean isForward() {
-    return !frontLimit.get();// || getPosition() >= Constants.arm.FORWARD_LIMIT_ANGLE;
+    return !frontLimit.get() || getAngle() >= Constants.Arm.FORWARD_LIMIT_ANGLE;
   }
 
   public boolean isBack() {
-    return !backLimit.get();// || getPosition() <= Constants.arm.BACK_LIMIT_ANGLE;
+    return !backLimit.get()|| getAngle() <= Constants.Arm.BACK_LIMIT_ANGLE;
   }
 
-  public double getPosition() {
+  public double getAngle() {
     //Check which value to get from encoder
-    return encoder.get();
+    return encoder.getDistance();
+  }
+
+
+  //TODO:  
+  //this middle value needs to be calculated.
+  public void hold(){
+    double speed = 0.02 * (isPastMiddle() ? -1 : 1);
+    motor.set(speed);
+  }
+
+  public boolean isPastMiddle(){
+    return getAngle() > Constants.Arm.FORWARD_LIMIT_ANGLE / 2; 
   }
 
 
@@ -102,6 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
     builder.addBooleanProperty("IsForward", this::isForward, null);
     builder.addBooleanProperty("isBack", this::isBack, null);
     builder.addDoubleProperty("Arm motor encoder: ", this::getMotorEncoderPosition, null);
+    builder.addDoubleProperty("Arm angle: ", this::getAngle, null);
     encoder.initSendable(builder);
     frontLimit.initSendable(builder);
     backLimit.initSendable(builder);

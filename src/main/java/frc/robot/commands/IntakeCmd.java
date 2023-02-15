@@ -14,7 +14,7 @@ public class IntakeCmd extends CommandBase {
   private final IntakeSubsystem intakeSubsystem;
   private final DoubleSupplier speedSupplier;
   
-  public IntakeCmd(IntakeSubsystem intakeSubsystem, DoubleSupplier speedSupplier) {
+  public  IntakeCmd(IntakeSubsystem intakeSubsystem, DoubleSupplier speedSupplier) {
     this.speedSupplier = speedSupplier;
     this.intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);

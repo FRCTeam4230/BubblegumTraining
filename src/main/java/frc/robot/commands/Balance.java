@@ -40,14 +40,19 @@ public class Balance extends PIDCommand {
 
   @Override
   public void execute() {
-      // TODO Auto-generated method stub
+      driveTrain.lock();
       super.execute();
   }
 
-  // Returns true when the command should end.
+  // Returns false because we don't want the robot to stop balancing
   @Override
   public boolean isFinished() {
-    System.out.println("Bala3nce is finaished "+driveTrain.isLevel());
-    return driveTrain.isLevel();
+    return false;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+      super.end(interrupted);
+      driveTrain.coast();
   }
 }
