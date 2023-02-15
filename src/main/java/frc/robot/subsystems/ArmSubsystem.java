@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.MathUtil;
@@ -53,18 +57,22 @@ public class ArmSubsystem extends SubsystemBase {
   public void goForward(double speed){
     if (!isForward()){
       // rotate(speed, false);
-      rotate(speed);
       goingForward = true;
+      double limitedSpeed = speed * limitorBasedOnRotation(this.getAngle());
+      rotate(limitedSpeed);
     }else{
       stop();
     }
   }
 
   public void goBackwards(double speed){
+    //Speed is assumed to negative
     if (!isBack()){
       // rotate(speed,true);
-      rotate(speed);
+      //Prevents arm from destroying platform
       goingForward = false;
+      double limitedSpeed = speed * limitorBasedOnRotation(this.getAngle());
+      rotate(limitedSpeed);
     }else{
       stop();
     }
@@ -98,6 +106,31 @@ public class ArmSubsystem extends SubsystemBase {
   public double getAngle() {
     //Check which value to get from encoder
     return encoder.getDistance();
+  }
+
+  public double limitorBasedOnRotation(double angle) {
+
+    //Are we in the zone approaching the floor
+    if(angle > Constants.Arm.BOUNDARY_FAST_MAXIMUM) {
+      if(goingForward) {
+        //Go slow as we are approaching the floor
+        return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT;
+      } 
+      return Constants.Arm.EXITING_ROTATION_SAFETY_ZONE_LIMIT;
+    }
+
+    //Are we in the zone approaching the inside of the robot
+    if(angle < Constants.Arm.BOUNDARY_FAST_MINIMUM) {
+      if(goingForward) {
+        return Constants.Arm.EXITING_ROTATION_SAFETY_ZONE_LIMIT;
+      } 
+      //If we are moving towards the inside, then go slow
+      return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT;
+    }
+
+    //Returns a default multiplier of 1, hopefully this value is never returned, but we needed to add a default value
+    //to avoid error
+    return 1;
   }
 
 

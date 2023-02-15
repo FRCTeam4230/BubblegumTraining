@@ -43,6 +43,7 @@ public class Drive extends CommandBase {
     double wantedSpeed = speed.getAsDouble();
     double wantedRotation = rotation.getAsDouble();
 
+    //Global motor limits
     if (armOut.getAsBoolean()){
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;

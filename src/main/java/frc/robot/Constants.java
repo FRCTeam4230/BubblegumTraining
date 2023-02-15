@@ -97,6 +97,13 @@ public final class Constants {
     public static final double BACK_LIMIT_ANGLE = 0.5;
     public static final double ARM_SPEED = 0.6;
 
+    //Constants for arm zones
+    public static final double BOUNDARY_FAST_MINIMUM = 15;
+    public static final double BOUNDARY_FAST_MAXIMUM = 250;
+    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.3;
+    public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.7;
+    
+
   }
 
   public static class Intake {
