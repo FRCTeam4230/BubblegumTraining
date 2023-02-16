@@ -40,7 +40,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final XboxController driverController = new XboxController(Constants.OI.XBOX_PORT);
+  private final XboxController driverController = new XboxController(Constants.OI.DRIVER_XBOX_PORT);
+  private final XboxController intakeController = new XboxController(Constants.OI.INTAKE_XBOX_PORT);
   // Subsystems
   // Needed to pass in list because it uses a list in constructor
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem(
@@ -54,6 +55,14 @@ public class RobotContainer {
   private DoubleSupplier intakeSupplier = () -> driverController.getLeftTriggerAxis()
       - driverController.getRightTriggerAxis();
   private final IntakeCmd intakeCommand = new IntakeCmd(intakeSubsystem, intakeSupplier);
+
+  private final IntakeCmd pickUpCone = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd outputCone = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
+
+
+
 
 
   private Command basicAutoCommand = 
@@ -118,6 +127,25 @@ public class RobotContainer {
 
         new JoystickButton(driverController, XboxController.Button.kA.value)
         .whileTrue(DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION));
+
+
+        //Buttons for intake controller
+
+        //Y button for picking up cone
+        new JoystickButton(intakeController, XboxController.Button.kY.value)
+        .whileTrue(pickUpCone);
+
+        //A button for outputing cone
+        new JoystickButton(intakeController, XboxController.Button.kA.value)
+        .whileTrue(outputCone);
+
+        //X button for picking up cube
+        new JoystickButton(intakeController, XboxController.Button.kX.value)
+        .whileTrue(pickUpCube);
+
+        //B button for outputing cube
+        new JoystickButton(intakeController, XboxController.Button.kB.value)
+        .whileTrue(outputCube);
   }
 
 

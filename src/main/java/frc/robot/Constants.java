@@ -98,8 +98,8 @@ public final class Constants {
     public static final double ROTATION_ARM_UP_MULTIPLIER = 0.3;
 
     //Default multiplier, all other multipliers are applied after this one
-    public static final double SPEED_ARM_OUT_MAXIMUM = 0.6;
-    public static final double ROTATION_ARM_OUT_MAXIMUM = 0.6;
+    public static final double SPEED_ARM_OUT_MAXIMUM = 0.8;
+    public static final double ROTATION_ARM_OUT_MAXIMUM = 0.8;
 
   }
 
@@ -133,7 +133,8 @@ public final class Constants {
   }
 
   public static class OI {
-    public static final int XBOX_PORT = 0;
+    public static final int DRIVER_XBOX_PORT = 0;
+    public static final int INTAKE_XBOX_PORT = 1;
   }
 
   public static class ArmPIDConstants {
