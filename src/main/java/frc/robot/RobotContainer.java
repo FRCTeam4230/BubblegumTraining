@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DriveToChargeStation;
 import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.SetDriveTrainMotorIdleMode;
@@ -56,7 +57,7 @@ public class RobotContainer {
 
 
   private Command basicAutoCommand = 
-    (DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION))
+    (new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()))
     .andThen(new Balance(driveTrain))
     .andThen(() -> driveTrain.lock());
 
@@ -112,8 +113,8 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kBack.value)
         .onTrue(basicAutoCommand);
 
-    new JoystickButton(driverController, XboxController.Button.kStart.value)
-        .whileTrue(new Balance(driveTrain));
+    // new JoystickButton(driverController, XboxController.Button.kStart.value)
+    //     .whileTrue(new Balance(driveTrain));
 
         new JoystickButton(driverController, XboxController.Button.kA.value)
         .whileTrue(DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION));

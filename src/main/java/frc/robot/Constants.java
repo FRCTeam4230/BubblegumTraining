@@ -30,7 +30,7 @@ public final class Constants {
 
     //Change robot length to the length of charged up bot
     public static final double  DISTANCE_TO_CHARGE_STATION = 40;
-    public static final double CHARGE_STATION_ONTO_PITCH = 0;
+    public static final double CHARGE_STATION_ONTO_PITCH = 15;
 
   }
 
