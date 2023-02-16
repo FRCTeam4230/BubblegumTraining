@@ -108,6 +108,10 @@ public class ArmSubsystem extends SubsystemBase {
     return encoder.getDistance();
   }
 
+  public boolean getDirection() {
+    return goingForward;
+  }
+
   public double limitorBasedOnRotation(double angle) {
 
     //Are we in the zone approaching the floor
@@ -136,7 +140,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   //TODO:  
   //this middle value needs to be calculated.
-  public void hold(){
+  public void holdAgainstGravity(){
     double speed = 0.02 * (isPastMiddle() ? -1 : 1);
     motor.set(speed);
   }

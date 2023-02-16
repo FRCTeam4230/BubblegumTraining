@@ -53,7 +53,7 @@ public class ArmPID extends PIDCommand {
     armSubsystem.stop();
   }
 
-  public boolean isFinished() {
+  public boolean isFinished(boolean interrupted) {
     return getController().atSetpoint();
   }
 

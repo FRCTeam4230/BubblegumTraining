@@ -93,7 +93,7 @@ public class RobotContainer {
       .onTrue(
               new ArmPID(armSubsystem, () -> Constants.ArmPositions.SCORE)
               .andThen(
-                new HoldArmCommand(armSubsystem, armSubsystem.getAngle())
+                new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE)
                 .alongWith( new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED).withTimeout(2)))      
       );
 
@@ -142,7 +142,8 @@ public class RobotContainer {
   public Command getTeleopCommand() {
     driveTrain.coast();
     //need to tell the drive command about the arm position
-    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX(), () -> !armSubsystem.isBack());
+    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX(), () -> !armSubsystem.isBack(), 
+    () -> armSubsystem.getAngle());
   }
 
 }

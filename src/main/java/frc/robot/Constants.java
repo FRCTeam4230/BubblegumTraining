@@ -30,6 +30,7 @@ public final class Constants {
 
     //Change robot length to the length of charged up bot
     public static final double  DISTANCE_TO_CHARGE_STATION = 40;
+    public static final double CHARGE_STATION_ONTO_PITCH = 0;
 
   }
 
@@ -56,7 +57,6 @@ public final class Constants {
     public static final double SPEED_MULTIPLIER = 0.9;
     public static final double ROTATION_MULTIPLIER = 0.68;
     
-    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.6;
   
     // Ramp rate
     public static final double DRIVE_RAMP_RATE = 1.0;
@@ -81,6 +81,25 @@ public final class Constants {
     public static final double DRIVE_P = 1.0;
     public static final double DRIVE_I = 0;
     public static final double DRIVE_D = 0;
+    //The angle past which the arm is considered in front of the robot
+    public static final double ARM_OUT_BOUNDARY = 0;
+    //The angle in front of which the arm is considered to be in the robot
+    public static final double ARM_IN_BOUNDARY = 0;
+    //If the arm is either in front of the robot nor inside the robot, the arm is up
+
+    //Multipliers for when the arm is out
+    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.5;
+    public static final double ROTATION_ARM_OUT_MULTIPLIER = 0.3;
+    //Multipliers for when the arm is in
+    public static final double SPEED_ARM_IN_MULTIPLIER = 1;
+    public static final double ROTATION_ARM_IN_MULTIPLIER = 1;
+    //Multipliers for when the arm is up
+    public static final double SPEED_ARM_UP_MULTIPLIER = 0.3;
+    public static final double ROTATION_ARM_UP_MULTIPLIER = 0.3;
+
+    //Default multiplier, all other multipliers are applied after this one
+    public static final double SPEED_ARM_OUT_MAXIMUM = 0.6;
+    public static final double ROTATION_ARM_OUT_MAXIMUM = 0.6;
 
   }
 

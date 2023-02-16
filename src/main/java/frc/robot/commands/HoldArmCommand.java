@@ -8,7 +8,8 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class HoldArmCommand extends ArmPID {
 
-    public HoldArmCommand(ArmSubsystem armSubsystem, Double targetAngle) {
+    public HoldArmCommand(ArmSubsystem armSubsystem, double targetAngle) {
+        //The pid controller isn't being used right now
         super(armSubsystem, () -> targetAngle);
         getController().setTolerance(0);
 
@@ -16,6 +17,12 @@ public class HoldArmCommand extends ArmPID {
         SmartDashboard.putData(this);
     }
 
+    //Does this override do anything significant?
+    @Override
+    public void end(boolean interrupted) {
+        armSubsystem.stop();
+    }
+    @Override
     public boolean isFinished(){
         return false;
     }
@@ -26,7 +33,8 @@ public class HoldArmCommand extends ArmPID {
 
 
     public void execute(){
-        armSubsystem.hold();
+        //Holds it be moving the arm up a tiny bit
+        armSubsystem.holdAgainstGravity();
     }
     
 }

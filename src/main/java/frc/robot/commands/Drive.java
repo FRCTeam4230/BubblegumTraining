@@ -16,12 +16,16 @@ public class Drive extends CommandBase {
   private final DriveTrainSubsystem driveTrain;
   private final DoubleSupplier speed;
   private final DoubleSupplier rotation;
+  private final DoubleSupplier armAngleSupplier;
   private final BooleanSupplier armOut;
 
-  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier armOut) {
+
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, 
+  BooleanSupplier armOut, DoubleSupplier armAngleSupplier) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
+    this.armAngleSupplier = armAngleSupplier;
     this.armOut = armOut;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,11 +49,25 @@ public class Drive extends CommandBase {
 
     //Global motor limits
     if (armOut.getAsBoolean()){
-      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
-      wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MAXIMUM;
+      wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MAXIMUM;
     }else{
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_MULTIPLIER;
+    }
+
+    if (armAngleSupplier.getAsDouble() > Constants.DriveTrain.ARM_OUT_BOUNDARY) {
+      //If the arm is in the front
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MULTIPLIER;
+    } else if(armAngleSupplier.getAsDouble() < Constants.DriveTrain.ARM_IN_BOUNDARY) {
+      //If the arm is inside the robot
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_IN_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_IN_MULTIPLIER;
+    } else {
+      //If the arm if up
+      wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_UP_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_UP_MULTIPLIER;
     }
 
     //now pass in the calcualted speed and rotation
