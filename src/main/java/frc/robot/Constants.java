@@ -100,6 +100,9 @@ public final class Constants {
     //Default multiplier, all other multipliers are applied after this one
     public static final double SPEED_ARM_OUT_MAXIMUM = 0.8;
     public static final double ROTATION_ARM_OUT_MAXIMUM = 0.8;
+    public static final double TURN_KP = 0.08;
+    public static final double TURN_KI = 0;
+    public static final double TURN_KD = 0;
 
   }
 

@@ -6,6 +6,10 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -16,26 +20,34 @@ public class DriveToChargeStation extends CommandBase {
   private final DoubleSupplier pitchSupplier;
   private boolean AtChargeStation;
   private double cyclesElapsed;
+  private final PIDController pidController;
 
   public DriveToChargeStation(DriveTrainSubsystem driveTrain, DoubleSupplier pitchSupplier) {
     this.driveTrain = driveTrain;
     this.pitchSupplier = pitchSupplier;
     AtChargeStation = false;
+    pidController = new PIDController(
+      Constants.DriveTrain.TURN_KP, Constants.DriveTrain.TURN_KI, Constants.DriveTrain.TURN_KD);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    driveTrain.zeroHeading();
+    pidController.setSetpoint(0);
+    pidController.setTolerance(1.5);
     cyclesElapsed = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double output = pidController.calculate(driveTrain.getHeading());
 
     //Drive at half speed
-    driveTrain.arcadeDrive(0.5, 0);
+    //Uses PID controller with robot heading to make sure the robot is going straight
+    driveTrain.arcadeDrive(0.5, MathUtil.clamp(output, -0.2, 0.2));
 
     if(AtChargeStation) {
       //If the robot is at the charge station, add 1 to cyclesElapsed
