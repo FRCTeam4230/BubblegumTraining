@@ -70,6 +70,15 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_UP_MULTIPLIER;
     }
 
+    if(wantedSpeed == 0 && wantedRotation == 0) {
+      driveTrain.lock();
+    } else {
+      driveTrain.coast();
+    }
+
+    //For rotating on tile
+    // wantedRotation = wantedRotation * 0.4;
+
     //now pass in the calcualted speed and rotation
     driveTrain.arcadeDrive(-1 * wantedSpeed, wantedRotation);
   }

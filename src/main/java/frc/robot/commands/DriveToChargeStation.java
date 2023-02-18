@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -47,7 +46,7 @@ public class DriveToChargeStation extends CommandBase {
 
     //Drive at half speed
     //Uses PID controller with robot heading to make sure the robot is going straight
-    driveTrain.arcadeDrive(0.5, MathUtil.clamp(output, -0.2, 0.2));
+    driveTrain.arcadeDrive(-0.5, MathUtil.clamp(output, -0.2, 0.2));
 
     if(AtChargeStation) {
       //If the robot is at the charge station, add 1 to cyclesElapsed
@@ -70,7 +69,7 @@ public class DriveToChargeStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(cyclesElapsed >= 20) {
+    if(cyclesElapsed >= 10) {
     //Each cycle is 20 ms long. 20 cyclesElapsed means 0.4 seconds. Once the robot
     //reaches the charge station, keep going for 0.4 seconds, then end the command
       return true;

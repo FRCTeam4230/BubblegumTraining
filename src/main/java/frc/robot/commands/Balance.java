@@ -39,8 +39,12 @@ public class Balance extends PIDCommand {
   }
 
   @Override
+  public void initialize() {
+    driveTrain.lock();
+  }
+
+  @Override
   public void execute() {
-      driveTrain.lock();
       super.execute();
   }
 

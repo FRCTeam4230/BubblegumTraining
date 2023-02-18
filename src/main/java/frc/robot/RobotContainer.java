@@ -6,14 +6,15 @@ package frc.robot;
 
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveToChargeStation;
 import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.SetDriveTrainMotorIdleMode;
+import frc.robot.commands.LightCommand;
+import frc.robot.commands.MiddleAutoCommand;
 import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
-import frc.robot.commands.ArmPID;
+import frc.robot.commands.ArmPIDAgainstGravity;
+import frc.robot.commands.ArmPIDWithGravity;
 import frc.robot.commands.Balance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -22,12 +23,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -42,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   private final XboxController driverController = new XboxController(Constants.OI.DRIVER_XBOX_PORT);
   private final XboxController intakeController = new XboxController(Constants.OI.INTAKE_XBOX_PORT);
+
   // Subsystems
   // Needed to pass in list because it uses a list in constructor
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem(
@@ -61,18 +61,37 @@ public class RobotContainer {
   private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
   private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
 
+  private final LightCommand purpleLight = new LightCommand(driveTrain, Constants.LightNumbers.PURPLE);
+  private final LightCommand yellowLight = new LightCommand(driveTrain, Constants.LightNumbers.YELLOW);
 
+  private final ArmPIDWithGravity bringInArm = new ArmPIDWithGravity(armSubsystem,
+      () -> Constants.ArmPositions.BRING_IN);
+  private final ArmPIDWithGravity pickUpFromGround = new ArmPIDWithGravity(armSubsystem,
+      () -> Constants.ArmPositions.PICK_UP_FROM_GROUND);
+  private final ArmPIDAgainstGravity pickUpFromStation = new ArmPIDAgainstGravity(armSubsystem,
+      () -> Constants.ArmPositions.PICK_UP_FROM_STATION);
+  private final ArmPIDAgainstGravity scoreTop = new ArmPIDAgainstGravity(armSubsystem,
+      () -> Constants.ArmPositions.SCORE_TOP);
+  private final ArmPIDAgainstGravity scoreMiddle = new ArmPIDAgainstGravity(armSubsystem,
+      () -> Constants.ArmPositions.SOCRE_MIDDLE);
 
+  private final HoldArmCommand holdBringInArm = new HoldArmCommand(armSubsystem, Constants.ArmPositions.BRING_IN);
+  private final HoldArmCommand holdPickUpFromGround = new HoldArmCommand(armSubsystem,
+      Constants.ArmPositions.PICK_UP_FROM_GROUND);
+  private final HoldArmCommand holdPickUpFromStation = new HoldArmCommand(armSubsystem,
+      Constants.ArmPositions.PICK_UP_FROM_STATION);
+  private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
+  private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
 
+  private MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
 
-  private Command basicAutoCommand = 
-    (new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()))
-    .andThen(new Balance(driveTrain))
-    .andThen(() -> driveTrain.lock());
+  // private Command basicAutoCommand = (new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()))
+  //     .andThen(new Balance(driveTrain))
+  //     .andThen(() -> driveTrain.lock());
 
-
-   private Command bringInArm = 
-    new ArmPID(armSubsystem, () -> Constants.ArmPositions.BRING_IN);
+  // private Command basicAutoCommand =
+  // (scoreTop)
+  // .andThen(holdScoreTop).withTimeout(2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,71 +103,65 @@ public class RobotContainer {
 
     // configure default commands
     configureDefaultCommands();
+
   }
 
   private void configureBindings() {
 
-    /*
-     * new JoystickButton(driverController,
-     * XboxController.Button.kA.value).onTrue(new ArmPID(armSubsystem,
-     * Constants.ArmPositions.PICK_UP_FROM_GROUND));
-     * new JoystickButton(driverController,
-     * XboxController.Button.kB.value).onTrue(new ArmPID(armSubsystem,
-     * Constants.ArmPositions.PICK_UP_FROM_STATION));
-     * new JoystickButton(driverController,
-     * XboxController.Button.kY.value).onTrue(new ArmPID(armSubsystem,
-     * Constants.ArmPositions.BRING_IN)); */
+    // Buttons for automated arm movement
+    new JoystickButton(driverController,
+        XboxController.Button.kStart.value).onTrue(
+            bringInArm
+                .andThen(holdBringInArm));
 
-      new JoystickButton(driverController, XboxController.Button.kX.value)
-      .onTrue(
-              new ArmPID(armSubsystem, () -> Constants.ArmPositions.SCORE)
-              .andThen(
-                new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE)
-                .alongWith( new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED).withTimeout(2)))      
-      );
+    new JoystickButton(driverController,
+        XboxController.Button.kA.value).onTrue(
+            pickUpFromGround
+                .andThen(holdPickUpFromGround));
 
+    new JoystickButton(driverController,
+        XboxController.Button.kX.value).onTrue(
+            pickUpFromStation
+                .andThen(holdPickUpFromStation));
 
-      new JoystickButton(driverController, XboxController.Button.kY.value)
-        .onTrue(bringInArm);
+    new JoystickButton(driverController,
+        XboxController.Button.kY.value).onTrue(
+            scoreTop
+                .andThen(holdScoreTop));
 
-
-     
+    //B button for middle cube node
+    new JoystickButton(driverController,
+        XboxController.Button.kB.value).onTrue(
+            scoreMiddle
+                .andThen(holdScoreMiddle));
 
     // Buttons for moving arm
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).whileTrue(new ArmBackwardCmd(armSubsystem));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new ArmForwardCmd(armSubsystem));
+    // new JoystickButton(driverController,
+    // XboxController.Button.kLeftBumper.value).whileTrue(new
+    // ArmBackwardCmd(armSubsystem));
+    // new JoystickButton(driverController,
+    // XboxController.Button.kRightBumper.value).whileTrue(new
+    // ArmForwardCmd(armSubsystem));
 
-    // test auto.. use back button
-    new JoystickButton(driverController, XboxController.Button.kBack.value)
-        .onTrue(basicAutoCommand);
+    // Buttons for intake controller
 
-    // new JoystickButton(driverController, XboxController.Button.kStart.value)
-    //     .whileTrue(new Balance(driveTrain));
-
-        new JoystickButton(driverController, XboxController.Button.kA.value)
-        .whileTrue(DriveDistance.create(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION));
-
-
-        //Buttons for intake controller
-
-        //Y button for picking up cone
-        new JoystickButton(intakeController, XboxController.Button.kY.value)
+    // Y button for picking up cone
+    new JoystickButton(intakeController, XboxController.Button.kY.value)
         .whileTrue(pickUpCone);
 
-        //A button for outputing cone
-        new JoystickButton(intakeController, XboxController.Button.kA.value)
+    // A button for outputing cone
+    new JoystickButton(intakeController, XboxController.Button.kA.value)
         .whileTrue(outputCone);
 
-        //X button for picking up cube
-        new JoystickButton(intakeController, XboxController.Button.kX.value)
+    // X button for picking up cube
+    new JoystickButton(intakeController, XboxController.Button.kX.value)
         .whileTrue(pickUpCube);
 
-        //B button for outputing cube
-        new JoystickButton(intakeController, XboxController.Button.kB.value)
+    // B button for outputing cube
+    new JoystickButton(intakeController, XboxController.Button.kB.value)
         .whileTrue(outputCube);
+
   }
-
-
 
   private void configureDefaultCommands() {
     // Setting default commands
@@ -162,7 +175,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return basicAutoCommand;
+    return autoCommand;
   }
 
   /*
@@ -170,9 +183,10 @@ public class RobotContainer {
    */
   public Command getTeleopCommand() {
     driveTrain.coast();
-    //need to tell the drive command about the arm position
-    return new Drive(driveTrain, () -> driverController.getLeftY(), () ->  driverController.getRightX(), () -> !armSubsystem.isBack(), 
-    () -> armSubsystem.getAngle());
+    // need to tell the drive command about the arm position
+    return new Drive(driveTrain, () -> driverController.getLeftY(), () -> driverController.getRightX(),
+        () -> !armSubsystem.isBack(),
+        () -> armSubsystem.getAngle());
   }
 
 }

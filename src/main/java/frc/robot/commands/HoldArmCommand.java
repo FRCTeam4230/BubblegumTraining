@@ -6,7 +6,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class HoldArmCommand extends ArmPID {
+public class HoldArmCommand extends ArmPIDWithGravity {
 
     public HoldArmCommand(ArmSubsystem armSubsystem, double targetAngle) {
         //The pid controller isn't being used right now
@@ -20,7 +20,9 @@ public class HoldArmCommand extends ArmPID {
     //Does this override do anything significant?
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.stop();
+        if(interrupted) {
+            armSubsystem.stop();
+        }
     }
     @Override
     public boolean isFinished(){

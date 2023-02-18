@@ -16,11 +16,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorID;
-
 import edu.wpi.first.wpilibj.SPI;
 
 /*
@@ -42,6 +42,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private Map<MotorID, RelativeEncoder> motorEncoders = new HashMap<>();
 
   private IdleMode idleMode;
+
+  private final Spark lights;
 
   public DriveTrainSubsystem(List<MotorID> motorIds) {
     super();
@@ -75,14 +77,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // Building differential drive
     differentialDrive = new DifferentialDrive(leftGroup, rightGroup);
-    differentialDrive.setDeadband(0.05); // this is for worn out controllers. dial in if needed
+    // differentialDrive.setDeadband(0.05); // this is for worn out controllers. dial in if needed
 
     resetEncoders();
-    
+
+    lights = new Spark(Constants.DriveTrain.LED_LIGHTS_PORT);
+
+    differentialDrive.setDeadband(0.03);
 
     SmartDashboard.putData(this);
     SmartDashboard.putData(navx);
     SmartDashboard.putData(differentialDrive);
+    SmartDashboard.putData(lights);
   }
 
   /*
@@ -180,6 +186,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     });
   }
 
+  public void setLights(double lightNumber) {
+    lights.set(lightNumber);
+  }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
@@ -201,6 +211,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     navx.initSendable(builder);
     differentialDrive.initSendable(builder);
+    lights.initSendable(builder);
 
   }
 

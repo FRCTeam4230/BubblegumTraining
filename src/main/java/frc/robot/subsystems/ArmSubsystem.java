@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -51,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void rotate(double speed){
     // motor.setInverted(false);
-    motor.set(MathUtil.clamp(speed,-0.99,.99));
+    motor.set(MathUtil.clamp(speed,-0.55,0.55));
   }
 
   public void goForward(double speed){
@@ -138,6 +136,23 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
+  public int getZone() {
+    //getZone returns the zone the arm is currently in
+    //1 means we are in arm out zone
+    //2 means we are in arm inside zone
+    //3 means we are in arm up zone
+
+    //Are we in the zone approaching the floor
+    if(getAngle() > Constants.DriveTrain.ARM_OUT_BOUNDARY) {
+      return 1;
+    } else if(getAngle() < Constants.DriveTrain.ARM_IN_BOUNDARY) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+
   //TODO:  
   //this middle value needs to be calculated.
   public void holdAgainstGravity(){
@@ -147,6 +162,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isPastMiddle(){
     return getAngle() > Constants.Arm.FORWARD_LIMIT_ANGLE / 2; 
+  }
+
+  public void coast() {
+    motor.setIdleMode(IdleMode.kCoast);
   }
 
 

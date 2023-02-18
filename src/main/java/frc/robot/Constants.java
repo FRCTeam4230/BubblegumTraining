@@ -24,7 +24,7 @@ public final class Constants {
 
   //THIS IS THE MOTOR GROUP CONTROL FLAG>
   //PROTOBOT is normal, 2023 ahs INVERTED gearboxes
-  public final static boolean isProtoBot = true;
+  public final static boolean isProtoBot = false;
 
   public static class AutoConstants {
 
@@ -82,27 +82,29 @@ public final class Constants {
     public static final double DRIVE_I = 0;
     public static final double DRIVE_D = 0;
     //The angle past which the arm is considered in front of the robot
-    public static final double ARM_OUT_BOUNDARY = 0;
+    public static final double ARM_OUT_BOUNDARY = 230;
     //The angle in front of which the arm is considered to be in the robot
-    public static final double ARM_IN_BOUNDARY = 0;
+    public static final double ARM_IN_BOUNDARY = 95;
     //If the arm is either in front of the robot nor inside the robot, the arm is up
 
     //Multipliers for when the arm is out
-    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.5;
-    public static final double ROTATION_ARM_OUT_MULTIPLIER = 0.3;
+    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.7;
+    public static final double ROTATION_ARM_OUT_MULTIPLIER = 0.7;
     //Multipliers for when the arm is in
     public static final double SPEED_ARM_IN_MULTIPLIER = 1;
     public static final double ROTATION_ARM_IN_MULTIPLIER = 1;
     //Multipliers for when the arm is up
-    public static final double SPEED_ARM_UP_MULTIPLIER = 0.3;
-    public static final double ROTATION_ARM_UP_MULTIPLIER = 0.3;
+    public static final double SPEED_ARM_UP_MULTIPLIER = 0.7;
+    public static final double ROTATION_ARM_UP_MULTIPLIER = 0.7;
 
     //Default multiplier, all other multipliers are applied after this one
-    public static final double SPEED_ARM_OUT_MAXIMUM = 0.8;
+    public static final double SPEED_ARM_OUT_MAXIMUM = 0.7;
     public static final double ROTATION_ARM_OUT_MAXIMUM = 0.8;
+
     public static final double TURN_KP = 0.08;
     public static final double TURN_KI = 0;
     public static final double TURN_KD = 0;
+    public static final int LED_LIGHTS_PORT = 3;
 
   }
 
@@ -115,7 +117,7 @@ public final class Constants {
     public static final int ENCODER_PORT = 0;
     public static final int FRONT_LIMIT_PORT = 1;
     public static final int BACK_LIMIT_PORT = 2;
-    public static final double FORWARD_LIMIT_ANGLE = 265.5;
+    public static final double FORWARD_LIMIT_ANGLE = 270;
     public static final double BACK_LIMIT_ANGLE = 0.5;
     public static final double ARM_SPEED = 0.6;
 
@@ -142,9 +144,14 @@ public final class Constants {
 
   public static class ArmPIDConstants {
 
-    public static final double kP = 0.03;
-    public static final double kI = 0;
-    public static final double kD = 0;
+    public static final double kP_WITH_GRAVITY = 0.005;
+    public static final double kI_WITH_GRAVITY = 0;
+    public static final double kD_WITH_GRAVITY = 0;
+    
+    public static final double kP_AGAINST_GRAVITY = 0.03;
+    public static final double kI_AGAINST_GRAVITY = 0;
+    public static final double kD_AGAINST_GRAVITY = 0;
+
     public static final double VELOCITY_TOLERANCE = 0;
     public static final double POSITION_TOLERANCE = 0.5;
     public static final double RANGE = 0.2;
@@ -155,13 +162,20 @@ public final class Constants {
 
     // When the arm is inside the robot
     public static final double BRING_IN = 2;
-    // When the robot scores in middle row
-    public static final double SCORE = 35;
+    // When the robot scores in top row
+    public static final double SCORE_TOP = 196;
+    //When the robot scores in the middle row
+    public static final double SOCRE_MIDDLE = 210;
     // When the robot is picking stuff off of the ground
-    public static final double PICK_UP_FROM_GROUND = 0;
+    public static final double PICK_UP_FROM_GROUND = 284;
     // When the robot is picking stuff from the loading station
-    public static final double PICK_UP_FROM_STATION = 0;
+    public static final double PICK_UP_FROM_STATION = 196;
 
+  }
+
+  public static class LightNumbers {
+    public static final double PURPLE = 0.91;
+    public static final double YELLOW = 0.69;
   }
 
   public enum MotorID {
