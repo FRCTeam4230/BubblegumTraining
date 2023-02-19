@@ -53,7 +53,7 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MAXIMUM;
     }else{
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_MULTIPLIER;
-      wantedRotation = wantedRotation * Constants.DriveTrain.SPEED_MULTIPLIER;
+      wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_MULTIPLIER;
     }
 
     if (armAngleSupplier.getAsDouble() > Constants.DriveTrain.ARM_OUT_BOUNDARY) {

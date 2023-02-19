@@ -56,10 +56,10 @@ public class RobotContainer {
       - driverController.getRightTriggerAxis();
   private final IntakeCmd intakeCommand = new IntakeCmd(intakeSubsystem, intakeSupplier);
 
-  private final IntakeCmd pickUpCone = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
-  private final IntakeCmd outputCone = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
-  private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
-  private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd pickUpCone = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd outputCone = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
+  private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
 
   private final LightCommand purpleLight = new LightCommand(driveTrain, Constants.LightNumbers.PURPLE);
   private final LightCommand yellowLight = new LightCommand(driveTrain, Constants.LightNumbers.YELLOW);
@@ -83,18 +83,13 @@ public class RobotContainer {
   private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
   private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
 
-  private MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
+  private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
 
-  private ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
-  private ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
+  private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
+  private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
-  // private Command basicAutoCommand = (new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()))
-  //     .andThen(new Balance(driveTrain))
-  //     .andThen(() -> driveTrain.lock());
+  private final Balance balance = new Balance(driveTrain);
 
-  // private Command basicAutoCommand =
-  // (scoreTop)
-  // .andThen(holdScoreTop).withTimeout(2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -143,29 +138,33 @@ public class RobotContainer {
             scoreMiddle
                 .andThen(holdScoreMiddle));
 
-    //Buttons for moving arm
+    //Buttons for moving arm manually
     new JoystickButton(driverController,
     XboxController.Button.kLeftBumper.value).whileTrue(manualArmBackward);
     new JoystickButton(driverController,
     XboxController.Button.kRightBumper.value).whileTrue(manualArmForward);
 
+    //Back button to balance on the charge station
+    new JoystickButton(driverController,
+    XboxController.Button.kBack.value).whileTrue(balance);
+
     // Buttons for intake controller
 
-    // Y button for picking up cone
-    // new JoystickButton(intakeController, XboxController.Button.kY.value)
-    //     .whileTrue(pickUpCone);
+    //Y button for pickup cone
+    new JoystickButton(intakeController, XboxController.Button.kY.value)
+        .whileTrue(pickUpCone);
 
-    // // A button for outputing cone
-    // new JoystickButton(intakeController, XboxController.Button.kA.value)
-    //     .whileTrue(outputCone);
+    // A button for outputing cone
+    new JoystickButton(intakeController, XboxController.Button.kA.value)
+        .whileTrue(outputCone);
 
-    // // X button for picking up cube
-    // new JoystickButton(intakeController, XboxController.Button.kX.value)
-    //     .whileTrue(pickUpCube);
+    // X button for picking up cube
+    new JoystickButton(intakeController, XboxController.Button.kX.value)
+        .whileTrue(pickUpCube);
 
-    // // B button for outputing cube
-    // new JoystickButton(intakeController, XboxController.Button.kB.value)
-    //     .whileTrue(outputCube);
+    // B button for outputing cube
+    new JoystickButton(intakeController, XboxController.Button.kB.value)
+        .whileTrue(outputCube);
 
   }
 

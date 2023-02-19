@@ -117,17 +117,22 @@ public class ArmSubsystem extends SubsystemBase {
       if(goingForward) {
         //Go slow as we are approaching the floor
         return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT;
-      } 
+      } else {
       return Constants.Arm.EXITING_ROTATION_SAFETY_ZONE_LIMIT;
+      }
     }
 
     //Are we in the zone approaching the inside of the robot
     if(angle < Constants.Arm.BOUNDARY_FAST_MINIMUM) {
       if(goingForward) {
-        return Constants.Arm.EXITING_ROTATION_SAFETY_ZONE_LIMIT;
-      } 
+      return Constants.Arm.EXITING_ROTATION_SAFETY_ZONE_LIMIT;
+
+      } else {
       //If we are moving towards the inside, then go slow
-      return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT;
+      return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT * 0.7;
+
+      }
+
     }
 
     //Returns a default multiplier of 1, hopefully this value is never returned, but we needed to add a default value

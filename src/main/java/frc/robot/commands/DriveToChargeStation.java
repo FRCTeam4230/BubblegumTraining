@@ -44,9 +44,16 @@ public class DriveToChargeStation extends CommandBase {
   public void execute() {
     double output = pidController.calculate(driveTrain.getHeading());
 
+    if(cyclesElapsed > 10 && cyclesElapsed < 15) {
+      driveTrain.arcadeDrive(0, MathUtil.clamp(output, -0.2, 0.2));
+    } else if(cyclesElapsed > 15) {
+      driveTrain.arcadeDrive(-0.7, MathUtil.clamp(output, -0.2, 0.2));
+    } else {
+      driveTrain.arcadeDrive(-0.6, MathUtil.clamp(output, -0.2, 0.2));
+    }
+
     //Drive at half speed
     //Uses PID controller with robot heading to make sure the robot is going straight
-    driveTrain.arcadeDrive(-0.5, MathUtil.clamp(output, -0.2, 0.2));
 
     if(AtChargeStation) {
       //If the robot is at the charge station, add 1 to cyclesElapsed
@@ -69,7 +76,7 @@ public class DriveToChargeStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(cyclesElapsed >= 10) {
+    if(cyclesElapsed >= 20) {
     //Each cycle is 20 ms long. 20 cyclesElapsed means 0.4 seconds. Once the robot
     //reaches the charge station, keep going for 0.4 seconds, then end the command
       return true;

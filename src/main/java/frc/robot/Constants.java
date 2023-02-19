@@ -55,7 +55,7 @@ public final class Constants {
 
     // Multipliers
     public static final double SPEED_MULTIPLIER = 0.9;
-    public static final double ROTATION_MULTIPLIER = 0.68;
+    public static final double ROTATION_MULTIPLIER = 0.7;
     
   
     // Ramp rate
@@ -104,6 +104,7 @@ public final class Constants {
     public static final double TURN_KP = 0.08;
     public static final double TURN_KI = 0;
     public static final double TURN_KD = 0;
+
     public static final int LED_LIGHTS_PORT = 3;
 
   }
@@ -117,12 +118,12 @@ public final class Constants {
     public static final int ENCODER_PORT = 0;
     public static final int FRONT_LIMIT_PORT = 1;
     public static final int BACK_LIMIT_PORT = 2;
-    public static final double FORWARD_LIMIT_ANGLE = 270;
+    public static final double FORWARD_LIMIT_ANGLE = 279;
     public static final double BACK_LIMIT_ANGLE = 0.5;
-    public static final double ARM_SPEED = 0.6;
+    public static final double ARM_SPEED = 0.35;
 
     //Constants for arm zones
-    public static final double BOUNDARY_FAST_MINIMUM = 15;
+    public static final double BOUNDARY_FAST_MINIMUM = 5;
     public static final double BOUNDARY_FAST_MAXIMUM = 250;
     public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.3;
     public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.7;
@@ -132,7 +133,7 @@ public final class Constants {
 
   public static class Intake {
     public static final double INTAKE_RAMP_RATE = 0.5;
-    public static final double INTAKE_SPEED = 0.35; // 50 % for now
+    public static final double INTAKE_SPEED = 0.5; // 50 % for now
     public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 48.0) * 360; //copied from drivetrain
 
   }
@@ -163,7 +164,7 @@ public final class Constants {
     // When the arm is inside the robot
     public static final double BRING_IN = 2;
     // When the robot scores in top row
-    public static final double SCORE_TOP = 196;
+    public static final double SCORE_TOP = 193;
     //When the robot scores in the middle row
     public static final double SOCRE_MIDDLE = 210;
     // When the robot is picking stuff off of the ground
