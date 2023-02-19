@@ -85,6 +85,9 @@ public class RobotContainer {
 
   private MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
 
+  private ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
+  private ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
+
   // private Command basicAutoCommand = (new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()))
   //     .andThen(new Balance(driveTrain))
   //     .andThen(() -> driveTrain.lock());
@@ -135,13 +138,11 @@ public class RobotContainer {
             scoreMiddle
                 .andThen(holdScoreMiddle));
 
-    // Buttons for moving arm
-    // new JoystickButton(driverController,
-    // XboxController.Button.kLeftBumper.value).whileTrue(new
-    // ArmBackwardCmd(armSubsystem));
-    // new JoystickButton(driverController,
-    // XboxController.Button.kRightBumper.value).whileTrue(new
-    // ArmForwardCmd(armSubsystem));
+    //Buttons for moving arm
+    new JoystickButton(driverController,
+    XboxController.Button.kLeftBumper.value).whileTrue(manualArmBackward);
+    new JoystickButton(driverController,
+    XboxController.Button.kRightBumper.value).whileTrue(manualArmForward);
 
     // Buttons for intake controller
 
