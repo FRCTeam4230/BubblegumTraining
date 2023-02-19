@@ -112,27 +112,32 @@ public class RobotContainer {
   private void configureBindings() {
 
     // Buttons for automated arm movement
+
+    //Start button brings in the arm
     new JoystickButton(driverController,
         XboxController.Button.kStart.value).onTrue(
             bringInArm
                 .andThen(holdBringInArm));
 
+    //Button A picks up from ground
     new JoystickButton(driverController,
         XboxController.Button.kA.value).onTrue(
             pickUpFromGround
                 .andThen(holdPickUpFromGround));
 
+    //Button X picks up from station
     new JoystickButton(driverController,
         XboxController.Button.kX.value).onTrue(
             pickUpFromStation
                 .andThen(holdPickUpFromStation));
 
+    //Button Y scores top row
     new JoystickButton(driverController,
         XboxController.Button.kY.value).onTrue(
             scoreTop
                 .andThen(holdScoreTop));
 
-    //B button for middle cube node
+    //B button for middle row
     new JoystickButton(driverController,
         XboxController.Button.kB.value).onTrue(
             scoreMiddle
@@ -147,20 +152,20 @@ public class RobotContainer {
     // Buttons for intake controller
 
     // Y button for picking up cone
-    new JoystickButton(intakeController, XboxController.Button.kY.value)
-        .whileTrue(pickUpCone);
+    // new JoystickButton(intakeController, XboxController.Button.kY.value)
+    //     .whileTrue(pickUpCone);
 
-    // A button for outputing cone
-    new JoystickButton(intakeController, XboxController.Button.kA.value)
-        .whileTrue(outputCone);
+    // // A button for outputing cone
+    // new JoystickButton(intakeController, XboxController.Button.kA.value)
+    //     .whileTrue(outputCone);
 
-    // X button for picking up cube
-    new JoystickButton(intakeController, XboxController.Button.kX.value)
-        .whileTrue(pickUpCube);
+    // // X button for picking up cube
+    // new JoystickButton(intakeController, XboxController.Button.kX.value)
+    //     .whileTrue(pickUpCube);
 
-    // B button for outputing cube
-    new JoystickButton(intakeController, XboxController.Button.kB.value)
-        .whileTrue(outputCube);
+    // // B button for outputing cube
+    // new JoystickButton(intakeController, XboxController.Button.kB.value)
+    //     .whileTrue(outputCube);
 
   }
 
