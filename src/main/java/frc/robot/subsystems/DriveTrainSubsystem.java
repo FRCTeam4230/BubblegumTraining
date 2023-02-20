@@ -50,7 +50,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DriveTrainSubsystem(List<MotorID> motorIds) {
     super();
-    
+
     navx = new AHRS(SPI.Port.kMXP);
     navx.calibrate();
 
@@ -80,13 +80,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // Building differential drive
     differentialDrive = new DifferentialDrive(leftGroup, rightGroup);
-    // differentialDrive.setDeadband(0.05); // this is for worn out controllers. dial in if needed
+    differentialDrive.setDeadband(0.005); // this is for worn out controllers. dial in if needed
 
     resetEncoders();
 
     lights = new Spark(Constants.DriveTrain.LED_LIGHTS_PORT);
 
-    differentialDrive.setDeadband(0.03);
+    // differentialDrive.setDeadband(0.03);
 
     SmartDashboard.putData(this);
     SmartDashboard.putData(navx);

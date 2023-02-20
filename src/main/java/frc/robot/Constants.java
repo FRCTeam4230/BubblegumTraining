@@ -54,12 +54,12 @@ public final class Constants {
                                    // and then it'll rename it everywhere else for you
 
     // Multipliers
-    public static final double SPEED_MULTIPLIER = 0.9;
+    public static final double SPEED_MULTIPLIER = 0.8;
     public static final double ROTATION_MULTIPLIER = 0.7;
     
   
     // Ramp rate
-    public static final double DRIVE_RAMP_RATE = 1.0;
+    public static final double DRIVE_RAMP_RATE = 0.2;
   //  public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
     public static final double MOTOR_ROTATION_TO_INCHES = 72 / 40.687;//.03022; //pulse per
 
@@ -99,7 +99,7 @@ public final class Constants {
 
     //Default multiplier, all other multipliers are applied after this one
     public static final double SPEED_ARM_OUT_MAXIMUM = 0.7;
-    public static final double ROTATION_ARM_OUT_MAXIMUM = 0.8;
+    public static final double ROTATION_ARM_OUT_MAXIMUM = 0.6;
 
     public static final double TURN_KP = 0.08;
     public static final double TURN_KI = 0;

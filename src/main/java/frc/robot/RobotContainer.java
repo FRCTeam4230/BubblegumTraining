@@ -23,6 +23,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   private final XboxController driverController = new XboxController(Constants.OI.DRIVER_XBOX_PORT);
   private final XboxController intakeController = new XboxController(Constants.OI.INTAKE_XBOX_PORT);
+
 
   // Subsystems
   // Needed to pass in list because it uses a list in constructor
@@ -98,6 +100,9 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    CameraServer.startAutomaticCapture();
+
 
     // configure default commands
     configureDefaultCommands();

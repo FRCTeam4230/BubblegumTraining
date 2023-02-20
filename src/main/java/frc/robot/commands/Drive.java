@@ -47,6 +47,9 @@ public class Drive extends CommandBase {
     double wantedSpeed = speed.getAsDouble();
     double wantedRotation = rotation.getAsDouble();
 
+    double armAngle = armAngleSupplier.getAsDouble();
+
+
     //Global motor limits
     if (armOut.getAsBoolean()){
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MAXIMUM;
@@ -56,11 +59,12 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_MULTIPLIER;
     }
 
-    if (armAngleSupplier.getAsDouble() > Constants.DriveTrain.ARM_OUT_BOUNDARY) {
+    
+    if (armAngle > Constants.DriveTrain.ARM_OUT_BOUNDARY) {
       //If the arm is in the front
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MULTIPLIER;
-    } else if(armAngleSupplier.getAsDouble() < Constants.DriveTrain.ARM_IN_BOUNDARY) {
+    } else if(armAngle < Constants.DriveTrain.ARM_IN_BOUNDARY) {
       //If the arm is inside the robot
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_IN_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_IN_MULTIPLIER;
@@ -70,11 +74,11 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_UP_MULTIPLIER;
     }
 
-    if(wantedSpeed == 0 && wantedRotation == 0) {
-      driveTrain.lock();
-    } else {
-      driveTrain.coast();
-    }
+    // if(wantedSpeed == 0 && wantedRotation == 0) {
+    //   driveTrain.lock();
+    // } else {
+    //   driveTrain.coast();
+    // }
 
     //For rotating on tile
     // wantedRotation = wantedRotation * 0.4;
