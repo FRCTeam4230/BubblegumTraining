@@ -17,16 +17,13 @@ public class Drive extends CommandBase {
   private final DoubleSupplier speed;
   private final DoubleSupplier rotation;
   private final DoubleSupplier armAngleSupplier;
-  private final BooleanSupplier armOut;
 
 
-  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, 
-  BooleanSupplier armOut, DoubleSupplier armAngleSupplier) {
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, DoubleSupplier armAngleSupplier) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
     this.armAngleSupplier = armAngleSupplier;
-    this.armOut = armOut;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -48,10 +45,11 @@ public class Drive extends CommandBase {
     double wantedRotation = rotation.getAsDouble();
 
     double armAngle = armAngleSupplier.getAsDouble();
+    boolean armOut = armAngle > 250;
 
 
     //Global motor limits
-    if (armOut.getAsBoolean()){
+    if (armOut){
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MAXIMUM;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MAXIMUM;
     }else{
@@ -73,15 +71,6 @@ public class Drive extends CommandBase {
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_UP_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_UP_MULTIPLIER;
     }
-
-    // if(wantedSpeed == 0 && wantedRotation == 0) {
-    //   driveTrain.lock();
-    // } else {
-    //   driveTrain.coast();
-    // }
-
-    //For rotating on tile
-    // wantedRotation = wantedRotation * 0.4;
 
     //now pass in the calcualted speed and rotation
     driveTrain.arcadeDrive(-1 * wantedSpeed, wantedRotation);

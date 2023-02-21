@@ -12,8 +12,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CameraServerCvJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -98,14 +96,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * arcade drive. speed and rotation
    */
   public void arcadeDrive(double speed, double rotation) {
-
-    //TODO: FIX THIS. this is backwards and has to dow tith e wiring being different
     differentialDrive.arcadeDrive(
     MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
-  }
-
-  public void setSpeeds(double leftSpeed, double rightSpeed) {
-    differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
 
   public void stop() {
@@ -117,7 +109,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  private void resetEncoders() {
+  public void resetEncoders() {
     motorEncoders.values().forEach(encoder -> encoder.setPosition(0));
   }
 
@@ -153,6 +145,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     //Gets the remainder of the gyro angle and 360
     //Returns angle between 0 and 360
     return Math.IEEEremainder(navx.getAngle(), 360);
+  }
+
+  public double getRawHeading() {
+    return navx.getAngle();
   }
 
   /**

@@ -6,11 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveToChargeStation;
 import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.LightCommand;
 import frc.robot.commands.MiddleAutoCommand;
+import frc.robot.commands.RightAutoCommand;
 import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
 import frc.robot.commands.ArmPIDAgainstGravity;
@@ -27,7 +27,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -85,8 +84,8 @@ public class RobotContainer {
   private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
   private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
 
-  private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
-
+//   private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
+  private final RightAutoCommand autoCommand = new RightAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
   private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
   private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
@@ -195,7 +194,6 @@ public class RobotContainer {
     driveTrain.coast();
     // need to tell the drive command about the arm position
     return new Drive(driveTrain, () -> driverController.getLeftY(), () -> driverController.getRightX(),
-        () -> !armSubsystem.isBack(),
         () -> armSubsystem.getAngle());
   }
 

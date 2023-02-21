@@ -4,29 +4,26 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.Balance;
-
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class MiddleAutoCommand extends SequentialCommandGroup {
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
-  DriveTrainSubsystem driveTrain;
+public class RightAutoCommand extends SequentialCommandGroup {
+  /** Creates a new RightAutoCommand. */
+  private DriveTrainSubsystem driveTrain;
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
 
-  /** Creates a new MiddleAutoCommand. */
-  public MiddleAutoCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem,
-      DriveTrainSubsystem driveTrain) {
+  public RightAutoCommand(DriveTrainSubsystem driveTrain, ArmSubsystem armSubsystem,
+      IntakeSubsystem intakeSubsystem) {
+    this.driveTrain = driveTrain;
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-    this.driveTrain = driveTrain;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -38,14 +35,20 @@ public class MiddleAutoCommand extends SequentialCommandGroup {
             .alongWith(new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED))
             .withTimeout(0.5),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
-            .withTimeout(3.5),
-        new DrivePastChargeStation(driveTrain, () -> driveTrain.getPitch()),
-        new DriveBackToChargeStation(driveTrain), 
-        new Balance(driveTrain),
-        new SetDriveTrainMotorIdleMode(driveTrain, true)
+            .withTimeout(3),
+        new DriveDistance(driveTrain, -0.5)
+            .withTimeout(0.5),
+        //EVerything below here needs refining
+        new PIDTurn(driveTrain, 180)
+            .withTimeout(2),
+        new DriveDistance(driveTrain, 1)
+        .withTimeout(3.5),
+        new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.PICK_UP_FROM_GROUND)
+        .withTimeout(2)
+        .alongWith(new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED)
+        .withTimeout(0.5)),
+        new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
+        .withTimeout(2)
         );
-
-        // (() -> driveTrain.lock()).withTimeout(2));
-        // new ArmPIDAgainstGravity(armSubsystem, () -> 35));
   }
 }

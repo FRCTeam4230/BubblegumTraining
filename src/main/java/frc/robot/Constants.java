@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -32,17 +31,19 @@ public final class Constants {
     public static final double  DISTANCE_TO_CHARGE_STATION = 40;
     public static final double CHARGE_STATION_ONTO_PITCH = 15;
 
+    public static final double PID_TURN_P = 0.0118;
+    public static final double PID_TURN_I = 0;
+    public static final double PID_TURN_D = 0;
+
   }
 
 
   public static final class DriveDistanceParams {
-    public static final double kP = 0.07;
+    public static final double kP = 1;
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final double baseSpeed = 0;
-
-    public static final double tolerance = 1;
+    public static final double tolerance = 0.2;
     public static final double velocityTolerance = 0.2;
   }
 
@@ -50,8 +51,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class DriveTrain { // Classes always start with a capital. if you use the ide, you can rename this
-                                   // and then it'll rename it everywhere else for you
+  public static class DriveTrain { 
 
     // Multipliers
     public static final double SPEED_MULTIPLIER = 0.8;
@@ -60,7 +60,7 @@ public final class Constants {
   
     // Ramp rate
     public static final double DRIVE_RAMP_RATE = 0.2;
-  //  public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 8.45) * (6 * Math.PI); //aproxy .0506
+
     public static final double MOTOR_ROTATION_TO_INCHES = 72 / 40.687;//.03022; //pulse per
 
 
@@ -125,8 +125,8 @@ public final class Constants {
     //Constants for arm zones
     public static final double BOUNDARY_FAST_MINIMUM = 5;
     public static final double BOUNDARY_FAST_MAXIMUM = 250;
-    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.3;
-    public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.7;
+    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.35;
+    public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.75;
     
 
   }
@@ -162,7 +162,7 @@ public final class Constants {
   public static class ArmPositions {
 
     // When the arm is inside the robot
-    public static final double BRING_IN = 2;
+    public static final double BRING_IN = 1.5;
     // When the robot scores in top row
     public static final double SCORE_TOP = 193;
     //When the robot scores in the middle row
