@@ -40,7 +40,7 @@ public class MiddleAutoCommand extends SequentialCommandGroup {
             .withTimeout(1),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
             .withTimeout(3),
-        new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch()),
+        new DriveToChargeStation(driveTrain, () -> driveTrain.getPitch(), () -> 32.0), //INCHES TO CHARGE STATION --> make constant
         new Balance(driveTrain),
         new SetDriveTrainMotorIdleMode(driveTrain, true)
         );
