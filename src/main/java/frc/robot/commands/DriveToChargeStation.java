@@ -119,6 +119,8 @@ public class DriveToChargeStation extends CommandBase {
   }
 
   // Returns true when the command should end.
+  //drive to base station is done when we've gone that far or we've finally hit the angle
+
   @Override
   public boolean isFinished() {
       return pitchSupplier.getAsDouble() > Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH || distancePidController.atSetpoint();

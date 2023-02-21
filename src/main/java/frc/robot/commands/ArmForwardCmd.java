@@ -11,7 +11,7 @@ import frc.robot.subsystems.ArmSubsystem;
 //TODO   inline these instead
 public class ArmForwardCmd extends CommandBase {
   /** Creates a new ArmForwardCmd. */
-  private final ArmSubsystem armSubsystem;
+  protected final ArmSubsystem armSubsystem;
 
   public ArmForwardCmd(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
