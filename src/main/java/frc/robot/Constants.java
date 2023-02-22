@@ -34,6 +34,7 @@ public final class Constants {
     public static final double PID_TURN_P = 0.0118;
     public static final double PID_TURN_I = 0;
     public static final double PID_TURN_D = 0;
+    public static final double RIGHT_ELEMENT_TO_SCORE_DISTANCE = 0;
 
   }
 
@@ -132,7 +133,7 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final double INTAKE_RAMP_RATE = 0.5;
+    public static final double INTAKE_RAMP_RATE = 0.4;
     public static final double INTAKE_SPEED = 0.5; // 50 % for now
     public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 48.0) * 360; //copied from drivetrain
 

@@ -31,7 +31,7 @@ public class RightAutoCommand extends SequentialCommandGroup {
             .withTimeout(0.5),
         //EVerything below here needs refining
         new PIDTurn(driveTrain, 180)
-            .withTimeout(2),
+            .withTimeout(1),
         new DriveDistance(driveTrain, 1)
         .withTimeout(3.5),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.PICK_UP_FROM_GROUND)
@@ -39,7 +39,17 @@ public class RightAutoCommand extends SequentialCommandGroup {
         .alongWith(new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED)
         .withTimeout(0.5)),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
-        .withTimeout(2)
+        .withTimeout(2),
+        new PIDTurn(driveTrain, 180)
+        .withTimeout(1), 
+        new DriveDistance(driveTrain, Constants.AutoConstants.RIGHT_ELEMENT_TO_SCORE_DISTANCE),
+        new ArmPIDAgainstGravity(armSubsystem, () -> Constants.ArmPositions.SOCRE_MIDDLE)
+        .withTimeout(1),
+        new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE)
+        .withTimeout(0.5)
+        .alongWith(new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED))
+        .withTimeout(0.5), 
+        new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
         );
   }
 }
