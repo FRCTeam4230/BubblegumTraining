@@ -29,7 +29,6 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.ARM_MOTOR_ID);
 
-
     encoder = new DutyCycleEncoder(Constants.Arm.ENCODER_PORT);
     frontLimit = new DigitalInput(Constants.Arm.FRONT_LIMIT_PORT);
     backLimit = new DigitalInput(Constants.Arm.BACK_LIMIT_PORT);
@@ -44,18 +43,16 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putData(encoder);
     SmartDashboard.putData(frontLimit);
     SmartDashboard.putData(backLimit);
-
   }
 
   private void rotate(double speed){
-    // motor.setInverted(false);
     motor.set(MathUtil.clamp(speed,-0.55,0.55));
   }
 
   public void goForward(double speed){
     if (!isForward()){
-      // rotate(speed, false);
       goingForward = true;
+      //Prevents arm from destroying platform
       double limitedSpeed = speed * limitorBasedOnRotation(this.getAngle());
       rotate(limitedSpeed);
     }else{
@@ -66,7 +63,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void goBackwards(double speed){
     //Speed is assumed to negative
     if (!isBack()){
-      // rotate(speed,true);
       //Prevents arm from destroying platform
       goingForward = false;
       double limitedSpeed = speed * limitorBasedOnRotation(this.getAngle());
@@ -75,8 +71,6 @@ public class ArmSubsystem extends SubsystemBase {
       stop();
     }
   }
-
-
 
   public void stop() {
     motor.set(0);
@@ -158,8 +152,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
-  //TODO:  
-  //this middle value needs to be calculated.
+  //Right now arm is only holding for preset locations
   public void holdAgainstGravity(){
     double speed = 0.02 * (isPastMiddle() ? -1 : 1);
     motor.set(speed);
@@ -193,6 +186,5 @@ public class ArmSubsystem extends SubsystemBase {
   private void resetEncoders() {
     encoder.reset();
     motor.getEncoder().setPosition(0);
-  
   }
 }

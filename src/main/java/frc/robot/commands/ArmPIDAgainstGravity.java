@@ -36,15 +36,10 @@ public class ArmPIDAgainstGravity extends PIDCommand {
     armSubsystem);
 
     getController().setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE);
-    
-
-
-
+  
     this.armSubsystem = armSubsystem;
 
     SmartDashboard.putData(this);
-
-
   }
 
   @Override
@@ -56,17 +51,8 @@ public class ArmPIDAgainstGravity extends PIDCommand {
     return getController().atSetpoint();
   }
 
-
-
-
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-
-    // builder.addDoubleProperty("kP: ", pidController::getP, pidController::setP);
-    // builder.addDoubleProperty("kI: ", pidController::getI, pidController::setI);
-    // builder.addDoubleProperty("kD: ", pidController::getD, pidController::setD);
-    // builder.addDoubleProperty("Encoder Degrees: ", armSubsystem::getPosition, null);
-  
   }
 }

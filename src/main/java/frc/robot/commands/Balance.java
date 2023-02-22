@@ -11,12 +11,8 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Balance extends PIDCommand {
   private DriveTrainSubsystem driveTrain;
-  /** Creates a new Balance. */
   public Balance(DriveTrainSubsystem driveTrain) {
     super(
       new PIDController(
@@ -29,7 +25,7 @@ public class Balance extends PIDCommand {
   driveTrain::getSetPoint,
   // Pipe the output to the turning controls
   output -> driveTrain.arcadeDrive(MathUtil.clamp(-output , -Constants.DriveTrain.PID_CLAMP_RANGE, Constants.DriveTrain.PID_CLAMP_RANGE), 0),
-  // Require the robot drive 
+  // Require the robot driveTrain
   driveTrain);
 
   getController().setTolerance(Constants.DriveTrain.kPositionTolerance);

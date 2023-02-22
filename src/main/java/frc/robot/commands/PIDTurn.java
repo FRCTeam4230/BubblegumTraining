@@ -14,9 +14,9 @@ public class PIDTurn extends CommandBase {
   DriveTrainSubsystem driveTrain;
   PIDController pidController;
 
-  /** Creates a new PIDTurn2. */
   public PIDTurn(DriveTrainSubsystem driveTrain, double targetAngle) {
     this.driveTrain = driveTrain;
+    //Constants need tuning
     pidController = new PIDController(
       Constants.AutoConstants.PID_TURN_P,
       Constants.AutoConstants.PID_TURN_I,

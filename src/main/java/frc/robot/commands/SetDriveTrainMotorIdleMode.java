@@ -11,6 +11,7 @@ public class SetDriveTrainMotorIdleMode extends CommandBase {
   
   private final DriveTrainSubsystem driveTrain;
   private final boolean brake;
+  
   public SetDriveTrainMotorIdleMode(DriveTrainSubsystem driveTrain, boolean brake) {
     this.driveTrain = driveTrain;
     this.brake = brake;

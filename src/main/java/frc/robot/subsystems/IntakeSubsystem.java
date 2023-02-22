@@ -14,7 +14,6 @@ import frc.robot.StaticFunctions;
 import frc.robot.Constants.MotorID;
 
 public class IntakeSubsystem extends SubsystemBase {
-  /** Creates a new IntakeSubsystem. */
   private final CANSparkMax motor;
 
   //color sensor in the future to know what we are carrying. (for auto and for dashbaord alerts)
@@ -40,7 +39,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void initSendable(SendableBuilder builder){
-
-  }
+  public void initSendable(SendableBuilder builder){}
+  
 }

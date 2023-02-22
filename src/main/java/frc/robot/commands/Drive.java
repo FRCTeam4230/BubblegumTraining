@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -40,7 +39,6 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
 
-    //GET TEH SPEED /rotation here. 
     double wantedSpeed = speed.getAsDouble();
     double wantedRotation = rotation.getAsDouble();
 
@@ -57,7 +55,7 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_MULTIPLIER;
     }
 
-    
+    //Process the speed again based off of arm angles
     if (armAngle > Constants.DriveTrain.ARM_OUT_BOUNDARY) {
       //If the arm is in the front
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
@@ -73,7 +71,7 @@ public class Drive extends CommandBase {
     }
 
     //now pass in the calcualted speed and rotation
-    driveTrain.arcadeDrive(-1 * wantedSpeed, wantedRotation);
+    driveTrain.arcadeDrive(-wantedSpeed, wantedRotation);
   }
 
   // Called once the command ends or is interrupted.

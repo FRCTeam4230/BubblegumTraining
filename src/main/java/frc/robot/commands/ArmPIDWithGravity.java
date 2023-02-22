@@ -17,7 +17,6 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ArmPIDWithGravity extends PIDCommand {
   protected final ArmSubsystem armSubsystem;
   
-
   //Takes in arm subsystem and the target angle
   public ArmPIDWithGravity(ArmSubsystem armSubsystem, DoubleSupplier targetAngleSupplier) {
     super(
@@ -38,14 +37,9 @@ public class ArmPIDWithGravity extends PIDCommand {
 
     getController().setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE);
     
-
-
-
     this.armSubsystem = armSubsystem;
 
     SmartDashboard.putData(this);
-
-
   }
 
   @Override
@@ -57,17 +51,8 @@ public class ArmPIDWithGravity extends PIDCommand {
     return getController().atSetpoint();
   }
 
-
-
-
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-
-    // builder.addDoubleProperty("kP: ", pidController::getP, pidController::setP);
-    // builder.addDoubleProperty("kI: ", pidController::getI, pidController::setI);
-    // builder.addDoubleProperty("kD: ", pidController::getD, pidController::setD);
-    // builder.addDoubleProperty("Encoder Degrees: ", armSubsystem::getPosition, null);
-  
   }
 }

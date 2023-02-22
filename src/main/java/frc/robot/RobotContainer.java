@@ -62,6 +62,7 @@ public class RobotContainer {
   private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
   private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
 
+  //Testing stuff with lights
   private final LightCommand purpleLight = new LightCommand(driveTrain, Constants.LightNumbers.PURPLE);
   private final LightCommand yellowLight = new LightCommand(driveTrain, Constants.LightNumbers.YELLOW);
 

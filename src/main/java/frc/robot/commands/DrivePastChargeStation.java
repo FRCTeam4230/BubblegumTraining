@@ -10,7 +10,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -60,13 +59,16 @@ public class DrivePastChargeStation extends CommandBase {
 
     driveTrain.arcadeDrive(-0.5, MathUtil.clamp(rotation, -0.2, 0.2));
 
-    
+    //Pitch is negative as robot drives up charge station
+    //If the pitch is more negative than 15, then the robot is at least
+    //partially on the charge station
     if(pitchSupplier.getAsDouble() < -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
-      //If the pitch goes past 15 degrees, we know that the robot is at least partially on the charge station
       AtChargeStation = true;
     }
 
-    if(AtChargeStation && pitchSupplier.getAsDouble() > 15) {
+    //After the robot has reached the charge station, if the pitch becomes very positive
+    //which means that it is driving off of the charge station
+    if(AtChargeStation && pitchSupplier.getAsDouble() > Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
       OffChargeStation = true;
     }
     
@@ -79,14 +81,9 @@ public class DrivePastChargeStation extends CommandBase {
   }
 
   // Returns true when the command should end.
-  //drive to base station is done when we've gone that far or we've finally hit the angle
-
   @Override
   public boolean isFinished() {
-      if(OffChargeStation && pitchSupplier.getAsDouble() < 5) {
-        return true;
-      } else {
-        return false;
-      }
+    //Once the robot is more or less on level ground after getting off of the charge station, end command
+    return OffChargeStation && pitchSupplier.getAsDouble() < 5;
   }
 }

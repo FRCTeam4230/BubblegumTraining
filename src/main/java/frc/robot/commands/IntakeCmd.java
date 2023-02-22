@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCmd extends CommandBase {
-  /** Creates a new IntakeCmd. */
   private final IntakeSubsystem intakeSubsystem;
   private final DoubleSupplier speedSupplier;
   

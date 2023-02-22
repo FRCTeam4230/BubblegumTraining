@@ -78,13 +78,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // Building differential drive
     differentialDrive = new DifferentialDrive(leftGroup, rightGroup);
-    differentialDrive.setDeadband(0.005); // this is for worn out controllers. dial in if needed
+    differentialDrive.setDeadband(0.005);
 
     resetEncoders();
 
     lights = new Spark(Constants.DriveTrain.LED_LIGHTS_PORT);
-
-    // differentialDrive.setDeadband(0.03);
 
     SmartDashboard.putData(this);
     SmartDashboard.putData(navx);
@@ -136,11 +134,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     navx.reset();
   }
 
-  /**
-   * Returns the heading of the robot.
-   *
-   * @return the robot's heading in degrees, from 180 to 180
-   */
   public double getHeading() {
     //Gets the remainder of the gyro angle and 360
     //Returns angle between 0 and 360
@@ -157,7 +150,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    // return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     return navx.getRate();
   }
 
@@ -217,5 +209,4 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private  boolean isBrake(){
     return idleMode == IdleMode.kBrake;
   }
-
 }

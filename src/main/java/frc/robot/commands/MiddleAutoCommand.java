@@ -10,18 +10,15 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.Balance;
 
-
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+//Auto command for when we are in the middle
+//Deposit cone, drive over charge station to get robot mobility points
+//drive back to charge station, balance
 public class MiddleAutoCommand extends SequentialCommandGroup {
   ArmSubsystem armSubsystem;
   IntakeSubsystem intakeSubsystem;
   DriveTrainSubsystem driveTrain;
 
-  /** Creates a new MiddleAutoCommand. */
   public MiddleAutoCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem,
       DriveTrainSubsystem driveTrain) {
     this.armSubsystem = armSubsystem;
@@ -44,8 +41,5 @@ public class MiddleAutoCommand extends SequentialCommandGroup {
         new Balance(driveTrain),
         new SetDriveTrainMotorIdleMode(driveTrain, true)
         );
-
-        // (() -> driveTrain.lock()).withTimeout(2));
-        // new ArmPIDAgainstGravity(armSubsystem, () -> 35));
   }
 }

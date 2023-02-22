@@ -10,20 +10,11 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+//Auto command for when we are on the right side
+//Deposit cone, drive out of community, grab another game element, deposit that element
 public class RightAutoCommand extends SequentialCommandGroup {
-  /** Creates a new RightAutoCommand. */
-  private DriveTrainSubsystem driveTrain;
-  private ArmSubsystem armSubsystem;
-  private IntakeSubsystem intakeSubsystem;
-
   public RightAutoCommand(DriveTrainSubsystem driveTrain, ArmSubsystem armSubsystem,
       IntakeSubsystem intakeSubsystem) {
-    this.driveTrain = driveTrain;
-    this.armSubsystem = armSubsystem;
-    this.intakeSubsystem = intakeSubsystem;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
