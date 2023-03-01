@@ -27,13 +27,11 @@ public class RightAutoCommand extends SequentialCommandGroup {
             .withTimeout(0.5),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
             .withTimeout(3),
-        new DriveDistance(driveTrain, -0.5)
-            .withTimeout(0.5),
         //EVerything below here needs refining
+        new DriveDistance(driveTrain, -160)
+        .withTimeout(3.5),
         new PIDTurn(driveTrain, 180)
             .withTimeout(1),
-        new DriveDistance(driveTrain, 1)
-        .withTimeout(3.5),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.PICK_UP_FROM_GROUND)
         .withTimeout(2)
         .alongWith(new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED)

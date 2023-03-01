@@ -56,13 +56,10 @@ public class DriveDistance extends CommandBase {
     double turn = turnPidController.calculate(driveTrain.getRawHeading());
 
     speed = MathUtil.clamp(speed, -0.5, 0.5);
-    turn = MathUtil.clamp(turn, -0.2, 0.2);
+    turn = MathUtil.clamp(turn, -0.3, 0.3);
 
-    //The robot wasn't reaching set point
-    //Could be because it was going in the opposite direction than it was supposed to
-    //This way it would always be getting farther from the set point
-    //Test this code with negative speed
-    driveTrain.arcadeDrive(-speed, turn);
+    
+    driveTrain.arcadeDrive(speed, turn);
   }
 
   // Called once the command ends or is interrupted.

@@ -29,9 +29,9 @@ public final class Constants {
 
     //Change robot length to the length of charged up bot
     public static final double  DISTANCE_TO_CHARGE_STATION = 40;
-    public static final double CHARGE_STATION_ONTO_PITCH = 15;
+    public static final double CHARGE_STATION_ONTO_PITCH = 13;
 
-    public static final double PID_TURN_P = 0.0118;
+    public static final double PID_TURN_P = 0.012;
     public static final double PID_TURN_I = 0;
     public static final double PID_TURN_D = 0;
     public static final double RIGHT_ELEMENT_TO_SCORE_DISTANCE = 0;
@@ -40,7 +40,7 @@ public final class Constants {
 
 
   public static final class DriveDistanceParams {
-    public static final double kP = 1;
+    public static final double kP = 0.5;
     public static final double kI = 0;
     public static final double kD = 0;
 
@@ -102,7 +102,7 @@ public final class Constants {
     public static final double SPEED_ARM_OUT_MAXIMUM = 0.7;
     public static final double ROTATION_ARM_OUT_MAXIMUM = 0.6;
 
-    public static final double TURN_KP = 0.08;
+    public static final double TURN_KP = 0.09;
     public static final double TURN_KI = 0;
     public static final double TURN_KD = 0;
 

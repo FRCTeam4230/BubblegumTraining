@@ -59,6 +59,6 @@ public class DriveBackToChargeStation extends CommandBase {
   @Override
   public boolean isFinished() {
     //After the robot has driven backwards for 20 cycles, end command
-    return cyclesElapsed >= 20;
+    return cyclesElapsed >= 70;
   }
 }
