@@ -108,7 +108,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isBack() {
-    return !backLimit.get() || getAngle() <= Constants.Arm.BACK_LIMIT_ANGLE;
+    boolean result = !backLimit.get() || getAngle() <= Constants.Arm.BACK_LIMIT_ANGLE;
+    if (result){
+      resetEncoders();
+    }
+    return result;
   }
 
   public double getAngle() {
