@@ -49,7 +49,7 @@ public class ArmPIDWithGravity extends PIDCommand {
   }
 
   @Override
-  public boolean isFinished(boolean interrupted) {
+  public boolean isFinished() {
     return getController().atSetpoint();
   }
 
