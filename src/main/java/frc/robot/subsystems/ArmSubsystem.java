@@ -196,7 +196,6 @@ public class ArmSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Rotary encoder angle: ", () -> rotaryEncoder.getDistance(), null);
     builder.addDoubleProperty("Arm angle the robot's using: ", this::getAngle, null);
     builder.addBooleanProperty("Using default arm motor encoder: ", () -> useDefaultMotorEncoder, null);
-    rotaryEncoder.initSendable(builder);
     frontLimit.initSendable(builder);
     backLimit.initSendable(builder);
 

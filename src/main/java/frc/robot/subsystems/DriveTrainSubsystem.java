@@ -185,25 +185,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
 
-    builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
-    builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
     builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
     builder.addDoubleProperty("Gyro Pitch", navx::getPitch, null);
-    builder.addDoubleProperty("Gyro QuarternionX", navx::getQuaternionX, null);
-    builder.addDoubleProperty("Gyro rate: ", navx::getRate, null);
     builder.addDoubleProperty("Gyro get heading: ", this::getHeading, null);
-    builder.addDoubleProperty("Gyro get angle: ", navx::getAngle, null);
-    builder.addDoubleProperty("getVelocityX: ", navx::getVelocityX, null);
-    builder.addDoubleProperty("getVelocityY: ", navx::getVelocityY, null);
-    builder.addDoubleProperty("getVelocityZ: ", navx::getVelocityZ, null);
     builder.addBooleanProperty("Level", this::isLevel, null);
-    builder.addDoubleProperty("Error: ", () -> navx.getPitch() - 1, null);
-    builder.addBooleanProperty("BRQAKE MODE", this::isBrake, null);
-
-    navx.initSendable(builder);
-    differentialDrive.initSendable(builder);
-    lights.initSendable(builder);
-
+    builder.addBooleanProperty("Braking: ", this::isBrake, null);
   }
 
   private  boolean isBrake(){
