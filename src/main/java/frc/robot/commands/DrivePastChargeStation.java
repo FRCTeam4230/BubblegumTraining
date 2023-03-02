@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 
 
 import edu.wpi.first.math.MathUtil;

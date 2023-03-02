@@ -34,8 +34,14 @@ public class HoldArmCommand extends ArmPIDWithGravity {
 
 
     public void execute(){
+        //WORK ON THIS ON THURSDAY
+        
+        //I commented the holdAgainstGravity line out because right now
+        //the code should work without it
+        //However, I haven't tested the code with that line commented out yet
+
         //Holds it be moving the arm up a tiny bit
-        armSubsystem.holdAgainstGravity();
+        // armSubsystem.holdAgainstGravity();
     }
     
 }

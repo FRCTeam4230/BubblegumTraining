@@ -121,7 +121,7 @@ public final class Constants {
     public static final int BACK_LIMIT_PORT = 2;
     public static final double FORWARD_LIMIT_ANGLE = 279;
     public static final double BACK_LIMIT_ANGLE = 0.5;
-    public static final double ARM_SPEED = 0.35;
+    public static final double ARM_SPEED = 0.4;
 
     //Constants for arm zones
     public static final double BOUNDARY_FAST_MINIMUM = 5;
