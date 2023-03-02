@@ -44,9 +44,11 @@ public class ArmPIDWithGravity extends PIDCommand {
 
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     armSubsystem.stop();
   }
 
+  @Override
   public boolean isFinished(boolean interrupted) {
     return getController().atSetpoint();
   }

@@ -39,11 +39,6 @@ public class Balance extends PIDCommand {
     driveTrain.lock();
   }
 
-  @Override
-  public void execute() {
-      super.execute();
-  }
-
   // Returns false because we don't want the robot to stop balancing
   @Override
   public boolean isFinished() {
