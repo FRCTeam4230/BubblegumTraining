@@ -36,7 +36,7 @@ public class MiddleAutoCommand extends SequentialCommandGroup {
             .withTimeout(0.5),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
             .withTimeout(3.5),
-        new DrivePastChargeStation(driveTrain, () -> driveTrain.getPitch()),
+        new DrivePastChargeStation(driveTrain),
         new DriveBackToChargeStation(driveTrain), 
         new Balance(driveTrain),
         new SetDriveTrainMotorIdleMode(driveTrain, true)

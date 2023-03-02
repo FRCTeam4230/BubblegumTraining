@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 
 
 import edu.wpi.first.math.MathUtil;
@@ -16,16 +15,15 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DrivePastChargeStation extends CommandBase {
   /** Creates a new DriveToChargeStation. */
   private final DriveTrainSubsystem driveTrain;
-  private final DoubleSupplier pitchSupplier;
   private boolean AtChargeStation;
   private boolean OffChargeStation;
   private final PIDController rotationPidController;
+  private int cyclesElapsed;
   // private final PIDController distancePidController;
 
-  public DrivePastChargeStation(DriveTrainSubsystem driveTrain, DoubleSupplier pitchSupplier) {
+  public DrivePastChargeStation(DriveTrainSubsystem driveTrain) {
     super();
     this.driveTrain = driveTrain;
-    this.pitchSupplier = pitchSupplier;
 
     AtChargeStation = false;
     OffChargeStation = false;
@@ -44,6 +42,7 @@ public class DrivePastChargeStation extends CommandBase {
     driveTrain.zeroHeading();
     rotationPidController.setSetpoint(0);
     rotationPidController.setTolerance(1.5);
+    cyclesElapsed = 0;
 
   }
 
@@ -62,14 +61,20 @@ public class DrivePastChargeStation extends CommandBase {
     //Pitch is negative as robot drives up charge station
     //If the pitch is more negative than 15, then the robot is at least
     //partially on the charge station
-    if(pitchSupplier.getAsDouble() < -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
+    if(driveTrain.getPitch() < -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
       AtChargeStation = true;
+      System.out.println("Robot at charge station");
     }
 
     //After the robot has reached the charge station, if the pitch becomes very positive
     //which means that it is driving off of the charge station
-    if(AtChargeStation && pitchSupplier.getAsDouble() > Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
+    if(AtChargeStation && driveTrain.getPitch() > Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
       OffChargeStation = true;
+      System.out.println("Robot off charge station");
+    }
+
+    if(OffChargeStation) {
+      cyclesElapsed++;
     }
     
   }
@@ -84,6 +89,6 @@ public class DrivePastChargeStation extends CommandBase {
   @Override
   public boolean isFinished() {
     //Once the robot is more or less on level ground after getting off of the charge station, end command
-    return OffChargeStation && pitchSupplier.getAsDouble() < 5;
+    return OffChargeStation && cyclesElapsed >= 50;
   }
 }

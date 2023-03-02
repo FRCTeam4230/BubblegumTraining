@@ -16,9 +16,6 @@ import frc.robot.Constants.MotorID;
 public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax motor;
 
-  //color sensor in the future to know what we are carrying. (for auto and for dashbaord alerts)
-
-
   public IntakeSubsystem() {
     motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.INTAKE_MOTOR_ID);
     

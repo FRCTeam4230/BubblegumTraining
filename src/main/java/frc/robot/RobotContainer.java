@@ -6,10 +6,13 @@ package frc.robot;
 
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveBackToChargeStation;
+import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DrivePastChargeStation;
 import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.LightCommand;
 import frc.robot.commands.MiddleAutoCommand;
+import frc.robot.commands.PIDTurn;
 import frc.robot.commands.RightAutoCommand;
 import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
@@ -28,6 +31,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+//THINGS TO WORK ON
+//
+//1. In HoldArmCommand, I commented the execute portion of the code out, test to see if it still works
+//2. In ArmSubsystem, I added code to switch between encoders if the rotary encoder's broken, test this
+//3. Make sure the conversion factor on the default encoder on the arm motor is right
+//4. Refine the arm position for picking up cone from charge station
+//5. Tune the PID loop for Balance command with their Charge Station
+//6. Work on RightAutoCommand
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -62,10 +74,6 @@ public class RobotContainer {
   private final IntakeCmd pickUpCube = new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED);
   private final IntakeCmd outputCube = new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED);
 
-  //Testing stuff with lights
-  private final LightCommand purpleLight = new LightCommand(driveTrain, Constants.LightNumbers.PURPLE);
-  private final LightCommand yellowLight = new LightCommand(driveTrain, Constants.LightNumbers.YELLOW);
-
   private final ArmPIDWithGravity bringInArm = new ArmPIDWithGravity(armSubsystem,
       () -> Constants.ArmPositions.BRING_IN);
   private final ArmPIDWithGravity pickUpFromGround = new ArmPIDWithGravity(armSubsystem,
@@ -85,8 +93,8 @@ public class RobotContainer {
   private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
   private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
 
-//   private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
-  private final RightAutoCommand autoCommand = new RightAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
+  private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
+//   private final RightAutoCommand autoCommand = new RightAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
   private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
   private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
@@ -111,6 +119,13 @@ public class RobotContainer {
 
   private void configureBindings() {
 
+    // //Test button
+    // new JoystickButton(driverController, 
+    // XboxController.Button.kStart.value).onTrue(
+    //     new DrivePastChargeStation(driveTrain)
+    //     .andThen(new DriveBackToChargeStation(driveTrain))
+    //     .andThen(new Balance(driveTrain))
+    // );
     // Buttons for automated arm movement
 
     //Start button brings in the arm
