@@ -28,13 +28,13 @@ public final class Constants {
   public static class AutoConstants {
 
     //Change robot length to the length of charged up bot
-    public static final double  DISTANCE_TO_CHARGE_STATION = 40;
+    public static final double  DISTANCE_TO_CHARGE_STATION = 45;
     public static final double CHARGE_STATION_ONTO_PITCH = 13;
 
-    public static final double PID_TURN_P = 0.012;
+    public static final double PID_TURN_P = 0.015;
     public static final double PID_TURN_I = 0;
     public static final double PID_TURN_D = 0;
-    public static final double RIGHT_ELEMENT_TO_SCORE_DISTANCE = 0;
+    public static final double RIGHT_ELEMENT_TO_SCORE_DISTANCE = 150;
 
   }
 
@@ -55,8 +55,8 @@ public final class Constants {
   public static class DriveTrain { 
 
     // Multipliers
-    public static final double SPEED_MULTIPLIER = 0.8;
-    public static final double ROTATION_MULTIPLIER = 0.7;
+    public static final double SPEED_MULTIPLIER = 0.9;
+    public static final double ROTATION_MULTIPLIER = 0.5;
     
   
     // Ramp rate
@@ -67,14 +67,12 @@ public final class Constants {
 
 
     // PID
-    public static double CHARGE_STATION_P = 0.04;
+    public static double CHARGE_STATION_P = 0.03;
     public static double CHARGE_STATION_I = 0.0;
-    public static double CHARGE_STATION_D = 0.0;
+    public static double CHARGE_STATION_D = 0.01;
 
-    public static final double CHARGING_STATION_SPEED_MULTIPLIER = 0;
     public static final double kPositionTolerance = 0.8;
-    public static final double kVelocityTolerance = 0;
-    public static final double PID_CLAMP_RANGE = 0.45;
+    public static final double PID_CLAMP_RANGE = 0.4;
 
     public static final double ROBOT_LENGTH = 32.0;
     public static final double ROBOT_WIDTH = 24.0;
@@ -115,19 +113,22 @@ public final class Constants {
     public static final double ARM_RAMP_RATE = 0.5;
     // Might change encoder to more accurate. Update the number 42 is we get new
     // encoder
-    public static final double MOTOR_TO_DEGREES = (1 / 42.0) * (1 / 48.0) * 360;
+    // public static final double MOTOR_TO_DEGREES = ((1 / 42.0) * (1 / 48.0) * 360);
+    // public static final double MOTOR_TO_DEGREES = 15.498288387457226 / 1.045917510986328;
+    public static final double MOTOR_TO_DEGREES = 1;
+    
     public static final int ENCODER_PORT = 0;
     public static final int FRONT_LIMIT_PORT = 1;
     public static final int BACK_LIMIT_PORT = 2;
     public static final double FORWARD_LIMIT_ANGLE = 279;
     public static final double BACK_LIMIT_ANGLE = 0.5;
-    public static final double ARM_SPEED = 0.4;
+    public static final double ARM_SPEED = 0.2;
 
     //Constants for arm zones
     public static final double BOUNDARY_FAST_MINIMUM = 5;
     public static final double BOUNDARY_FAST_MAXIMUM = 250;
     public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.35;
-    public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.75;
+    public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.85;
     
 
   }
@@ -171,7 +172,7 @@ public final class Constants {
     // When the robot is picking stuff off of the ground
     public static final double PICK_UP_FROM_GROUND = 284;
     // When the robot is picking stuff from the loading station
-    public static final double PICK_UP_FROM_STATION = 196;
+    public static final double PICK_UP_FROM_STATION = 195;
 
   }
 

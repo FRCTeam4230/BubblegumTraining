@@ -11,9 +11,12 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivePastChargeStation;
 import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.MiddleAutoCommand;
+import frc.robot.commands.MiddleAutoCommandAdvanced;
+import frc.robot.commands.MiddleAutoCommandBasic;
 import frc.robot.commands.PIDTurn;
-import frc.robot.commands.RightAutoCommand;
+import frc.robot.commands.LeftAutoCommand;
+import frc.robot.commands.ScoreTopAutoCommand;
+import frc.robot.commands.SetArmMotorIdleMode;
 import frc.robot.commands.ArmBackwardCmd;
 import frc.robot.commands.ArmForwardCmd;
 import frc.robot.commands.ArmPIDAgainstGravity;
@@ -93,8 +96,13 @@ public class RobotContainer {
   private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
   private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
 
-  private final MiddleAutoCommand autoCommand = new MiddleAutoCommand(armSubsystem, intakeSubsystem, driveTrain);
+  //CHANGE AUTO HERE
+//   private final MiddleAutoCommandAdvanced autoCommand = new MiddleAutoCommandAdvanced(armSubsystem, intakeSubsystem, driveTrain);
+  private final MiddleAutoCommandBasic autoCommand = new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain);
 //   private final RightAutoCommand autoCommand = new RightAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
+
+
+
   private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
   private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
@@ -134,11 +142,26 @@ public class RobotContainer {
             bringInArm
                 .andThen(holdBringInArm));
 
+    new JoystickButton(intakeController, 
+    XboxController.Button.kStart.value).onTrue(
+        new DriveDistance(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION)
+    );
+
+    new JoystickButton(intakeController, 
+    XboxController.Button.kBack.value).onTrue(
+        new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem)
+    );
+    
+    new JoystickButton(driverController, 
+    XboxController.Button.kA.value).onTrue(new ScoreTopAutoCommand(
+        armSubsystem, intakeSubsystem)
+    );
+
     //Button A picks up from ground
-    new JoystickButton(driverController,
-        XboxController.Button.kA.value).onTrue(
-            pickUpFromGround
-                .andThen(holdPickUpFromGround));
+    // new JoystickButton(driverController,
+    //     XboxController.Button.kA.value).onTrue(
+    //         pickUpFromGround
+    //             .andThen(holdPickUpFromGround));
 
     //Button X picks up from station
     new JoystickButton(driverController,
@@ -211,6 +234,10 @@ public class RobotContainer {
     // need to tell the drive command about the arm position
     return new Drive(driveTrain, () -> driverController.getLeftY(), () -> driverController.getRightX(),
         () -> armSubsystem.getAngle());
+  }
+
+  public Command getDisableCommand() {
+    return new SetArmMotorIdleMode(armSubsystem, false);
   }
 
 }

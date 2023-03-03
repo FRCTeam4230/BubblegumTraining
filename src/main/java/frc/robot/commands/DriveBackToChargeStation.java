@@ -45,7 +45,7 @@ public class DriveBackToChargeStation extends CommandBase {
     //Uses PID controller with robot heading to make sure the robot is going straight
     double rotation = rotationPidController.calculate(driveTrain.getHeading());
 
-    driveTrain.arcadeDrive(0.4, MathUtil.clamp(rotation, -0.2, 0.2));
+    driveTrain.arcadeDrive(0.5, MathUtil.clamp(rotation, -0.2, 0.2));
     cyclesElapsed += 1;
   }
 
@@ -59,6 +59,6 @@ public class DriveBackToChargeStation extends CommandBase {
   @Override
   public boolean isFinished() {
     //After the robot has driven backwards for 20 cycles, end command
-    return cyclesElapsed >= 70;
+    return cyclesElapsed >= 999;
   }
 }

@@ -48,6 +48,6 @@ public class Balance extends PIDCommand {
   @Override
   public void end(boolean interrupted) {
       super.end(interrupted);
-      driveTrain.coast();
+      // driveTrain.coast();
   }
 }

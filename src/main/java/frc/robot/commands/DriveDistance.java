@@ -55,7 +55,7 @@ public class DriveDistance extends CommandBase {
     double speed = DistancePidController.calculate(driveTrain.getAverageEncoder());
     double turn = turnPidController.calculate(driveTrain.getRawHeading());
 
-    speed = MathUtil.clamp(speed, -0.5, 0.5);
+    speed = MathUtil.clamp(speed, -0.6, 0.6);
     turn = MathUtil.clamp(turn, -0.3, 0.3);
 
     

@@ -25,6 +25,7 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean goingForward;
   private boolean useDefaultMotorEncoder;
 
+
   public ArmSubsystem() {
     motor = StaticFunctions.initiateCANSparkMaxMotor.apply(MotorID.ARM_MOTOR_ID);
 
@@ -46,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void rotate(double speed) {
-    motor.set(MathUtil.clamp(speed, -0.55, 0.55));
+    motor.set(MathUtil.clamp(speed, -0.7, 0.7));
   }
 
   public void goForward(double speed) {
@@ -83,19 +84,19 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    //If we haven't switched to using the default motor encoder
-    //then run this test, since we don't want the code to be switching between the
-    //two encoders
-    if (!useDefaultMotorEncoder) {
-      // If the back limit switch is not activated, that means the arm is not at the back
-      // If the arm is not at the back, then the encoder shouldn't have a nonzero number
-      // If the back limit switch is not activated and the encoder value is still 0,
-      // that means the encoder is broken
-      if (backLimit.get() && (rotaryEncoder.getDistance() == 0)) {
-        //If the encoder is broken, use a different encoder
-        useDefaultMotorEncoder = true;
-      }
-    }
+    // //If we haven't switched to using the default motor encoder
+    // //then run this test, since we don't want the code to be switching between the
+    // //two encoders
+    // if (!useDefaultMotorEncoder) {
+    //   // If the back limit switch is not activated, that means the arm is not at the back
+    //   // If the arm is not at the back, then the encoder shouldn't have a nonzero number
+    //   // If the back limit switch is not activated and the encoder value is still 0,
+    //   // that means the encoder is broken
+    //   if (backLimit.get() && (rotaryEncoder.getDistance() == 0)) {
+    //     //If the encoder is broken, use a different encoder
+    //     useDefaultMotorEncoder = true;
+    //   }
+    // }
 
     //If the back limit is turned on, reset the encoders to 0
     if(!backLimit.get()){
@@ -109,19 +110,21 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isBack() {
     boolean result = !backLimit.get() || getAngle() <= Constants.Arm.BACK_LIMIT_ANGLE;
-    if (result){
-      resetEncoders();
-    }
+    // if (result){
+    //   resetEncoders();
+    // }
     return result;
   }
 
   public double getAngle() {
     // Reads the encoder value
-    if (useDefaultMotorEncoder) {
-      return motor.getEncoder().getPosition();
-    } else {
-      return rotaryEncoder.getDistance();
-    }
+    // if (useDefaultMotorEncoder) {
+    //   return motor.getEncoder().getPosition();
+    // } else {
+    //   return rotaryEncoder.getDistance();
+    // }
+
+    return rotaryEncoder.getDistance();
   }
 
   public boolean getDirection() {
@@ -147,15 +150,12 @@ public class ArmSubsystem extends SubsystemBase {
 
       } else {
         // If we are moving towards the inside, then go slow
-        return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT * 0.7;
-
+        return Constants.Arm.ENTERING_ROTATION_SAFETY_ZONE_LIMIT;
       }
 
     }
 
-    // Returns a default multiplier of 1, hopefully this value is never returned,
-    // but we needed to add a default value
-    // to avoid error
+    // Returns a default multiplier of 1 if in middle zone
     return 1;
   }
 
@@ -187,6 +187,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void coast() {
     motor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void lock() {
+    motor.setIdleMode(IdleMode.kBrake);
   }
 
   @Override

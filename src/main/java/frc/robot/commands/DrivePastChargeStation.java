@@ -30,7 +30,7 @@ public class DrivePastChargeStation extends CommandBase {
     
     
     rotationPidController = new PIDController(
-      Constants.DriveTrain.TURN_KP, Constants.DriveTrain.TURN_KI, Constants.DriveTrain.TURN_KD);
+    Constants.DriveTrain.TURN_KP, Constants.DriveTrain.TURN_KI, Constants.DriveTrain.TURN_KD);
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -54,23 +54,19 @@ public class DrivePastChargeStation extends CommandBase {
     double rotation = rotationPidController.calculate(driveTrain.getHeading());
 
     //Uses PID controller with robot heading to make sure the robot is going straight
-
-
-    driveTrain.arcadeDrive(-0.5, MathUtil.clamp(rotation, -0.2, 0.2));
+    driveTrain.arcadeDrive(-0.6, MathUtil.clamp(rotation, -0.2, 0.2));
 
     //Pitch is negative as robot drives up charge station
-    //If the pitch is more negative than 15, then the robot is at least
+    //If the pitch is more negative than 13, then the robot is at least
     //partially on the charge station
     if(driveTrain.getPitch() < -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
       AtChargeStation = true;
-      System.out.println("Robot at charge station");
     }
 
     //After the robot has reached the charge station, if the pitch becomes very positive
     //which means that it is driving off of the charge station
     if(AtChargeStation && driveTrain.getPitch() > Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH) {
       OffChargeStation = true;
-      System.out.println("Robot off charge station");
     }
 
     if(OffChargeStation) {
@@ -89,6 +85,6 @@ public class DrivePastChargeStation extends CommandBase {
   @Override
   public boolean isFinished() {
     //Once the robot is more or less on level ground after getting off of the charge station, end command
-    return OffChargeStation && cyclesElapsed >= 50;
+    return cyclesElapsed >= 55;
   }
 }

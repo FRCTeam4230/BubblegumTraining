@@ -47,7 +47,8 @@ public class ArmPIDAgainstGravity extends PIDCommand {
     armSubsystem.stop();
   }
 
-  public boolean isFinished(boolean interrupted) {
+  @Override
+  public boolean isFinished() {
     return getController().atSetpoint();
   }
 
