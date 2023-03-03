@@ -77,5 +77,6 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
+    builder.addDoubleProperty("Distance: ", () -> distance, null);
   }
 }

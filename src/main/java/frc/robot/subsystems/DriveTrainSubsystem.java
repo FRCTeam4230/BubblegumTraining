@@ -16,7 +16,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -110,13 +109,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public double getLeftEncoder() {
-    return (motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
-        + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2;
+    return -((motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
+        + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2);
   }
 
   public double getRightEncoder() {
-    return (motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
-        + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2;
+    return ((motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
+        + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2);
   }
 
   public double getAverageEncoder() {
@@ -182,6 +181,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
     builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
     builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
+    builder.addDoubleProperty("Motor 1: ", () -> motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition(), null);
+    builder.addDoubleProperty("Motor 2: ", () -> motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition(), null);
+    builder.addDoubleProperty("Motor 3: ", () -> motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition(), null);
+    builder.addDoubleProperty("Motor 4: ", () -> motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition(), null);
     builder.addDoubleProperty("Gyro Pitch", navx::getPitch, null);
     builder.addDoubleProperty("Gyro get heading: ", this::getHeading, null);
     builder.addBooleanProperty("Level", this::isLevel, null);

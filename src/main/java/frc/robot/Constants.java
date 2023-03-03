@@ -25,11 +25,24 @@ public final class Constants {
   //PROTOBOT is normal, 2023 ahs INVERTED gearboxes
   public final static boolean isProtoBot = false;
 
+  public static class CompetitionRobot{
+    public final static double length = 34;
+    public final static double width = 28;
+  };
+
   public static class AutoConstants {
 
     //Change robot length to the length of charged up bot
     public static final double  DISTANCE_TO_CHARGE_STATION = 45;
     public static final double CHARGE_STATION_ONTO_PITCH = 13;
+
+    public static final double LEFT_START_TO_COMMUNITY_LINE = 136;
+    public static final double LEFT_COMMUNITY_LINE_TO_CENTER_LINE = 134;
+
+    public static final double RIGHT_START_TO_COMMUNITY_LINE = 69;
+    public static final double RIGHT_COMMUNITY_LINE_TO_CENTER_LINE = 203;
+
+
 
     public static final double PID_TURN_P = 0.015;
     public static final double PID_TURN_I = 0;

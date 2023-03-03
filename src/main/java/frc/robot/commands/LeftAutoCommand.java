@@ -19,8 +19,8 @@ public class LeftAutoCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
-        new DriveDistance(driveTrain, -165)
-        .withTimeout(4),
+        new DriveDistance(driveTrain, Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length+10)
+        .withTimeout(3),
         new PIDTurn(driveTrain, 180)
             .withTimeout(1),
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.PICK_UP_FROM_GROUND + 3)

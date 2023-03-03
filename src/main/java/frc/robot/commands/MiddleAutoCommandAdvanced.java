@@ -34,6 +34,7 @@ public class MiddleAutoCommandAdvanced extends SequentialCommandGroup {
         new DriveBackToChargeStation(driveTrain)
         .withTimeout(3), 
         new Balance(driveTrain)
+        .withTimeout(4)
         );
   }
 }

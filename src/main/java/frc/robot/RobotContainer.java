@@ -98,8 +98,10 @@ public class RobotContainer {
 
   //CHANGE AUTO HERE
 //   private final MiddleAutoCommandAdvanced autoCommand = new MiddleAutoCommandAdvanced(armSubsystem, intakeSubsystem, driveTrain);
-  private final MiddleAutoCommandBasic autoCommand = new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain);
-//   private final RightAutoCommand autoCommand = new RightAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
+//   private final MiddleAutoCommandBasic autoCommand = new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain);
+// private final LeftAutoCommand autoCommand = new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
+private final ScoreTopAutoCommand autoCommand = new ScoreTopAutoCommand(armSubsystem, intakeSubsystem);
+  
 
 
 
@@ -143,20 +145,15 @@ public class RobotContainer {
             bringInArm
                 .andThen(holdBringInArm));
 
-    new JoystickButton(intakeController, 
-    XboxController.Button.kStart.value).onTrue(
-        new DriveDistance(driveTrain, Constants.AutoConstants.DISTANCE_TO_CHARGE_STATION)
-    );
+    //TEST BUTTON
+    // new JoystickButton(intakeController, 
+    // XboxController.Button.kStart.value).onTrue(
+    //     new DriveDistance(driveTrain, (Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length+10)));
 
-    new JoystickButton(intakeController, 
-    XboxController.Button.kBack.value).onTrue(
-        new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem)
-    );
-    
-    new JoystickButton(driverController, 
-    XboxController.Button.kA.value).onTrue(new ScoreTopAutoCommand(
-        armSubsystem, intakeSubsystem)
-    );
+    // new JoystickButton(intakeController, 
+    // XboxController.Button.kBack.value).onTrue(
+    //     new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem)
+    // );
 
     // Button A picks up from ground
     new JoystickButton(driverController,
