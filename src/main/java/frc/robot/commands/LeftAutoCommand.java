@@ -10,8 +10,8 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-//Auto command for when we are on the right side
-//Deposit cone, drive out of community, grab another game element, deposit that element
+//Auto command for when we are on the left side
+//Deposit cone, drive out of community up to another element, put arm down so during teleop it's easy to pick up element
 public class LeftAutoCommand extends SequentialCommandGroup {
   public LeftAutoCommand(DriveTrainSubsystem driveTrain, ArmSubsystem armSubsystem,
       IntakeSubsystem intakeSubsystem) {
@@ -19,7 +19,6 @@ public class LeftAutoCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
-        //Everything below here needs refining
         new DriveDistance(driveTrain, -165)
         .withTimeout(4),
         new PIDTurn(driveTrain, 180)
@@ -27,11 +26,7 @@ public class LeftAutoCommand extends SequentialCommandGroup {
         new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.PICK_UP_FROM_GROUND + 3)
         .withTimeout(5)
         .alongWith(new IntakeCmd(intakeSubsystem, () -> -Constants.Intake.INTAKE_SPEED)
-        .withTimeout(0.5)),
-        new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
-        .withTimeout(2),
-        new PIDTurn(driveTrain, 180)
-        .withTimeout(1)
+        .withTimeout(0.5))
         );
   }
 }

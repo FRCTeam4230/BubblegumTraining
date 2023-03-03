@@ -44,7 +44,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private IdleMode idleMode;
 
-  private final Spark lights;
 
   public DriveTrainSubsystem(List<MotorID> motorIds) {
     super();
@@ -82,12 +81,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     resetEncoders();
 
-    lights = new Spark(Constants.DriveTrain.LED_LIGHTS_PORT);
 
     SmartDashboard.putData(this);
     SmartDashboard.putData(navx);
     SmartDashboard.putData(differentialDrive);
-    SmartDashboard.putData(lights);
   }
 
   /*
@@ -178,15 +175,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     });
   }
 
-  public void setLights(double lightNumber) {
-    lights.set(lightNumber);
-  }
-
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
 
     builder.addDoubleProperty("Average Encoder: ", this::getAverageEncoder, null);
+    builder.addDoubleProperty("Right Encoder: ", this::getRightEncoder, null);
+    builder.addDoubleProperty("Left Encoder: ", this::getLeftEncoder, null);
     builder.addDoubleProperty("Gyro Pitch", navx::getPitch, null);
     builder.addDoubleProperty("Gyro get heading: ", this::getHeading, null);
     builder.addBooleanProperty("Level", this::isLevel, null);

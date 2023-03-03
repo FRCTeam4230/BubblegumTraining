@@ -134,6 +134,7 @@ public class RobotContainer {
     //     .andThen(new DriveBackToChargeStation(driveTrain))
     //     .andThen(new Balance(driveTrain))
     // );
+
     // Buttons for automated arm movement
 
     //Start button brings in the arm
@@ -157,11 +158,11 @@ public class RobotContainer {
         armSubsystem, intakeSubsystem)
     );
 
-    //Button A picks up from ground
-    // new JoystickButton(driverController,
-    //     XboxController.Button.kA.value).onTrue(
-    //         pickUpFromGround
-    //             .andThen(holdPickUpFromGround));
+    // Button A picks up from ground
+    new JoystickButton(driverController,
+        XboxController.Button.kA.value).onTrue(
+            pickUpFromGround
+                .andThen(holdPickUpFromGround));
 
     //Button X picks up from station
     new JoystickButton(driverController,
