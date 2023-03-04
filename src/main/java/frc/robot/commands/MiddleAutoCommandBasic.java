@@ -20,11 +20,11 @@ public class MiddleAutoCommandBasic extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
+      // new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
       new DriveToChargeStation(driveTrainSubsystem)
       .withTimeout(3),
       new Balance(driveTrainSubsystem)
-      .withTimeout(4)
+      .withTimeout(10)
     );
   }
 }

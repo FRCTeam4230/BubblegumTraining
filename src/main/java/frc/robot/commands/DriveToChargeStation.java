@@ -13,6 +13,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DriveToChargeStation extends CommandBase {
   private DriveTrainSubsystem driveTrain;
   private PIDController rotationPIDController;
+  private boolean onChargeStation;
   /** Creates a new DriveToChargeStation. */
   public DriveToChargeStation(DriveTrainSubsystem driveTrain) {
     this.driveTrain = driveTrain;
@@ -22,6 +23,7 @@ public class DriveToChargeStation extends CommandBase {
       Constants.DriveTrain.TURN_KD);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
+    onChargeStation = false;
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +38,16 @@ public class DriveToChargeStation extends CommandBase {
   @Override
   public void execute() {
     double output = rotationPIDController.calculate(driveTrain.getRawHeading());
+    if(driveTrain.getPitch() <= -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH){
+      onChargeStation = true;
+    }
+  if(onChargeStation){
+    //Go slow when on the charge station
+    driveTrain.arcadeDrive(-0.4, MathUtil.clamp(output, -0.2, 0.2));
+  } else {
+    //Go fast when going on the charge station
     driveTrain.arcadeDrive(-0.6, MathUtil.clamp(output, -0.2, 0.2));
+  }
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +59,6 @@ public class DriveToChargeStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return driveTrain.getPitch() <= -Constants.AutoConstants.CHARGE_STATION_ONTO_PITCH;
+    return onChargeStation && driveTrain.getPitch() >= -6;
   }
 }

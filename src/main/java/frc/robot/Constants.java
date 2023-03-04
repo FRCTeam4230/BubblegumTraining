@@ -34,7 +34,7 @@ public final class Constants {
 
     //Change robot length to the length of charged up bot
     public static final double  DISTANCE_TO_CHARGE_STATION = 45;
-    public static final double CHARGE_STATION_ONTO_PITCH = 13;
+    public static final double CHARGE_STATION_ONTO_PITCH = 14;
 
     public static final double LEFT_START_TO_COMMUNITY_LINE = 136;
     public static final double LEFT_COMMUNITY_LINE_TO_CENTER_LINE = 134;
@@ -81,7 +81,7 @@ public final class Constants {
 
     // PID
     public static double CHARGE_STATION_P = 0.03;
-    public static double CHARGE_STATION_I = 0.0;
+    public static double CHARGE_STATION_I = 0.00;
     public static double CHARGE_STATION_D = 0.01;
 
     public static final double kPositionTolerance = 0.8;
@@ -100,7 +100,7 @@ public final class Constants {
     //If the arm is either in front of the robot nor inside the robot, the arm is up
 
     //Multipliers for when the arm is out
-    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.7;
+    public static final double SPEED_ARM_OUT_MULTIPLIER = 0.8;
     public static final double ROTATION_ARM_OUT_MULTIPLIER = 0.7;
     //Multipliers for when the arm is in
     public static final double SPEED_ARM_IN_MULTIPLIER = 1;
@@ -110,7 +110,7 @@ public final class Constants {
     public static final double ROTATION_ARM_UP_MULTIPLIER = 0.7;
 
     //Default multiplier, all other multipliers are applied after this one
-    public static final double SPEED_ARM_OUT_MAXIMUM = 0.7;
+    public static final double SPEED_ARM_OUT_MAXIMUM = 0.9;
     public static final double ROTATION_ARM_OUT_MAXIMUM = 0.6;
 
     public static final double TURN_KP = 0.09;

@@ -14,7 +14,8 @@ import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.MiddleAutoCommandAdvanced;
 import frc.robot.commands.MiddleAutoCommandBasic;
 import frc.robot.commands.PIDTurn;
-import frc.robot.commands.LeftAutoCommand;
+import frc.robot.commands.ShortAutoCommand;
+import frc.robot.commands.LongAutoCommand;
 import frc.robot.commands.ScoreTopAutoCommand;
 import frc.robot.commands.SetArmMotorIdleMode;
 import frc.robot.commands.ArmBackwardCmd;
@@ -99,8 +100,9 @@ public class RobotContainer {
   //CHANGE AUTO HERE
 //   private final MiddleAutoCommandAdvanced autoCommand = new MiddleAutoCommandAdvanced(armSubsystem, intakeSubsystem, driveTrain);
 //   private final MiddleAutoCommandBasic autoCommand = new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain);
-// private final LeftAutoCommand autoCommand = new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
-private final ScoreTopAutoCommand autoCommand = new ScoreTopAutoCommand(armSubsystem, intakeSubsystem);
+private final LongAutoCommand autoCommand = new LongAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
+// private final ScoreTopAutoCommand autoCommand = new ScoreTopAutoCommand(armSubsystem, intakeSubsystem);
+    // private final ShortAutoCommand autoCommand = new ShortAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
   
 
 
@@ -145,15 +147,11 @@ private final ScoreTopAutoCommand autoCommand = new ScoreTopAutoCommand(armSubsy
             bringInArm
                 .andThen(holdBringInArm));
 
-    //TEST BUTTON
+    // //TEST BUTTON
     // new JoystickButton(intakeController, 
-    // XboxController.Button.kStart.value).onTrue(
-    //     new DriveDistance(driveTrain, (Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length+10)));
+    // XboxController.Button.kStart.value).whileTrue(
+    //     new DriveDistance(driveTrain, -(Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length)));
 
-    // new JoystickButton(intakeController, 
-    // XboxController.Button.kBack.value).onTrue(
-    //     new LeftAutoCommand(driveTrain, armSubsystem, intakeSubsystem)
-    // );
 
     // Button A picks up from ground
     new JoystickButton(driverController,
@@ -208,6 +206,21 @@ private final ScoreTopAutoCommand autoCommand = new ScoreTopAutoCommand(armSubsy
         .whileTrue(outputCube);
 
   }
+// //B for long auto command
+//     new JoystickButton(intakeController, XboxController.Button.kB.value)
+//         .onTrue(new LongAutoCommand(driveTrain, armSubsystem, intakeSubsystem));
+// //A for short auto command
+//     new JoystickButton(intakeController, XboxController.Button.kA.value)
+//         .whileTrue(new ShortAutoCommand(driveTrain, armSubsystem, intakeSubsystem));
+// //X for middle auto command
+//     new JoystickButton(intakeController, XboxController.Button.kX.value)
+//         .whileTrue(new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain));
+// //Y for balance command
+//     new JoystickButton(intakeController, XboxController.Button.kY.value)
+//         .whileTrue(new Balance(driveTrain));
+//   };
+
+
 
   private void configureDefaultCommands() {
     // Setting default commands
