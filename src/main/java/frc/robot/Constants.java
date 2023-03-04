@@ -141,7 +141,7 @@ public final class Constants {
     //Constants for arm zones
     public static final double BOUNDARY_FAST_MINIMUM = 5;
     public static final double BOUNDARY_FAST_MAXIMUM = 250;
-    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.35;
+    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.5;
     public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.85;
     
 
