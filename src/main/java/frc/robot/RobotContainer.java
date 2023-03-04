@@ -134,19 +134,16 @@ public class RobotContainer {
   }
 
   private void configureCamera(){
-    try (UsbCamera camera = CameraServer.startAutomaticCapture()){
-      //you can now set thigns on the camera here
-
-    }
+   CameraServer.startAutomaticCapture();
   }
 
   private void configureAutoChooser(){
     autoChooser.setDefaultOption("Score Top & Drive Long", longAutoCommand);
     autoChooser.addOption("Score Top & Drive short", shortAutoCommand);
-    autoChooser.addOption("Middle Advanced", middleAutoCommandAdvanced);
+   // autoChooser.addOption("Middle Advanced", middleAutoCommandAdvanced);
     autoChooser.addOption("Middle Basic", middleAutoCommandBaisc);
-    autoChooser.addOption("Score Top", scoreTop);
-    autoChooser.addOption("LongAutoCommand", longAutoCommand);
+    autoChooser.addOption("Score Top", scoreTopAutoCommand);
+   // autoChooser.addOption("LongAutoCommand", longAutoCommand);
     // etc.
     SmartDashboard.putData("Autonomous routine", autoChooser);
   }
@@ -230,9 +227,9 @@ public class RobotContainer {
             .whileTrue(outputCube);
 
 
-    //B for select
-    new JoystickButton(intakeController, XboxController.Button.kRightBumper.value)
-            .whileTrue(autoChooser.getSelected());
+//     //Hold right bumper to run seleceted auto cmd
+//     new JoystickButton(intakeController, XboxController.Button.kRightBumper.value)
+//             .whileTrue(autoChooser.getSelected());
   }
 
 

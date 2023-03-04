@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
@@ -13,6 +14,13 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Balance extends PIDCommand {
   private DriveTrainSubsystem driveTrain;
+  // private double clampRange, p, i, d;
+  // private double clampRange = Constants.DriveTrain.PID_CLAMP_RANGE;
+  // private double i = Constants.DriveTrain.CHARGE_STATION_I;
+  // private double d = Constants.DriveTrain.CHARGE_STATION_I;
+  // private double p = Constants.DriveTrain.CHARGE_STATION_D;
+
+
   public Balance(DriveTrainSubsystem driveTrain) {
     super(
       new PIDController(
@@ -49,5 +57,15 @@ public class Balance extends PIDCommand {
   public void end(boolean interrupted) {
       super.end(interrupted);
       // driveTrain.coast();
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    super.initSendable(builder);
+
+    builder.addDoubleProperty("Constants.DriveTrain.PID_CLAMP_RANGE",() -> Constants.DriveTrain.PID_CLAMP_RANGE, (s) -> Constants.DriveTrain.PID_CLAMP_RANGE=s);
+    builder.addDoubleProperty("P",() -> Constants.DriveTrain.CHARGE_STATION_P, (s) -> Constants.DriveTrain.CHARGE_STATION_P=s);
+    builder.addDoubleProperty("I",() -> Constants.DriveTrain.CHARGE_STATION_I, (s) -> Constants.DriveTrain.CHARGE_STATION_I=s);
+    builder.addDoubleProperty("D",() -> Constants.DriveTrain.CHARGE_STATION_D, (s) -> Constants.DriveTrain.CHARGE_STATION_D=s);
   }
 }

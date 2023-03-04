@@ -22,6 +22,7 @@ public class LongAutoCommand extends SequentialCommandGroup {
         new DriveDistance(driveTrain, -(Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length))
         .withTimeout(3),
         new PIDTurn(driveTrain, 180)
+        .withTimeout(3)
         );
   }
 }
