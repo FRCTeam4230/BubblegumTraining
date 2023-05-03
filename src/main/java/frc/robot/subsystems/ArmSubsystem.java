@@ -46,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putData(backLimit);
   }
 
-  private void rotate(double speed) {
+  public void rotate(double speed) {
     motor.set(MathUtil.clamp(speed, -0.7, 0.7));
   }
 

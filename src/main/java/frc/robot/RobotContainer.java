@@ -12,10 +12,10 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.DriveBackToChargeStation;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivePastChargeStation;
-import frc.robot.commands.HoldArmCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.MiddleAutoCommandAdvanced;
 import frc.robot.commands.MiddleAutoCommandBasic;
+import frc.robot.commands.PIDHoldArmCommand;
 import frc.robot.commands.PIDTurn;
 import frc.robot.commands.ShortAutoCommand;
 import frc.robot.commands.LongAutoCommand;
@@ -94,14 +94,6 @@ public class RobotContainer {
   private final ArmPIDAgainstGravity scoreMiddle = new ArmPIDAgainstGravity(armSubsystem,
       () -> Constants.ArmPositions.SOCRE_MIDDLE);
 
-  private final HoldArmCommand holdBringInArm = new HoldArmCommand(armSubsystem, Constants.ArmPositions.BRING_IN);
-  private final HoldArmCommand holdPickUpFromGround = new HoldArmCommand(armSubsystem,
-      Constants.ArmPositions.PICK_UP_FROM_GROUND);
-  private final HoldArmCommand holdPickUpFromStation = new HoldArmCommand(armSubsystem,
-      Constants.ArmPositions.PICK_UP_FROM_STATION);
-  private final HoldArmCommand holdScoreTop = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP);
-  private final HoldArmCommand holdScoreMiddle = new HoldArmCommand(armSubsystem, Constants.ArmPositions.SOCRE_MIDDLE);
-
   //CHANGE AUTO HERE
   private final MiddleAutoCommandAdvanced middleAutoCommandAdvanced = new MiddleAutoCommandAdvanced(armSubsystem, intakeSubsystem, driveTrain);
   private final MiddleAutoCommandBasic middleAutoCommandBaisc = new MiddleAutoCommandBasic(armSubsystem, intakeSubsystem, driveTrain);
@@ -109,14 +101,10 @@ public class RobotContainer {
   private final ScoreTopAutoCommand scoreTopAutoCommand = new ScoreTopAutoCommand(armSubsystem, intakeSubsystem);
   private final ShortAutoCommand shortAutoCommand = new ShortAutoCommand(driveTrain, armSubsystem, intakeSubsystem);
   
-
-
-
   private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
   private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
   private final Balance balance = new Balance(driveTrain);
-
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -151,52 +139,31 @@ public class RobotContainer {
 
 
   private void configureBindings() {
-
-    // //Test button
-    // new JoystickButton(driverController, 
-    // XboxController.Button.kStart.value).onTrue(
-    //     new DrivePastChargeStation(driveTrain)
-    //     .andThen(new DriveBackToChargeStation(driveTrain))
-    //     .andThen(new Balance(driveTrain))
-    // );
-
     // Buttons for automated arm movement
 
     //Start button brings in the arm
     new JoystickButton(driverController,
             XboxController.Button.kStart.value).onTrue(
-            bringInArm
-                    .andThen(holdBringInArm));
-
-    // //TEST BUTTON
-    // new JoystickButton(intakeController, 
-    // XboxController.Button.kStart.value).whileTrue(
-    //     new DriveDistance(driveTrain, -(Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length)));
-
-
+            bringInArm);
     // Button A picks up from ground
     new JoystickButton(driverController,
             XboxController.Button.kA.value).onTrue(
-            pickUpFromGround
-                    .andThen(holdPickUpFromGround));
+            pickUpFromGround);
 
     //Button X picks up from station
     new JoystickButton(driverController,
             XboxController.Button.kX.value).onTrue(
-            pickUpFromStation
-                    .andThen(holdPickUpFromStation));
+            pickUpFromStation);
 
     //Button Y scores top row
     new JoystickButton(driverController,
             XboxController.Button.kY.value).onTrue(
-            scoreTop
-                    .andThen(holdScoreTop));
+            scoreTop);
 
     //B button for middle row
     new JoystickButton(driverController,
             XboxController.Button.kB.value).onTrue(
-            scoreMiddle
-                    .andThen(holdScoreMiddle));
+            scoreMiddle);
 
     //Buttons for moving arm manually
     new JoystickButton(driverController,
@@ -225,11 +192,6 @@ public class RobotContainer {
     // B button for outputing cube
     new JoystickButton(intakeController, XboxController.Button.kB.value)
             .whileTrue(outputCube);
-
-
-//     //Hold right bumper to run seleceted auto cmd
-//     new JoystickButton(intakeController, XboxController.Button.kRightBumper.value)
-//             .whileTrue(autoChooser.getSelected());
   }
 
 
@@ -239,6 +201,7 @@ public class RobotContainer {
     // Setting default commands
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, getTeleopCommand());
     CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, intakeCommand);
+    armSubsystem.setDefaultCommand(new PIDHoldArmCommand(armSubsystem));
   }
 
   /**

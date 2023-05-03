@@ -21,7 +21,7 @@ public class ScoreTopAutoCommand extends SequentialCommandGroup {
         new ArmPIDAgainstGravity(
             armSubsystem, () -> Constants.ArmPositions.SCORE_TOP)
             .withTimeout(2),
-        new HoldArmCommand(armSubsystem, Constants.ArmPositions.SCORE_TOP)
+        new PIDHoldArmCommand(armSubsystem)
             .withTimeout(0.5)
             .alongWith(new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED))
             .withTimeout(0.5),
