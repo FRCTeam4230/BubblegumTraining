@@ -9,22 +9,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.MotorID;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveBackToChargeStation;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DrivePastChargeStation;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.MiddleAutoCommandAdvanced;
-import frc.robot.commands.MiddleAutoCommandBasic;
-import frc.robot.commands.PIDHoldArmCommand;
-import frc.robot.commands.PIDTurn;
-import frc.robot.commands.ShortAutoCommand;
-import frc.robot.commands.LongAutoCommand;
-import frc.robot.commands.ScoreTopAutoCommand;
-import frc.robot.commands.SetArmMotorIdleMode;
-import frc.robot.commands.ArmBackwardCmd;
-import frc.robot.commands.ArmForwardCmd;
-import frc.robot.commands.ArmPIDAgainstGravity;
-import frc.robot.commands.ArmPIDWithGravity;
+import frc.robot.commands.arm.ArmBackwardCmd;
+import frc.robot.commands.arm.ArmForwardCmd;
+import frc.robot.commands.arm.ArmPIDAgainstGravity;
+import frc.robot.commands.arm.ArmPIDWithGravity;
+import frc.robot.commands.arm.PIDHoldArmCommand;
+import frc.robot.commands.arm.SetArmMotorIdleMode;
+import frc.robot.commands.auto.DriveBackToChargeStation;
+import frc.robot.commands.auto.DriveDistance;
+import frc.robot.commands.auto.DrivePastChargeStation;
+import frc.robot.commands.auto.LongAutoCommand;
+import frc.robot.commands.auto.MiddleAutoCommandAdvanced;
+import frc.robot.commands.auto.MiddleAutoCommandBasic;
+import frc.robot.commands.auto.PIDTurn;
+import frc.robot.commands.auto.ScoreTopAutoCommand;
+import frc.robot.commands.auto.ShortAutoCommand;
 import frc.robot.commands.Balance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -210,6 +210,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+        driveTrain.zeroHeading();
     return autoChooser.getSelected();
   }
 

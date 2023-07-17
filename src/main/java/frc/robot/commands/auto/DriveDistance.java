@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -58,8 +58,9 @@ public class DriveDistance extends CommandBase {
     speed = MathUtil.clamp(speed, -0.6, 0.6);
     turn = MathUtil.clamp(turn, -0.3, 0.3);
 
-    
-    driveTrain.arcadeDrive(speed, turn);
+    //This is supposed to be speed then turn, but when that happens it rotates in place
+    //This was flipped to turn and speed, and then it starts to go straight
+    driveTrain.arcadeDrive(turn, speed);
   }
 
   // Called once the command ends or is interrupted.

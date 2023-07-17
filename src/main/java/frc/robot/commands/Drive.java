@@ -18,7 +18,7 @@ public class Drive extends CommandBase {
   private final DoubleSupplier armAngleSupplier;
 
 
-  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, DoubleSupplier armAngleSupplier) {
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier rotation,  DoubleSupplier speed, DoubleSupplier armAngleSupplier) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
@@ -71,7 +71,7 @@ public class Drive extends CommandBase {
     }
 
     //now pass in the calcualted speed and rotation
-    driveTrain.arcadeDrive(-wantedSpeed, wantedRotation);
+    driveTrain.arcadeDrive(wantedSpeed, -wantedRotation);
   }
 
   // Called once the command ends or is interrupted.

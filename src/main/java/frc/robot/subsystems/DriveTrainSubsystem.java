@@ -119,7 +119,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public double getAverageEncoder() {
-    return (getLeftEncoder() + getRightEncoder()) / 2;
+     
+    double val = (getLeftEncoder() + getRightEncoder()) / 2;
+    return val;
   }
 
   public double getPitch(){

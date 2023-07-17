@@ -33,7 +33,7 @@ public final class Constants {
   public static class AutoConstants {
 
     //Change robot length to the length of charged up bot
-    public static final double  DISTANCE_TO_CHARGE_STATION = 45;
+    public static final double DISTANCE_TO_CHARGE_STATION = 45;
     public static final double CHARGE_STATION_ONTO_PITCH = 14;
 
     public static final double LEFT_START_TO_COMMUNITY_LINE = 136;
@@ -69,7 +69,7 @@ public final class Constants {
 
     // Multipliers
     public static final double SPEED_MULTIPLIER = 0.9;
-    public static final double ROTATION_MULTIPLIER = 0.5;
+    public static final double ROTATION_MULTIPLIER = 0.9;
     
   
     // Ramp rate
@@ -140,8 +140,8 @@ public final class Constants {
 
     //Constants for arm zones
     public static final double BOUNDARY_FAST_MINIMUM = 5;
-    public static final double BOUNDARY_FAST_MAXIMUM = 250;
-    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.5;
+    public static final double BOUNDARY_FAST_MAXIMUM = 255;
+    public static final double ENTERING_ROTATION_SAFETY_ZONE_LIMIT = 0.8;
     public static final double EXITING_ROTATION_SAFETY_ZONE_LIMIT = 0.85;
     
 
@@ -149,7 +149,7 @@ public final class Constants {
 
   public static class Intake {
     public static final double INTAKE_RAMP_RATE = 0.4;
-    public static final double INTAKE_SPEED = 0.5; // 50 % for now
+    public static final double INTAKE_SPEED = 0.75; // 50 % for now
     public static final double MOTOR_ROTATION_TO_INCHES = (1 / 42.0) * (1 / 48.0) * 360; //copied from drivetrain
 
   }
