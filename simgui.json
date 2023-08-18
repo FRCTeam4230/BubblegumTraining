@@ -1,0 +1,57 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [6]": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": false
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/ArmPIDAgainstGravity": "Command",
+      "/SmartDashboard/ArmPIDWithGravity": "Command",
+      "/SmartDashboard/ArmSubsystem": "Digital Input",
+      "/SmartDashboard/Autonomous routine": "String Chooser",
+      "/SmartDashboard/Balance": "Command",
+      "/SmartDashboard/DifferentialDrive[1]": "DifferentialDrive",
+      "/SmartDashboard/DigitalInput[1]": "Digital Input",
+      "/SmartDashboard/DigitalInput[2]": "Digital Input",
+      "/SmartDashboard/DriveDistance": "Command",
+      "/SmartDashboard/DriveTrainSubsystem": "Subsystem",
+      "/SmartDashboard/navX-Sensor[4]": "Gyro"
+    },
+    "windows": {
+      "/SmartDashboard/Autonomous routine": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  }
+}
