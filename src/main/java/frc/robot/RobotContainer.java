@@ -8,6 +8,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.MotorID;
+import frc.robot.commands.Balance1;
 import frc.robot.commands.Drive;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.arm.ArmBackwardCmd;
@@ -104,7 +105,7 @@ public class RobotContainer {
   private final ArmForwardCmd manualArmForward = new ArmForwardCmd(armSubsystem);
   private final ArmBackwardCmd manualArmBackward = new ArmBackwardCmd(armSubsystem);
 
-  private final Balance balance = new Balance(driveTrain);
+  private final Balance1 balance = new Balance1(driveTrain);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

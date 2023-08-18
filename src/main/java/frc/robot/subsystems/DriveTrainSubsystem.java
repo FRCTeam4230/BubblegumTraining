@@ -58,9 +58,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
       switch (motorId) {
         case LEFT_1_MOTOR_ID:
         case LEFT_2_MOTOR_ID:
-          controller.setInverted(Constants.isProtoBot);
           break;
         default:
+          controller.setInverted(true);
           break;
       }
 
@@ -157,8 +157,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public Boolean isLevel(){
-    return navx.getPitch() <= getSetPoint()+Constants.DriveTrain.kPositionTolerance 
-      && navx.getPitch() >= getSetPoint()-Constants.DriveTrain.kPositionTolerance;
+    return navx.getPitch() <= getSetPoint()+Constants.DriveTrain.POSITION_TOLERANCE
+      && navx.getPitch() >= getSetPoint()-Constants.DriveTrain.POSITION_TOLERANCE;
   }
 
   public void lock() {
@@ -174,7 +174,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     motors.entrySet().forEach(motor -> {
       motor.getValue().setIdleMode(mode);
     });
-  }
+
+ }
 
   @Override
   public void initSendable(SendableBuilder builder) {

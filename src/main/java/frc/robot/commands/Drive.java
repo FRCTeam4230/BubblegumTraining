@@ -18,7 +18,7 @@ public class Drive extends CommandBase {
   private final DoubleSupplier armAngleSupplier;
 
 
-  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier rotation,  DoubleSupplier speed, DoubleSupplier armAngleSupplier) {
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, DoubleSupplier armAngleSupplier) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;

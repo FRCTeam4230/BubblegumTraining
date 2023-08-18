@@ -7,6 +7,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.Balance;
+import frc.robot.commands.Balance1;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -15,17 +16,19 @@ import frc.robot.subsystems.IntakeSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class MiddleAutoCommandBasic extends SequentialCommandGroup {
-  /** Creates a new MiddleAutoCommandBasic. */
-  public MiddleAutoCommandBasic(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem
-  , DriveTrainSubsystem driveTrainSubsystem) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      // new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
-      new DriveToChargeStation(driveTrainSubsystem)
-      .withTimeout(3),
-      new Balance(driveTrainSubsystem)
-      .withTimeout(10)
-    );
-  }
+    /**
+     * Creates a new MiddleAutoCommandBasic.
+     */
+    public MiddleAutoCommandBasic(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem
+            , DriveTrainSubsystem driveTrainSubsystem) {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+                new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
+                new DriveToChargeStation(driveTrainSubsystem)
+                        .withTimeout(5),
+                new Balance1(driveTrainSubsystem)
+                        .withTimeout(10)
+        );
+    }
 }
