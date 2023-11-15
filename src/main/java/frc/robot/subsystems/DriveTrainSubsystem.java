@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -68,9 +69,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // Building motor groups
     leftGroup = new MotorControllerGroup(motors.get(MotorID.LEFT_1_MOTOR_ID),
-        motors.get(MotorID.LEFT_2_MOTOR_ID));
+            motors.get(MotorID.LEFT_2_MOTOR_ID));
     rightGroup = new MotorControllerGroup(motors.get(MotorID.RIGHT_1_MOTOR_ID),
-        motors.get(MotorID.RIGHT_2_MOTOR_ID));
+            motors.get(MotorID.RIGHT_2_MOTOR_ID));
 
     // leftGroup.setInverted(true);
 
@@ -91,7 +92,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
    */
   public void arcadeDrive(double speed, double rotation) {
     differentialDrive.arcadeDrive(
-    MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
+            MathUtil.clamp(speed, -.99, .99), MathUtil.clamp(rotation, -.99, .99));
   }
 
   public void stop() {
@@ -110,25 +111,25 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public double getLeftEncoder() {
     return -((motorEncoders.get(MotorID.LEFT_1_MOTOR_ID).getPosition()
-        + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2);
+            + motorEncoders.get(MotorID.LEFT_2_MOTOR_ID).getPosition()) / 2);
   }
 
   public double getRightEncoder() {
     return ((motorEncoders.get(MotorID.RIGHT_1_MOTOR_ID).getPosition()
-        + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2);
+            + motorEncoders.get(MotorID.RIGHT_2_MOTOR_ID).getPosition()) / 2);
   }
 
   public double getAverageEncoder() {
-     
-    double val = (getLeftEncoder() + getRightEncoder()) / 2;
-    return val;
+    return (getLeftEncoder() + getRightEncoder()) / 2;
   }
 
-  public double getPitch(){
+  public double getPitch() {
     return navx.getPitch();
   }
 
-  /** Zeroes the heading of the robot. */
+  /**
+   * Zeroes the heading of the robot.
+   */
   public void zeroHeading() {
     navx.reset();
   }
@@ -143,22 +144,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return navx.getAngle();
   }
 
-  /**
-   * Returns the turn rate of the robot.
-   *
-   * @return The turn rate of the robot, in degrees per second
-   */
-  public double getTurnRate() {
-    return navx.getRate();
-  }
-
   public double getSetPoint() {
     return 1.0;
   }
 
-  public Boolean isLevel(){
-    return navx.getPitch() <= getSetPoint()+Constants.DriveTrain.POSITION_TOLERANCE
-      && navx.getPitch() >= getSetPoint()-Constants.DriveTrain.POSITION_TOLERANCE;
+  public Boolean isLevel() {
+    return navx.getPitch() <= getSetPoint() + Constants.DriveTrain.POSITION_TOLERANCE
+            && navx.getPitch() >= getSetPoint() - Constants.DriveTrain.POSITION_TOLERANCE;
   }
 
   public void lock() {
@@ -171,11 +163,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private void setLockMode(IdleMode mode) {
     idleMode = mode;
-    motors.entrySet().forEach(motor -> {
-      motor.getValue().setIdleMode(mode);
-    });
+    motors.forEach((key, value) -> value.setIdleMode(mode));
 
- }
+  }
 
   @Override
   public void initSendable(SendableBuilder builder) {
@@ -194,7 +184,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     builder.addBooleanProperty("Braking: ", this::isBrake, null);
   }
 
-  private  boolean isBrake(){
+  private boolean isBrake() {
     return idleMode == IdleMode.kBrake;
   }
 }

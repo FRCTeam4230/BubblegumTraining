@@ -17,20 +17,17 @@ import frc.robot.subsystems.IntakeSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreTopAutoCommand extends SequentialCommandGroup {
-  /** Creates a new ScoreTopAutoCommand. */
   public ScoreTopAutoCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new ArmPIDAgainstGravity(
-            armSubsystem, () -> Constants.ArmPositions.SCORE_TOP)
-            .withTimeout(2),
-        new PIDHoldArmCommand(armSubsystem)
-            .withTimeout(0.5)
-            .alongWith(new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED))
-            .withTimeout(0.5),
-        new ArmPIDWithGravity(armSubsystem, () -> Constants.ArmPositions.BRING_IN)
-            .withTimeout(3)
+            new ArmPIDAgainstGravity(
+                    armSubsystem, Constants.ArmPositions.SCORE_TOP)
+                    .withTimeout(2),
+            new PIDHoldArmCommand(armSubsystem)
+                    .withTimeout(0.5)
+                    .alongWith(new IntakeCmd(intakeSubsystem, () -> Constants.Intake.INTAKE_SPEED))
+                    .withTimeout(0.5),
+            new ArmPIDWithGravity(armSubsystem, Constants.ArmPositions.BRING_IN)
+                    .withTimeout(3)
     );
   }
 }

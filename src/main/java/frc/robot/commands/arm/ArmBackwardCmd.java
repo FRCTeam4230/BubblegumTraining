@@ -18,6 +18,6 @@ public class ArmBackwardCmd extends ArmForwardCmd {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.goBackwards(Constants.Arm.ARM_SPEED * -1);
+    armSubsystem.goBackwards(-Constants.Arm.ARM_SPEED);
   }
 }

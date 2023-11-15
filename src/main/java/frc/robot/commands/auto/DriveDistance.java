@@ -16,22 +16,24 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DriveDistance extends CommandBase {
   private final DriveTrainSubsystem driveTrain;
 
-  private final PIDController DistancePidController = new PIDController(DriveDistanceParams.kP, DriveDistanceParams.kI,
-      DriveDistanceParams.kD);
+  private final PIDController DistancePidController = new PIDController(DriveDistanceParams.DRIVE_DISTANCE_P, DriveDistanceParams.DRIVE_DISTANCE_I,
+          DriveDistanceParams.DRIVE_DISTANCE_D);
   private final PIDController turnPidController = new PIDController(Constants.DriveTrain.TURN_KP, Constants.DriveTrain.TURN_KI,
-  Constants.DriveTrain.TURN_KD);
+          Constants.DriveTrain.TURN_KD);
 
-  private double distance;
+  private final double distance;
 
-  /** Creates a new DriveDistance. */
+  /**
+   * Creates a new DriveDistance.
+   */
   public DriveDistance(DriveTrainSubsystem driveTrain, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.distance = distance;
 
 
-    DistancePidController.setTolerance(DriveDistanceParams.tolerance);
-    turnPidController.setTolerance(DriveDistanceParams.tolerance);
+    DistancePidController.setTolerance(DriveDistanceParams.TOLERANCE);
+    turnPidController.setTolerance(DriveDistanceParams.TOLERANCE);
 
 
     addRequirements(driveTrain);

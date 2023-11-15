@@ -16,27 +16,27 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmPIDWithGravity extends PIDCommand {
   protected final ArmSubsystem armSubsystem;
-  
+
   //Takes in arm subsystem and the target angle
-  public ArmPIDWithGravity(ArmSubsystem armSubsystem, DoubleSupplier targetAngleSupplier) {
+  public ArmPIDWithGravity(ArmSubsystem armSubsystem, double targetAngle) {
     super(
-      new PIDController(
-        Constants.ArmPIDConstants.kP_WITH_GRAVITY,
-        Constants.ArmPIDConstants.kI_WITH_GRAVITY,
-        Constants.ArmPIDConstants.kD_WITH_GRAVITY),
-    armSubsystem::getAngle,
-    targetAngleSupplier::getAsDouble,
-    output -> {
-      if(output > 0) {
-        armSubsystem.goForward(output);
-      } else if(output < 0) {
-        armSubsystem.goBackwards(output);
-      }
-    },
-    armSubsystem);
+            new PIDController(
+                    Constants.ArmPIDConstants.P_WITH_GRAVITY,
+                    Constants.ArmPIDConstants.I_WITH_GRAVITY,
+                    Constants.ArmPIDConstants.D_WITH_GRAVITY),
+            armSubsystem::getAngle,
+            targetAngle,
+            output -> {
+              if (output > 0) {
+                armSubsystem.goForward(output);
+              } else if (output < 0) {
+                armSubsystem.goBackwards(output);
+              }
+            },
+            armSubsystem);
 
     getController().setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE);
-    
+
     this.armSubsystem = armSubsystem;
 
     SmartDashboard.putData(this);

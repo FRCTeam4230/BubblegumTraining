@@ -11,19 +11,21 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Drive extends CommandBase {
-  /** Creates a new Drive. */
+  /**
+   * Creates a new Drive.
+   */
   private final DriveTrainSubsystem driveTrain;
   private final DoubleSupplier speed;
   private final DoubleSupplier rotation;
   private final DoubleSupplier armAngleSupplier;
 
 
-  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed,  DoubleSupplier rotation, DoubleSupplier armAngleSupplier) {
+  public Drive(DriveTrainSubsystem driveTrain, DoubleSupplier speed, DoubleSupplier rotation, DoubleSupplier armAngleSupplier) {
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
     this.armAngleSupplier = armAngleSupplier;
-    
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
@@ -47,10 +49,10 @@ public class Drive extends CommandBase {
 
 
     //Global motor limits
-    if (armOut){
+    if (armOut) {
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MAXIMUM;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MAXIMUM;
-    }else{
+    } else {
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_MULTIPLIER;
     }
@@ -60,7 +62,7 @@ public class Drive extends CommandBase {
       //If the arm is in the front
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_OUT_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_OUT_MULTIPLIER;
-    } else if(armAngle < Constants.DriveTrain.ARM_IN_BOUNDARY) {
+    } else if (armAngle < Constants.DriveTrain.ARM_IN_BOUNDARY) {
       //If the arm is inside the robot
       wantedSpeed = wantedSpeed * Constants.DriveTrain.SPEED_ARM_IN_MULTIPLIER;
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_IN_MULTIPLIER;
@@ -70,7 +72,7 @@ public class Drive extends CommandBase {
       wantedRotation = wantedRotation * Constants.DriveTrain.ROTATION_ARM_UP_MULTIPLIER;
     }
 
-    //now pass in the calcualted speed and rotation
+    //now pass in the calculated speed and rotation
     driveTrain.arcadeDrive(wantedSpeed, -wantedRotation);
   }
 

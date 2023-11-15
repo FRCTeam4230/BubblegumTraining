@@ -11,19 +11,20 @@ import frc.robot.subsystems.ArmSubsystem;
 
 
 public class ArmForwardCmd extends CommandBase {
-  /** Creates a new ArmForwardCmd. */
+  /**
+   * Creates a new ArmForwardCmd.
+   */
   protected final ArmSubsystem armSubsystem;
 
   public ArmForwardCmd(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -34,7 +35,7 @@ public class ArmForwardCmd extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(interrupted) {
+    if (interrupted) {
       armSubsystem.stop();
     }
   }

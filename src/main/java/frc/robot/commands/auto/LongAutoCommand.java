@@ -14,15 +14,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 //Deposit cone, drive out of community up to another element, put arm down so during teleop it's easy to pick up element
 public class LongAutoCommand extends SequentialCommandGroup {
   public LongAutoCommand(DriveTrainSubsystem driveTrain, ArmSubsystem armSubsystem,
-      IntakeSubsystem intakeSubsystem) {
+                         IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
-        new DriveDistance(driveTrain, -(Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE+Constants.CompetitionRobot.length))
-        .withTimeout(3)
-        // new PIDTurn(driveTrain, 180)
-        // .withTimeout(3)
-        );
+            new ScoreTopAutoCommand(armSubsystem, intakeSubsystem),
+            new DriveDistance(driveTrain, -(Constants.AutoConstants.LEFT_START_TO_COMMUNITY_LINE + Constants.CompetitionRobot.length))
+                    .withTimeout(3)
+    );
   }
 }

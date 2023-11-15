@@ -5,7 +5,6 @@
 package frc.robot.commands.arm;
 
 
-
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -17,27 +16,27 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmPIDAgainstGravity extends PIDCommand {
   protected final ArmSubsystem armSubsystem;
-  
+
 
   //Takes in arm subsystem and the target angle
-  public ArmPIDAgainstGravity(ArmSubsystem armSubsystem, DoubleSupplier targetAngleSupplier) {
+  public ArmPIDAgainstGravity(ArmSubsystem armSubsystem, double targetAngle) {
     super(
-      new PIDController(Constants.ArmPIDConstants.kP_AGAINST_GRAVITY,
-      Constants.ArmPIDConstants.kI_AGAINST_GRAVITY,
-      Constants.ArmPIDConstants.kD_AGAINST_GRAVITY),
-    armSubsystem::getAngle,
-    targetAngleSupplier::getAsDouble,
-    output -> {
-      if(output > 0) {
-        armSubsystem.goForward(output);
-      } else if(output < 0) {
-        armSubsystem.goBackwards(output);
-      }
-    },
-    armSubsystem);
+            new PIDController(Constants.ArmPIDConstants.P_AGAINST_GRAVITY,
+                    Constants.ArmPIDConstants.I_AGAINST_GRAVITY,
+                    Constants.ArmPIDConstants.D_AGAINST_GRAVITY),
+            armSubsystem::getAngle,
+            targetAngle,
+            output -> {
+              if (output > 0) {
+                armSubsystem.goForward(output);
+              } else if (output < 0) {
+                armSubsystem.goBackwards(output);
+              }
+            },
+            armSubsystem);
 
     getController().setTolerance(Constants.ArmPIDConstants.POSITION_TOLERANCE);
-  
+
     this.armSubsystem = armSubsystem;
 
     SmartDashboard.putData(this);
