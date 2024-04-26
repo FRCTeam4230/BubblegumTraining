@@ -12,5 +12,6 @@ public final class Constants {
     public static final int BACK_LEFT_ID = 0;
     public static final int FRONT_RIGHT_ID = 0;
     public static final int BACK_RIGHT_ID = 0;
+    public static final double OPEN_LOOP_RAMP_RATE = 0.2;
   }
   }
