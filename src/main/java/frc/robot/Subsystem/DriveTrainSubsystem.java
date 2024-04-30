@@ -27,6 +27,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
         backLeftMotor.follow(frontLeftMotor);
         backRightMotor.follow(frontRightMotor);
     }
+    public void resetGyroscope() {
+        navx.reset();
+    }
     private void configureMotor(CANSparkMax motor) {
         motor.restoreFactoryDefaults();
         motor.setOpenLoopRampRate(Constants.DriveTrainConstants.OPEN_LOOP_RAMP_RATE);
